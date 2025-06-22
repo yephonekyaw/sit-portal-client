@@ -3,6 +3,7 @@ import { useMousePosition } from "@/hooks/use-mouse-position";
 import React, { Suspense, lazy, useCallback } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
+// Lazy loaded components
 const MouseSpotlight = lazy(() =>
   import("@/components/login/mouse-spot-light").then((module) => ({
     default: module.MouseSpotlight,
@@ -43,11 +44,18 @@ const LoginPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 relative overflow-hidden flex items-center justify-center p-6">
-      {/* Light mode overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 opacity-100 dark:opacity-0 transition-opacity duration-500"></div>
+    <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
+      {/* Combined background with all effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-violet-950/30 dark:via-purple-950/20 dark:to-fuchsia-950/30 transition-colors duration-500">
+        {/* Floating animated orbs */}
+        <div className="absolute inset-0 opacity-30 dark:opacity-20">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-300/20 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-fuchsia-300/20 dark:bg-fuchsia-500/10 rounded-full blur-3xl animate-pulse [animation-delay:1s]" />
+          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-violet-300/20 dark:bg-violet-500/10 rounded-full blur-3xl animate-pulse [animation-delay:0.5s]" />
+        </div>
+      </div>
 
-      {/* Background Effects */}
+      {/* Interactive background effects */}
       <div className="absolute inset-0 overflow-hidden">
         <ErrorBoundary
           fallback={<div className="hidden" />}

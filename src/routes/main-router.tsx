@@ -1,6 +1,7 @@
 import App from "@/App";
 import studentRouter from "./student-router";
 import staffRouter from "./staff-router";
+import LoginPage from "@/pages/login-page";
 
 const mainRouter = [
   {
@@ -14,6 +15,10 @@ const mainRouter = [
       {
         path: "/staff",
         children: staffRouter,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
       },
     ],
   },

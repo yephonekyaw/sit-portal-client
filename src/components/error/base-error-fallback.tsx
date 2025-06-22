@@ -9,6 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import TemplatePage from "@/pages/template-page";
 
 interface BaseErrorFallbackProps {
   error: Error;
@@ -20,11 +21,8 @@ export const BaseErrorFallback: React.FC<BaseErrorFallbackProps> = ({
   resetErrorBoundary,
 }) => {
   return (
-    <div className="w-full min-h-screen flex justify-center items-center px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:bg-slate-950">
-      {/* Light mode overlay for consistency with login page */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 opacity-100 dark:opacity-0 transition-opacity duration-500"></div>
-
-      <Card className="relative z-10 w-[400px] bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-0 shadow-2xl">
+    <TemplatePage includeNavbar={false}>
+      <Card className="relative z-10 w-[400px] bg-white/80 dark:bg-slate-800/80 border-0">
         <CardHeader>
           <CardTitle className="text-gray-900 dark:text-white flex items-center gap-2">
             <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
@@ -70,6 +68,6 @@ export const BaseErrorFallback: React.FC<BaseErrorFallbackProps> = ({
           </p>
         </CardFooter>
       </Card>
-    </div>
+    </TemplatePage>
   );
 };

@@ -1,5 +1,5 @@
 import StudentApp from "@/apps/student-app";
-import LoginPage from "@/pages/login-page";
+import StudentDashboard from "@/pages/student/dashboard-page";
 
 const studentRouter = [
   {
@@ -7,8 +7,8 @@ const studentRouter = [
     element: <StudentApp />,
     children: [
       {
-        path: "login",
-        element: <LoginPage />,
+        path: "",
+        element: <StudentDashboard />,
       },
     ],
   },
