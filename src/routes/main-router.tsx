@@ -1,22 +1,22 @@
 import App from "@/App";
-import StaffApp from "@/app/staff-app";
-import StudentApp from "@/app/student-app";
+import studentRouter from "./student-router";
+import staffRouter from "./staff-router";
 
-const main_router = [
+const mainRouter = [
   {
     path: "",
     element: <App />,
     children: [
       {
-        path: "/student",
-        element: <StudentApp />,
+        path: "",
+        children: studentRouter,
       },
       {
         path: "/staff",
-        element: <StaffApp />,
+        children: staffRouter,
       },
     ],
   },
 ];
 
-export default main_router;
+export default mainRouter;

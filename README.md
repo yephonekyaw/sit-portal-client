@@ -1,54 +1,61 @@
-# React + TypeScript + Vite
+# Application Overview: Student Certificate Verification System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This application is designed to streamline the **certificate submission and verification process** for students and staff. It consists of **two main sections: one for students and one for staff.**
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎓 Student Section
 
-## Expanding the ESLint configuration
+The student-facing part of the application focuses on providing a smooth and transparent certificate submission process. Key features include:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 1. Certificate Submission and Status Tracking
+- Students can **upload required certificates** based on their enrolled program (currently supported: CS, DSI, IT).
+- Students can **track the verification status** of each submitted certificate.
+- Students can **re-download previously uploaded certificates** if needed.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 2. Notification Center
+- A **simple, clear, and informative notification center** allows students to:
+  - Check the current status of submitted certificates.
+  - Receive updates or alerts regarding their submissions.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🏢 Staff Section
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+The staff-facing part of the application supports managing eligible student lists and verifying certificate submissions. Key features include:
+
+### 1. Student List Submission
+- Staff can **upload a list of eligible students** each academic year.
+- The system currently supports **table-style documents** (e.g., Excel files) with required fields such as:
+  - Student ID
+  - Email
+  - Program
+  - Additional required information
+- The upload process should be **guided with clear instructions**.
+
+### 2. Manual Verification Workspace
+- While the application automates most of the verification process, **manual verification is still necessary** in cases such as:
+  - Machine learning model errors
+  - Submission of unsupported certificates
+- Staff must have a **dedicated workspace** to:
+  - Access all uploaded certificates
+  - Manually review and verify certificates
+  - Update verification statuses as needed
+
+### 3. Staff Dashboard
+- A **visual dashboard** to track submission progress, including:
+  - Number of students who have submitted, passed, or failed verification
+  - Filters by program, year, or other relevant criteria
+- The dashboard helps staff:
+  - Identify students who haven’t submitted certificates
+  - Send reminders or follow-up notifications
+- Visual elements may include **charts, graphs, and summary statistics** to provide actionable insights.
+
+---
+
+## 📌 Summary
+
+This application aims to:
+- Automate and simplify the certificate verification process.
+- Maintain transparency and ease of use for students.
+- Provide robust tools and oversight capabilities for staff.
