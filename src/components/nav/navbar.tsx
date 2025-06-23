@@ -30,10 +30,12 @@ export function Navbar({ className }: NavbarProps) {
       )}
     >
       <div className="container flex h-16 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link to="/" className="mr-6 flex items-center space-x-2">
+        <div className="hidden md:flex">
+          <Link to="/" className="flex items-center space-x-2 text-purple-700">
             <GraduationCap className="h-6 w-6" />
-            <span className="hidden font-bold sm:inline-block">SIT PORTAL</span>
+            <span className="hidden font-bold sm:inline-block text-xl">
+              SIT PORTAL
+            </span>
           </Link>
         </div>
 
@@ -53,9 +55,9 @@ export function Navbar({ className }: NavbarProps) {
         </Sheet>
 
         <div className="flex md:hidden flex-1 items-center justify-center">
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2 text-purple-700">
             <GraduationCap className="h-6 w-6" />
-            <span className="font-bold">SIT PORTAL</span>
+            <span className="font-bold text-xl">SIT PORTAL</span>
           </Link>
         </div>
 
@@ -63,7 +65,7 @@ export function Navbar({ className }: NavbarProps) {
           <DesktopNavigation className="w-full max-w-4xl flex items-center justify-center" />
         </div>
 
-        <nav className="flex items-center space-x-3">
+        <nav className="flex items-center gap-3">
           <NotificationMenu />
           <UserMenu />
         </nav>

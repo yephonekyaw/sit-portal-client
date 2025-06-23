@@ -1,15 +1,9 @@
-import { useState, lazy, Suspense } from "react";
+import { useState } from "react";
 import { ChevronLeft, FileText, Settings, HelpCircle } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { navigationConfig, type NavigationItem } from "./navigation-config";
-
-// Lazy load the mobile navigation item component
-const MobileNavigationItem = lazy(() =>
-  import("./mobile-navigation-item").then((module) => ({
-    default: module.MobileNavigationItem,
-  }))
-);
+import { MobileNavigationItem } from "./mobile-navigation-item";
 
 interface MobileNavigationProps {
   onClose: () => void;
@@ -136,28 +130,15 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
         >
           <ScrollArea className="h-full">
             <div className="space-y-2 p-4">
-              <Suspense
-                fallback={
-                  <div className="space-y-2">
-                    {Array.from({ length: 4 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="h-14 bg-gray-100 rounded-xl animate-pulse"
-                      />
-                    ))}
-                  </div>
-                }
-              >
-                {currentLevel.items.map((item, index) => (
-                  <MobileNavigationItem
-                    key={`${item.href}-${index}`}
-                    item={item}
-                    index={index}
-                    onItemClick={handleItemClick}
-                    isTransitioning={isTransitioning}
-                  />
-                ))}
-              </Suspense>
+              {currentLevel.items.map((item, index) => (
+                <MobileNavigationItem
+                  key={`${item.href}-${index}`}
+                  item={item}
+                  index={index}
+                  onItemClick={handleItemClick}
+                  isTransitioning={isTransitioning}
+                />
+              ))}
             </div>
           </ScrollArea>
         </div>
