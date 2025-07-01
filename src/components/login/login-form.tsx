@@ -27,12 +27,12 @@ export const LoginForm: React.FC<LoginFormProps> = memo(
           damping: 20,
         }}
       >
-        <Card className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border-0 shadow-xl">
+        <Card className="bg-white/80 backdrop-blur-lg border-0 shadow-xl">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-semibold text-gray-900 dark:text-white">
+            <CardTitle className="text-2xl font-semibold text-gray-900">
               Sign In
             </CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-400">
+            <CardDescription className="text-gray-600">
               Use your SIT account to continue
             </CardDescription>
           </CardHeader>
@@ -44,7 +44,7 @@ export const LoginForm: React.FC<LoginFormProps> = memo(
             >
               <Button
                 onClick={onMicrosoftLogin}
-                className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white font-medium transition-all duration-300 shadow-lg"
+                className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium transition-all duration-300 shadow-lg"
                 size="lg"
               >
                 <svg
@@ -60,24 +60,24 @@ export const LoginForm: React.FC<LoginFormProps> = memo(
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-gray-200 dark:border-gray-700" />
+                <span className="w-full border-t border-gray-200" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white/80 dark:bg-slate-800/80 px-2 text-gray-500 dark:text-gray-400">
+                <span className="bg-white/80 px-2 text-gray-500">
                   Secure Authentication
                 </span>
               </div>
             </div>
 
             <motion.div
-              className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 backdrop-blur-sm"
+              className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1 }}
             >
               <div className="flex items-start">
                 <svg
-                  className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 mr-3 flex-shrink-0"
+                  className="w-5 h-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -90,10 +90,10 @@ export const LoginForm: React.FC<LoginFormProps> = memo(
                   />
                 </svg>
                 <div>
-                  <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                  <p className="text-sm font-medium text-blue-900">
                     Protected by Microsoft
                   </p>
-                  <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                  <p className="text-xs text-blue-700 mt-1">
                     Your login is secured with enterprise-grade authentication
                   </p>
                 </div>

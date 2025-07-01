@@ -4,6 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { navigationConfig, type NavigationItem } from "./navigation-config";
 import { MobileNavigationItem } from "./mobile-navigation-item";
+import { Link } from "react-router-dom";
 
 interface MobileNavigationProps {
   onClose: () => void;
@@ -87,8 +88,17 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-900 overflow-hidden">
-      <div className="h-16 flex-shrink-0 border-b border-gray-200 dark:border-gray-700" />
+    <div className="flex flex-col h-full bg-white overflow-hidden">
+      <div className="h-16 flex-shrink-0 border-b border-gray-200 flex items-center justify-center">
+        <Link to="/" className="flex items-center space-x-2">
+          <div className="p-1 bg-blue-100 rounded-lg">
+            <img src="/logos/temp_logo.svg" className="w-8 h-8" />
+          </div>
+          <span className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
+            SIT PORTAL
+          </span>
+        </Link>
+      </div>
 
       <div
         className={`flex-shrink-0 transition-all duration-300 ease-in-out ${
@@ -98,19 +108,19 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
         }`}
       >
         {!isRootLevel && (
-          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
             <Button
               variant="ghost"
               size="sm"
               onClick={handleBackClick}
               disabled={isTransitioning}
-              className="flex items-center gap-2 text-sm font-medium -ml-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300 disabled:opacity-50"
+              className="flex items-center gap-2 text-sm font-medium -ml-2 hover:bg-gray-100 transition-colors text-gray-700 disabled:opacity-50"
             >
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>
             <div className="mt-3">
-              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+              <h3 className="font-semibold text-lg text-gray-900">
                 {currentLevel.title}
               </h3>
             </div>

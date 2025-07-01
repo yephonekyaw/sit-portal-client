@@ -52,7 +52,7 @@ export const navigationConfig: {
       children: [
         {
           title: "Upload Student List",
-          href: "/staff/students/upload",
+          href: "/staff/upload-students",
           icon: Upload,
         },
         {

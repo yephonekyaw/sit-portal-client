@@ -31,7 +31,7 @@ const OptimizedDot = memo(
 
     return (
       <div
-        className="absolute w-1 h-1 rounded-full bg-gray-400/20 dark:bg-gray-600/20 transition-all duration-300 ease-out"
+        className="absolute w-1 h-1 rounded-full bg-gray-400/20 transition-all duration-300 ease-out"
         style={{
           left: dot.x,
           top: dot.y,

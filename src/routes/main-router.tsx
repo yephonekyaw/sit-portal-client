@@ -2,6 +2,7 @@ import App from "@/App";
 import studentRouter from "./student-router";
 import staffRouter from "./staff-router";
 import LoginPage from "@/pages/login-page";
+import TestPage from "@/pages/test-page";
 
 const mainRouter = [
   {
@@ -20,7 +21,15 @@ const mainRouter = [
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/test",
+        element: <TestPage />,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <div>404 Not Found</div>,
   },
 ];
 

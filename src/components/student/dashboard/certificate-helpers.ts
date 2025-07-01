@@ -1,13 +1,13 @@
 export const getStatusColor = (status: string) => {
   switch (status) {
     case "verified":
-      return "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400";
+      return "bg-emerald-50 text-emerald-700 border-emerald-200";
     case "pending":
-      return "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400";
+      return "bg-amber-50 text-amber-700 border-amber-200";
     case "rejected":
-      return "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/20 dark:text-rose-400";
+      return "bg-rose-50 text-rose-700 border-rose-200";
     default:
-      return "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-900/20 dark:text-gray-400";
+      return "bg-gray-50 text-gray-700 border-gray-200";
   }
 };
 

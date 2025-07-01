@@ -10,7 +10,7 @@ export const UniversityLogo: React.FC = memo(() => {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <motion.div
-        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 rounded-2xl mb-4 shadow-2xl"
+        className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl mb-4 shadow-2xl"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         transition={{ type: "spring", stiffness: 400, damping: 17 }}
@@ -31,7 +31,7 @@ export const UniversityLogo: React.FC = memo(() => {
         </svg>
       </motion.div>
       <motion.h1
-        className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2"
+        className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -39,7 +39,7 @@ export const UniversityLogo: React.FC = memo(() => {
         SIT Portal
       </motion.h1>
       <motion.p
-        className="text-gray-600 dark:text-gray-300"
+        className="text-gray-600"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.4 }}

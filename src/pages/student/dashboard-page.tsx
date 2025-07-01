@@ -14,19 +14,19 @@ const CertificatesGrid = lazy(
 
 // Loading components
 const WelcomeBannerSkeleton = () => (
-  <div className="h-32 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse mb-8" />
+  <div className="h-32 bg-gray-100 rounded-2xl animate-pulse mb-8" />
 );
 
 const FileUploadSkeleton = () => (
-  <div className="h-64 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse mb-8" />
+  <div className="h-64 bg-gray-100 rounded-2xl animate-pulse mb-8" />
 );
 
 const CertificatesGridSkeleton = () => (
   <div className="space-y-4">
-    <div className="h-8 bg-gray-100 dark:bg-gray-800 rounded animate-pulse mb-6" />
-    <div className="h-48 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse" />
-    <div className="h-48 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse" />
-    <div className="h-48 bg-gray-100 dark:bg-gray-800 rounded-2xl animate-pulse" />
+    <div className="h-8 bg-gray-100 rounded animate-pulse mb-6" />
+    <div className="h-48 bg-gray-100 rounded-2xl animate-pulse" />
+    <div className="h-48 bg-gray-100 rounded-2xl animate-pulse" />
+    <div className="h-48 bg-gray-100 rounded-2xl animate-pulse" />
   </div>
 );
 

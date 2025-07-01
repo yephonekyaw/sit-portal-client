@@ -14,18 +14,18 @@ export default function WelcomeBanner({ studentName }: WelcomeBannerProps) {
 
   return (
     <div className="mb-8">
-      <div className="bg-gradient-to-r from-purple-500/10 via-violet-500/10 to-indigo-500/10 dark:from-purple-500/20 dark:via-violet-500/20 dark:to-indigo-500/20 rounded-2xl p-8 border border-purple-200/30 dark:border-purple-700/30">
+      <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 rounded-2xl p-8 border border-blue-200/30">
         <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
             <span className="text-white font-semibold text-lg">
               {getInitials(studentName)}
             </span>
           </div>
           <div>
-            <h1 className="text-2xl font-medium text-gray-900 dark:text-white mb-1">
+            <h1 className="text-2xl font-medium text-gray-900 mb-1">
               Welcome {studentName}
             </h1>
-            <p className="text-gray-600 dark:text-gray-300">
+            <p className="text-gray-600">
               Manage and verify your certificates securely
             </p>
           </div>

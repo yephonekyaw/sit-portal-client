@@ -43,7 +43,7 @@ export const MouseSpotlight: React.FC<MouseSpotlightProps> = memo(
           cy={mousePosition.y}
           r="250"
           fill="url(#spotlight)"
-          className="opacity-100 dark:opacity-0"
+          className="opacity-100"
           style={{
             pointerEvents: "none",
             willChange: "transform",
@@ -54,7 +54,7 @@ export const MouseSpotlight: React.FC<MouseSpotlightProps> = memo(
           cy={mousePosition.y}
           r="250"
           fill="url(#spotlightDark)"
-          className="opacity-0 dark:opacity-100"
+          className="opacity-0"
           style={{
             pointerEvents: "none",
             willChange: "transform",

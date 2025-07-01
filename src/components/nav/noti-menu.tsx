@@ -67,8 +67,8 @@ export function NotificationMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors relative">
-          <Bell className="h-5 w-5 text-gray-600 dark:text-gray-300" />
+        <button className="p-2 rounded-xl hover:bg-gray-100 transition-colors relative">
+          <Bell className="h-5 w-5 text-gray-600" />
           {unreadCount > 0 && (
             <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-medium rounded-full flex items-center justify-center">
               {unreadCount > 9 ? "9+" : unreadCount}
@@ -77,9 +77,9 @@ export function NotificationMenu() {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-80 p-0" align="end" forceMount>
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-gray-900 dark:text-white">
+            <h3 className="font-semibold text-gray-900">
               Notifications
             </h3>
             {unreadCount > 0 && (
@@ -93,7 +93,7 @@ export function NotificationMenu() {
           {notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-32 text-center p-4">
               <Bell className="h-8 w-8 text-gray-400 mb-2" />
-              <p className="text-sm font-medium text-gray-900 dark:text-white">
+              <p className="text-sm font-medium text-gray-900">
                 No notifications
               </p>
             </div>
@@ -102,7 +102,7 @@ export function NotificationMenu() {
               {notifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className="group relative rounded-xl p-3 mb-2 cursor-pointer transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800"
+                  className="group relative rounded-xl p-3 mb-2 cursor-pointer transition-all duration-200 hover:bg-gray-50"
                   onClick={() => markAsRead(notification.id)}
                 >
                   <div className="flex items-start gap-3">
@@ -110,10 +110,10 @@ export function NotificationMenu() {
                       {getNotificationIcon(notification.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-sm font-medium text-gray-900">
                         {notification.title}
                       </p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                      <p className="text-xs text-gray-600 mt-1">
                         {notification.description}
                       </p>
                       <p className="text-xs text-gray-500 mt-1">

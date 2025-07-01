@@ -46,12 +46,12 @@ const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
       {/* Combined background with all effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-violet-950/30 dark:via-purple-950/20 dark:to-fuchsia-950/30 transition-colors duration-500">
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 transition-colors duration-500">
         {/* Floating animated orbs */}
-        <div className="absolute inset-0 opacity-30 dark:opacity-20">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-300/20 dark:bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-fuchsia-300/20 dark:bg-fuchsia-500/10 rounded-full blur-3xl animate-pulse [animation-delay:1s]" />
-          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-violet-300/20 dark:bg-violet-500/10 rounded-full blur-3xl animate-pulse [animation-delay:0.5s]" />
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-indigo-300/20 rounded-full blur-3xl animate-pulse [animation-delay:1s]" />
+          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl animate-pulse [animation-delay:0.5s]" />
         </div>
       </div>
 
@@ -94,7 +94,7 @@ const LoginPage: React.FC = () => {
       <div className="relative z-10 w-full max-w-md">
         <ErrorBoundary
           fallback={
-            <div className="text-center mb-8 text-gray-900 dark:text-white">
+            <div className="text-center mb-8 text-gray-900">
               University Portal
             </div>
           }
@@ -109,8 +109,8 @@ const LoginPage: React.FC = () => {
 
         <ErrorBoundary
           FallbackComponent={({ resetErrorBoundary }) => (
-            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-0 shadow-2xl rounded-lg p-6 text-center">
-              <p className="text-gray-900 dark:text-white mb-4">
+            <div className="bg-white/80 backdrop-blur-xl border-0 shadow-2xl rounded-lg p-6 text-center">
+              <p className="text-gray-900 mb-4">
                 Login form failed to load
               </p>
               <button
