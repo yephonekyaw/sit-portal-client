@@ -1,54 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { FileUp } from "lucide-react";
-import type { FileParsedTableRowStudentRecord } from "@/types/staff/student-data-import/index.types";
 import { FileUpload } from "@/components/staff/student-data-import/file-upload";
 import DataTable from "@/components/ui/data-table/data-table";
-import { StudentDetailsSheet } from "@/components/staff/student-data-import/student-details-sheet";
 import { columns } from "@/components/staff/student-data-import/columns";
 import { useFileParser } from "@/hooks/use-file-parser";
 
 export const StudentDataImportPage: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const [selectedStudent, setSelectedStudent] =
-    useState<FileParsedTableRowStudentRecord | null>(null);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-
-  const { parsedData, setParsedData, filesWithErrors, parseFiles, isLoading } =
+  const { parsedData, filesWithErrors, parseFiles, isLoading } =
     useFileParser();
 
   useEffect(() => {
     parseFiles(files);
   }, [files, parseFiles]);
-
-  const handleRowClick = useCallback(
-    (student: FileParsedTableRowStudentRecord) => {
-      setSelectedStudent(student);
-      setIsSheetOpen(true);
-    },
-    []
-  );
-
-  const handleSheetClose = useCallback(() => {
-    setIsSheetOpen(false);
-    setSelectedStudent(null);
-  }, []);
-
-  const handleSaveChanges = useCallback(
-    (updatedStudent: FileParsedTableRowStudentRecord) => {
-      if (!updatedStudent?.studentId) return;
-
-      const studentIndex = parsedData.findIndex(
-        (student) => student.studentId === updatedStudent.studentId
-      );
-
-      if (studentIndex !== -1) {
-        const newData = [...parsedData];
-        newData[studentIndex] = updatedStudent;
-        setParsedData(newData);
-      }
-    },
-    [parsedData, setParsedData]
-  );
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -84,21 +48,10 @@ export const StudentDataImportPage: React.FC = () => {
               <div className="text-blue-600">Processing files...</div>
             </div>
           ) : (
-            <DataTable
-              columns={columns({ onRowClick: handleRowClick })}
-              data={parsedData}
-            />
+            <DataTable columns={columns} data={parsedData} />
           )}
         </div>
       </main>
-
-      {/* Student details sheet */}
-      <StudentDetailsSheet
-        student={selectedStudent}
-        isOpen={isSheetOpen}
-        onClose={handleSheetClose}
-        onSave={handleSaveChanges}
-      />
     </div>
   );
 };

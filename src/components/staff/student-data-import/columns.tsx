@@ -22,13 +22,7 @@ import { PROGRAM_OPTIONS } from "@/constants/staff/student-data-import/index.con
 
 let ACADEMIC_YEARS: { value: string; label: string }[] = [];
 
-type ColumnsConfig = {
-  onRowClick: (student: Student) => void;
-};
-
-export const columns = ({
-  onRowClick,
-}: ColumnsConfig): ColumnDef<Student>[] => [
+export const columns: ColumnDef<Student>[] = [
   {
     id: "drag",
     header: () => null,
@@ -92,10 +86,7 @@ export const columns = ({
       const programCode = row.original.programCode;
 
       return (
-        <div
-          className="flex items-center space-x-2 group/underline cursor-pointer"
-          onClick={() => onRowClick(row.original)}
-        >
+        <div className="flex items-center space-x-2 group/underline cursor-pointer">
           <div
             className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium border",

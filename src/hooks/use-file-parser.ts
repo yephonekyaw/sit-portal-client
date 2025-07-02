@@ -1,16 +1,11 @@
 import { useState, useCallback } from "react";
 import Papa from "papaparse";
 import readXlsxFile from "read-excel-file";
-import type { FileParsedTableRowStudentRecord } from "@/types/staff/student-data-import/index.types";
+import type {
+  FileParsedTableRowStudentRecord,
+  UseFileParserReturn,
+} from "@/types/staff/student-data-import/index.types";
 import { REQUIRED_COLUMNS } from "@/constants/staff/student-data-import/index.constants";
-
-interface UseFileParserReturn {
-  parsedData: FileParsedTableRowStudentRecord[];
-  setParsedData: (data: FileParsedTableRowStudentRecord[]) => void;
-  filesWithErrors: string[];
-  parseFiles: (files: File[]) => Promise<void>;
-  isLoading: boolean;
-}
 
 export const useFileParser = (): UseFileParserReturn => {
   const [parsedData, setParsedData] = useState<

@@ -26,3 +26,11 @@ export interface StudentDetailsSheetProps {
   onClose: () => void;
   onSave: (updatedStudent: FileParsedTableRowStudentRecord) => void;
 }
+
+export interface UseFileParserReturn {
+  parsedData: FileParsedTableRowStudentRecord[];
+  setParsedData: (data: FileParsedTableRowStudentRecord[]) => void;
+  filesWithErrors: string[];
+  parseFiles: (files: File[]) => Promise<void>;
+  isLoading: boolean;
+}
