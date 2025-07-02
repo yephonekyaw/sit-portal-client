@@ -1,5 +1,5 @@
 import StaffApp from "@/apps/staff-app";
-import { UploadStudentsPage } from "@/pages/staff/upload-students-page";
+import { StudentDataImportPage } from "@/pages/staff/student-data-import-page";
 
 const staffRouter = [
   {
@@ -7,10 +7,10 @@ const staffRouter = [
     element: <StaffApp />,
     children: [
       {
-        path: "upload-students",
-        element: <UploadStudentsPage />,
-      }
-    ]
+        path: "student-data-import",
+        element: <StudentDataImportPage />,
+      },
+    ],
   },
 ];
 
