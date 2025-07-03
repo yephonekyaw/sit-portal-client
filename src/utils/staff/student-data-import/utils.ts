@@ -1,7 +1,7 @@
 import {
   PROGRAM_COLORS,
   SUPPORTED_FILE_TYPES,
-} from "@/constants/staff/student-data-import/index.constants";
+} from "@/constants/staff/student-data-import/constants";
 
 export const getProgramColor = (programCode: string): string => {
   return (

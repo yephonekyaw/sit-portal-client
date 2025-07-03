@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import/schemas";
+
 export interface FileParsedTableRowStudentRecord {
   id: string;
   name: string;
@@ -34,3 +37,19 @@ export interface UseFileParserReturn {
   parseFiles: (files: File[]) => Promise<void>;
   isLoading: boolean;
 }
+
+export type ParsedFileStudentRecordSchemaType = z.infer<
+  typeof parsedFileStudentRecordSchema
+>;
+
+export interface UseParsedRecordManagerProps {
+  parsedData: FileParsedTableRowStudentRecord[];
+  setParsedData: (data: FileParsedTableRowStudentRecord[]) => void;
+}
+
+export type StudentDetailSheetProps = {
+  recordManager: ReturnType<
+    typeof import("@/hooks/use-parsed-record-manager").useParsedRecordManager
+  >;
+  mode: "add" | "edit";
+};

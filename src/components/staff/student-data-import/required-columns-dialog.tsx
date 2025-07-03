@@ -9,14 +9,12 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Info } from "lucide-react";
-import { REQUIRED_COLUMN_MAPPINGS } from "@/constants/staff/student-data-import/index.constants";
+import { REQUIRED_COLUMN_MAPPINGS } from "@/constants/staff/student-data-import/constants";
 
-interface RequiredColumnsDialogProps {
-  children: React.ReactNode;
-}
-
-export const RequiredColumnsDialog: React.FC<RequiredColumnsDialogProps> = ({
+export const RequiredColumnsDialog = ({
   children,
+}: {
+  children: React.ReactNode;
 }) => {
   return (
     <Dialog>

@@ -13,16 +13,20 @@ import DragHandle from "@/components/ui/data-table/drag-handle";
 import { cn } from "@/lib/utils";
 import { SearchFilterColumn } from "@/components/ui/data-table/search-filter-column";
 import { FacetedFilterColumn } from "@/components/ui/data-table/faceted-filter-column";
-import type { FileParsedTableRowStudentRecord as Student } from "@/types/staff/student-data-import/index.types";
+import type { FileParsedTableRowStudentRecord as Record } from "@/types/staff/student-data-import/types";
 import {
   getInitials,
   getProgramColor,
-} from "@/utils/staff/student-data-import/index.utils";
-import { PROGRAM_OPTIONS } from "@/constants/staff/student-data-import/index.constants";
+} from "@/utils/staff/student-data-import/utils";
+import { PROGRAM_OPTIONS } from "@/constants/staff/student-data-import/constants";
 
 let ACADEMIC_YEARS: { value: string; label: string }[] = [];
 
-export const columns: ColumnDef<Student>[] = [
+export const columns = ({
+  onSelectRecord,
+}: {
+  onSelectRecord: (student: Record) => void;
+}): ColumnDef<Record>[] => [
   {
     id: "drag",
     header: () => null,
@@ -86,7 +90,10 @@ export const columns: ColumnDef<Student>[] = [
       const programCode = row.original.programCode;
 
       return (
-        <div className="flex items-center space-x-2 group/underline cursor-pointer">
+        <div
+          className="flex items-center space-x-2 group/underline cursor-pointer"
+          onClick={() => onSelectRecord(row.original)}
+        >
           <div
             className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium border",

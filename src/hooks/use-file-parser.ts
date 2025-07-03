@@ -4,8 +4,8 @@ import readXlsxFile from "read-excel-file";
 import type {
   FileParsedTableRowStudentRecord,
   UseFileParserReturn,
-} from "@/types/staff/student-data-import/index.types";
-import { REQUIRED_COLUMNS } from "@/constants/staff/student-data-import/index.constants";
+} from "@/types/staff/student-data-import/types";
+import { REQUIRED_COLUMNS } from "@/constants/staff/student-data-import/constants";
 
 export const useFileParser = (): UseFileParserReturn => {
   const [parsedData, setParsedData] = useState<

@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FileUp } from "lucide-react";
 import { FileUpload } from "@/components/staff/student-data-import/file-upload";
 import DataTable from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/staff/student-data-import/columns";
 import { useFileParser } from "@/hooks/use-file-parser";
+import { useParsedRecordManager } from "@/hooks/use-parsed-record-manager";
+import StudentDetailSheet from "@/components/staff/student-data-import/student-detail-sheet";
 
-export const StudentDataImportPage: React.FC = () => {
+export const StudentDataImportPage = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const { parsedData, filesWithErrors, parseFiles, isLoading } =
+  const { parsedData, setParsedData, filesWithErrors, parseFiles, isLoading } =
     useFileParser();
+
+  // Use the complete hook instance, not just one method
+  const recordManager = useParsedRecordManager({
+    parsedData,
+    setParsedData,
+  });
 
   useEffect(() => {
     parseFiles(files);
@@ -45,13 +53,23 @@ export const StudentDataImportPage: React.FC = () => {
         <div className="lg:col-span-2">
           {isLoading ? (
             <div className="flex items-center justify-center p-8">
-              <div className="text-blue-600">Processing files...</div>
+              <div className="text-blue-600 font-medium">
+                Processing files...
+              </div>
             </div>
           ) : (
-            <DataTable columns={columns} data={parsedData} />
+            <DataTable
+              columns={columns({
+                onSelectRecord: recordManager.handleSelectRecord,
+              })}
+              data={parsedData}
+            />
           )}
         </div>
       </main>
+
+      {/* Pass the record manager instance to the sheet */}
+      <StudentDetailSheet recordManager={recordManager} mode="edit" />
     </div>
   );
 };
