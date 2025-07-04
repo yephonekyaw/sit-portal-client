@@ -19,11 +19,11 @@ export const RequiredColumnsDialog = ({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-blue-50 border-blue-100">
+      <DialogContent className="sm:max-w-[425px] border-blue-100">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-gray-900">
             <Info className="w-5 h-5 text-blue-600" />
-            Required Data Columns
+            <span className="text-blue-900">Required Data Columns</span>
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-600">
             For a successful upload, please ensure your file contains the
@@ -36,7 +36,7 @@ export const RequiredColumnsDialog = ({
               <Badge
                 key={col.key}
                 variant="outline"
-                className="w-full flex justify-start py-2 px-3 text-sm font-mono bg-white border-gray-200 text-gray-700"
+                className="w-full flex justify-start py-2 px-3 text-sm font-mono bg-blue-50 border-gray-200 text-gray-700"
               >
                 {col.label}
               </Badge>

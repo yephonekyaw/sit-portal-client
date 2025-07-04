@@ -8,28 +8,51 @@ import {
   Calendar,
   FileText,
   User,
+  Ellipsis,
 } from "lucide-react";
 import DragHandle from "@/components/ui/data-table/drag-handle";
 import { cn } from "@/lib/utils";
 import { SearchFilterColumn } from "@/components/ui/data-table/search-filter-column";
 import { FacetedFilterColumn } from "@/components/ui/data-table/faceted-filter-column";
-import type { FileParsedTableRowStudentRecord as Record } from "@/types/staff/student-data-import/types";
+import type {
+  FileParsedTableRowStudentRecord as Record,
+  StudentDataImportColumnsProps,
+} from "@/types/staff/student-data-import/types";
 import {
   getInitials,
   getProgramColor,
 } from "@/utils/staff/student-data-import/utils";
 import { PROGRAM_OPTIONS } from "@/constants/staff/student-data-import/constants";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import ActionButtons from "./action-buttons";
 
 let ACADEMIC_YEARS: { value: string; label: string }[] = [];
 
 export const columns = ({
-  onSelectRecord,
-}: {
-  onSelectRecord: (student: Record) => void;
-}): ColumnDef<Record>[] => [
+  recordManager,
+}: StudentDataImportColumnsProps): ColumnDef<Record>[] => [
   {
     id: "drag",
-    header: () => null,
+    header: ({ table }) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger className="h-full flex items-center">
+          <div className="p-2 rounded-full hover:bg-blue-100 transition-colors duration-200 cursor-pointer border border-blue-100">
+            <Ellipsis className="h-4 w-4" />
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          className="w-fit rounded-3xl outline-none shadow-none"
+          align="start"
+          sideOffset={0}
+        >
+          <ActionButtons recordManager={recordManager} table={table} />
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
     cell: ({ row }) => <DragHandle id={row.original.id} />,
   },
   {
@@ -92,7 +115,7 @@ export const columns = ({
       return (
         <div
           className="flex items-center space-x-2 group/underline cursor-pointer"
-          onClick={() => onSelectRecord(row.original)}
+          onClick={() => recordManager.handleSelectRecord(row.original, "edit")}
         >
           <div
             className={cn(

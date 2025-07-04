@@ -1,5 +1,4 @@
 import * as React from "react";
-import type { Column } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -9,12 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
-
-interface SortFilterColumnProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
-  column: Column<TData, TValue>;
-  title: string;
-}
+import type { SortFilterColumnProps } from "@/types/staff/student-data-import/types";
 
 export function SortFilterColumn<TData, TValue>({
   column,

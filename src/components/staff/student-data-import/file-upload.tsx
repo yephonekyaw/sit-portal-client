@@ -73,8 +73,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     <div className="bg-white rounded-2xl border-2 border-dashed border-gray-200 hover:border-blue-400 transition-colors duration-200">
       <div className="p-2 md:p-6 lg:p-8">
         <div
-          className={`relative text-center rounded-xl p-8 transition-colors duration-200 ${
-            dragActive ? "bg-blue-50 border-blue-200" : "hover:bg-gray-50"
+          className={`relative text-center rounded-xl p-8 transition-colors duration-200  ${
+            dragActive ? "bg-blue-50 border-blue-200" : "bg-gray-50"
           }`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}

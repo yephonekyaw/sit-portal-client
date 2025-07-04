@@ -60,7 +60,7 @@ export const StudentDataImportPage = () => {
           ) : (
             <DataTable
               columns={columns({
-                onSelectRecord: recordManager.handleSelectRecord,
+                recordManager: recordManager,
               })}
               data={parsedData}
             />
@@ -69,7 +69,7 @@ export const StudentDataImportPage = () => {
       </main>
 
       {/* Pass the record manager instance to the sheet */}
-      <StudentDetailSheet recordManager={recordManager} mode="edit" />
+      <StudentDetailSheet recordManager={recordManager} />
     </div>
   );
 };

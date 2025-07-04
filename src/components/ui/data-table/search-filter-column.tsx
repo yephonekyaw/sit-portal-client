@@ -1,16 +1,9 @@
 import * as React from "react";
-import type { Column } from "@tanstack/react-table";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { Input } from "../input";
 import { cn } from "@/lib/utils";
 import { Search, Filter, X } from "lucide-react";
-
-interface SearchFilterColumnProps<TData, TValue> {
-  column: Column<TData, TValue>;
-  trigger: React.ReactNode;
-  placeholder?: string;
-  className?: string;
-}
+import type { SearchFilterColumnProps } from "@/types/staff/student-data-import/types";
 
 export function SearchFilterColumn<TData, TValue>({
   column,

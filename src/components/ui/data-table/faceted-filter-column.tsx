@@ -1,5 +1,4 @@
 import * as React from "react";
-import type { Column } from "@tanstack/react-table";
 import { ListFilter, Check, Filter, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../button";
@@ -13,20 +12,7 @@ import {
 } from "../command";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { Badge } from "../badge";
-
-interface FacetedFilterColumnProps<TData, TValue> {
-  column?: Column<TData, TValue>;
-  title?: string;
-  trigger?: React.ReactNode;
-  options: {
-    label: string;
-    value: string;
-    icon?: React.ComponentType<{ className?: string }>;
-    className?: string;
-  }[];
-  showSearch?: boolean;
-  searchPlaceholder?: string;
-}
+import type { FacetedFilterColumnProps } from "@/types/staff/student-data-import/types";
 
 export function FacetedFilterColumn<TData, TValue>({
   column,

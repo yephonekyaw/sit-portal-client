@@ -12,6 +12,7 @@ export const useParsedRecordManager = ({
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] =
     useState<FileParsedTableRowStudentRecord | null>(null);
+  const [mode, setMode] = useState<"add" | "edit">("edit");
 
   const handleCloseSheet = useCallback(() => {
     setIsSheetOpen(false);
@@ -23,9 +24,10 @@ export const useParsedRecordManager = ({
   }, []);
 
   const handleSelectRecord = useCallback(
-    (record: FileParsedTableRowStudentRecord) => {
+    (record: FileParsedTableRowStudentRecord | null, mode: "add" | "edit") => {
       setSelectedRecord(record);
       setIsSheetOpen(true);
+      setMode(mode);
     },
     []
   );
@@ -65,7 +67,11 @@ export const useParsedRecordManager = ({
 
   return {
     isSheetOpen,
+    setIsSheetOpen,
+    mode,
+    setMode,
     selectedRecord,
+    setSelectedRecord,
     handleSelectRecord,
     handleCloseSheet,
     handleUpdateRecord,

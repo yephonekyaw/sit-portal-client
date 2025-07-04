@@ -1,6 +1,3 @@
-"use client";
-
-import type { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
   ChevronRight,
@@ -16,10 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../select";
-
-interface PaginationProps<TData> {
-  table: Table<TData>;
-}
+import type { PaginationProps } from "@/types/staff/student-data-import/types";
 
 export function Pagination<TData>({ table }: PaginationProps<TData>) {
   return (
@@ -34,15 +28,6 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
             {table.getFilteredRowModel().rows.length}
           </span>{" "}
           row(s) selected
-        </p>
-      </div>
-
-      <div className="hidden md:flex flex-1 justify-center">
-        <p className="text-sm text-gray-500">
-          <span className="text-gray-700 font-medium">
-            {table.getFilteredRowModel().rows.length}
-          </span>{" "}
-          total records
         </p>
       </div>
 

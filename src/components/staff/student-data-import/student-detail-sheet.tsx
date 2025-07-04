@@ -47,9 +47,10 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const StudentDetailSheet = (props: StudentDetailSheetProps) => {
-  const { recordManager, mode } = props;
+  const { recordManager } = props;
   const {
     isSheetOpen,
+    mode,
     selectedRecord,
     handleCloseSheet,
     handleUpdateRecord,
@@ -59,15 +60,15 @@ const StudentDetailSheet = (props: StudentDetailSheetProps) => {
 
   const editableRecordFields = useMemo(
     () => ({
-      name: selectedRecord?.name || "",
-      email: selectedRecord?.email || "",
-      studentId: selectedRecord?.studentId || "",
+      name: selectedRecord?.name || "John Doe",
+      email: selectedRecord?.email || "john.doe@ad.sit.kmutt.ac.th",
+      studentId: selectedRecord?.studentId || "66130500830",
       programCode: selectedRecord?.programCode as
         | "CS"
         | "DSI"
         | "IT"
         | undefined,
-      academicYear: selectedRecord?.academicYear || "",
+      academicYear: selectedRecord?.academicYear || "2025-2026",
     }),
     [
       selectedRecord?.name,

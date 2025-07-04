@@ -1,4 +1,3 @@
-import type { Row } from "@tanstack/react-table";
 import { MoreHorizontal, Trash2, Pencil, Eye } from "lucide-react";
 
 import { Button } from "../button";
@@ -9,13 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
-
-interface RowActionsProps<TData> {
-  row: Row<TData>;
-  onView?: (row: TData) => void;
-  onEdit?: (row: TData) => void;
-  onDelete?: (row: TData) => void;
-}
+import type { RowActionsProps } from "@/types/staff/student-data-import/types";
 
 export function RowActions<TData>({
   row,
