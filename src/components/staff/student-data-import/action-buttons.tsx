@@ -10,20 +10,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { useParsedStudentDataStore } from "@/stores/staff/student-data-import/parsed-student-data-store";
 import type { ActionButtonsProps } from "@/types/staff/student-data-import/types";
 import { CloudUpload, PlusCircle, Trash2 } from "lucide-react";
 
-const ActionButtons = <TData,>({
-  recordManager,
-  table,
-}: ActionButtonsProps<TData>) => {
+const ActionButtons = <TData,>({ table }: ActionButtonsProps<TData>) => {
+  const { handleDeleteRecord, handleSelectRecord } =
+    useParsedStudentDataStore();
   const handleDeleteMany = () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     if (selectedRows.length === 0) return;
 
     selectedRows.forEach((row) => {
       const record = row.original;
-      recordManager.handleDeleteRecord((record as { id: string }).id);
+      handleDeleteRecord((record as { id: string }).id);
     });
   };
   return (
@@ -36,7 +36,7 @@ const ActionButtons = <TData,>({
       <Button
         onClick={(e) => {
           e.preventDefault();
-          recordManager.handleSelectRecord(null, "add");
+          handleSelectRecord(null, "add");
         }}
         className="group relative overflow-hidden rounded-lg border-0 bg-gradient-to-r from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 text-gray-800 font-semibold px-6 py-2 transition-all duration-300 ease-out transform hover:-translate-y-0.5"
       >

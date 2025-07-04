@@ -2,12 +2,8 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, RotateCcw, Trash2, Check, PlusCircle } from "lucide-react";
-
 import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import/schemas";
-import type {
-  ParsedFileStudentRecordSchemaType,
-  StudentDetailSheetProps,
-} from "@/types/staff/student-data-import/types";
+import type { ParsedFileStudentRecordSchemaType } from "@/types/staff/student-data-import/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -45,9 +41,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useParsedStudentDataStore } from "@/stores/staff/student-data-import/parsed-student-data-store";
 
-const StudentDetailSheet = (props: StudentDetailSheetProps) => {
-  const { recordManager } = props;
+const StudentDetailSheet = () => {
   const {
     isSheetOpen,
     mode,
@@ -56,7 +52,7 @@ const StudentDetailSheet = (props: StudentDetailSheetProps) => {
     handleUpdateRecord,
     handleDeleteRecord,
     handleAddRecord,
-  } = recordManager;
+  } = useParsedStudentDataStore();
 
   const editableRecordFields = useMemo(
     () => ({

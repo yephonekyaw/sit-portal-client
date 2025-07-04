@@ -33,7 +33,7 @@ import ActionButtons from "./action-buttons";
 let ACADEMIC_YEARS: { value: string; label: string }[] = [];
 
 export const columns = ({
-  recordManager,
+  handleSelectRecord,
 }: StudentDataImportColumnsProps): ColumnDef<Record>[] => [
   {
     id: "drag",
@@ -49,7 +49,7 @@ export const columns = ({
           align="start"
           sideOffset={0}
         >
-          <ActionButtons recordManager={recordManager} table={table} />
+          <ActionButtons table={table} />
         </DropdownMenuContent>
       </DropdownMenu>
     ),
@@ -115,7 +115,7 @@ export const columns = ({
       return (
         <div
           className="flex items-center space-x-2 group/underline cursor-pointer"
-          onClick={() => recordManager.handleSelectRecord(row.original, "edit")}
+          onClick={() => handleSelectRecord(row.original, "edit")}
         >
           <div
             className={cn(

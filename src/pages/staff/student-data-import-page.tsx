@@ -3,20 +3,18 @@ import { FileUp } from "lucide-react";
 import { FileUpload } from "@/components/staff/student-data-import/file-upload";
 import DataTable from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/staff/student-data-import/columns";
-import { useFileParser } from "@/hooks/use-file-parser";
-import { useParsedRecordManager } from "@/hooks/use-parsed-record-manager";
 import StudentDetailSheet from "@/components/staff/student-data-import/student-detail-sheet";
+import { useParsedStudentDataStore } from "@/stores/staff/student-data-import/parsed-student-data-store";
 
 export const StudentDataImportPage = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const { parsedData, setParsedData, filesWithErrors, parseFiles, isLoading } =
-    useFileParser();
-
-  // Use the complete hook instance, not just one method
-  const recordManager = useParsedRecordManager({
+  const {
+    parseFiles,
     parsedData,
-    setParsedData,
-  });
+    filesWithErrors,
+    isLoading,
+    handleSelectRecord,
+  } = useParsedStudentDataStore();
 
   useEffect(() => {
     parseFiles(files);
@@ -60,7 +58,7 @@ export const StudentDataImportPage = () => {
           ) : (
             <DataTable
               columns={columns({
-                recordManager: recordManager,
+                handleSelectRecord,
               })}
               data={parsedData}
             />
@@ -68,8 +66,7 @@ export const StudentDataImportPage = () => {
         </div>
       </main>
 
-      {/* Pass the record manager instance to the sheet */}
-      <StudentDetailSheet recordManager={recordManager} />
+      <StudentDetailSheet />
     </div>
   );
 };

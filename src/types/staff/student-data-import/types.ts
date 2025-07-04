@@ -2,6 +2,11 @@ import { z } from "zod";
 import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import/schemas";
 import type { Column, Row, Table } from "@tanstack/react-table";
 
+// types of schemas
+export type ParsedFileStudentRecordSchemaType = z.infer<
+  typeof parsedFileStudentRecordSchema
+>;
+
 export interface FileParsedTableRowStudentRecord {
   id: string;
   name: string;
@@ -24,44 +29,14 @@ export interface FilePreviewProps {
   hasError?: boolean;
 }
 
-export interface StudentDetailsSheetProps {
-  student: FileParsedTableRowStudentRecord | null;
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: (updatedStudent: FileParsedTableRowStudentRecord) => void;
-}
-
-export interface UseFileParserReturn {
-  parsedData: FileParsedTableRowStudentRecord[];
-  setParsedData: (data: FileParsedTableRowStudentRecord[]) => void;
-  filesWithErrors: string[];
-  parseFiles: (files: File[]) => Promise<void>;
-  isLoading: boolean;
-}
-
-export type ParsedFileStudentRecordSchemaType = z.infer<
-  typeof parsedFileStudentRecordSchema
->;
-
-export interface UseParsedRecordManagerProps {
-  parsedData: FileParsedTableRowStudentRecord[];
-  setParsedData: (data: FileParsedTableRowStudentRecord[]) => void;
-}
-
-export type StudentDetailSheetProps = {
-  recordManager: ReturnType<
-    typeof import("@/hooks/use-parsed-record-manager").useParsedRecordManager
-  >;
-};
-
 export interface StudentDataImportColumnsProps {
-  recordManager: ReturnType<
-    typeof import("@/hooks/use-parsed-record-manager").useParsedRecordManager
-  >;
+  handleSelectRecord: (
+    record: FileParsedTableRowStudentRecord | null,
+    mode: "add" | "edit"
+  ) => void;
 }
 
-export interface ActionButtonsProps<TData>
-  extends StudentDataImportColumnsProps {
+export interface ActionButtonsProps<TData> {
   table: Table<TData>;
 }
 
