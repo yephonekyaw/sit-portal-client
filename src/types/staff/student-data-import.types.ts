@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import/schemas";
+import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import.schemas";
 import type { Column, Row, Table } from "@tanstack/react-table";
 
 // types of schemas
@@ -104,6 +104,8 @@ export interface ParsedStudentDataState {
   handleUpdateRecord: (updatedRecord: FileParsedTableRowStudentRecord) => void;
   handleDeleteRecord: (recordId: string) => void;
   handleAddRecord: (newRecord: ParsedFileStudentRecordSchemaType) => void;
+  handleReorderRecords: () => void;
+  handleMultipleDelete: (recordIds: string[]) => void;
   setMode: (mode: "add" | "edit") => void;
   setSelectedRecord: (record: FileParsedTableRowStudentRecord | null) => void;
   setIsSheetOpen: (isOpen: boolean) => void;

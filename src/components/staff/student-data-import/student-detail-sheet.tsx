@@ -2,8 +2,8 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, RotateCcw, Trash2, Check, PlusCircle } from "lucide-react";
-import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import/schemas";
-import type { ParsedFileStudentRecordSchemaType } from "@/types/staff/student-data-import/types";
+import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import.schemas";
+import type { ParsedFileStudentRecordSchemaType } from "@/types/staff/student-data-import.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -41,7 +41,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useParsedStudentDataStore } from "@/stores/staff/student-data-import/parsed-student-data-store";
+import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data-store";
 
 const StudentDetailSheet = () => {
   const {
@@ -52,6 +52,7 @@ const StudentDetailSheet = () => {
     handleUpdateRecord,
     handleDeleteRecord,
     handleAddRecord,
+    handleReorderRecords,
   } = useParsedStudentDataStore();
 
   const editableRecordFields = useMemo(
@@ -105,6 +106,7 @@ const StudentDetailSheet = () => {
   function handleDelete() {
     if (mode === "edit" && selectedRecord) {
       handleDeleteRecord(selectedRecord.id);
+      handleReorderRecords();
     }
   }
 

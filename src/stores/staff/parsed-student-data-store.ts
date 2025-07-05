@@ -3,13 +3,13 @@ import { devtools } from "zustand/middleware";
 import type {
   FileParsedTableRowStudentRecord,
   ParsedStudentDataState,
-} from "@/types/staff/student-data-import/types";
+} from "@/types/staff/student-data-import.types";
 import {
   formatParsedStudentData,
   parseCSV,
   parseExcel,
   validateColumns,
-} from "@/utils/staff/student-data-import/utils";
+} from "@/utils/staff/student-data-import.utils";
 
 export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
   devtools(
@@ -25,12 +25,21 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
       // File Parser Actions
       parseFiles: async (files: File[]) => {
         if (files.length === 0) {
-          set({ parsedData: [], filesWithErrors: [] });
+          const manualEntryData = get().parsedData.filter(
+            (record) => record.sourceFile === "Manual Entry"
+          );
+
+          // If no files are selected, we only keep manual entry data
+          set({ parsedData: manualEntryData, filesWithErrors: [] });
+
+          // Even if no files are selected, we still need to reorder records coming thru manual entry
+          // This ensures that the IDs are sequential after any additions or deletions
+          get().handleReorderRecords();
           return;
         }
 
         set({ isLoading: true });
-        const allData: FileParsedTableRowStudentRecord[] = [];
+        const allData: FileParsedTableRowStudentRecord[] = get().parsedData;
         const errors: string[] = [];
         let rowCount = 1;
 
@@ -69,6 +78,10 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
         }
 
         set({ parsedData: allData, filesWithErrors: errors });
+
+        // Reorder records after parsing
+        // This ensures that the IDs are sequential after any additions or deletions
+        get().handleReorderRecords();
       },
 
       setParsedData: (data) => set({ parsedData: data }),
@@ -122,6 +135,18 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
         });
       },
 
+      handleMultipleDelete: (recordIds) => {
+        const { parsedData } = get();
+        const filteredData = parsedData.filter(
+          (record) => !recordIds.includes(record.id)
+        );
+        set({
+          parsedData: filteredData,
+          isSheetOpen: false,
+          selectedRecord: null,
+        });
+      },
+
       handleAddRecord: (newRecord) => {
         const { parsedData } = get();
         const recordWithId: FileParsedTableRowStudentRecord = {
@@ -134,6 +159,15 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
           isSheetOpen: false,
           selectedRecord: null,
         });
+      },
+
+      handleReorderRecords: () => {
+        const { parsedData } = get();
+        const rearrangedData = parsedData.map((record, index) => ({
+          ...record,
+          id: (index + 1).toString(),
+        }));
+        set({ parsedData: rearrangedData });
       },
 
       // Direct setters for more granular control
@@ -159,7 +193,9 @@ export const useParsedStudentDataActions = () =>
     handleSelectRecord: state.handleSelectRecord,
     handleUpdateRecord: state.handleUpdateRecord,
     handleDeleteRecord: state.handleDeleteRecord,
+    handleMultipleDelete: state.handleMultipleDelete,
     handleAddRecord: state.handleAddRecord,
+    handleReorderRecords: state.handleReorderRecords,
   }));
 export const useSheetState = () =>
   useParsedStudentDataStore((state) => ({

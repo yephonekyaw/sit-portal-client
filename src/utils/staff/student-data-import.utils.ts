@@ -2,8 +2,8 @@ import {
   PROGRAM_COLORS,
   REQUIRED_COLUMNS,
   SUPPORTED_FILE_TYPES,
-} from "@/constants/staff/student-data-import/constants";
-import type { FileParsedTableRowStudentRecord } from "@/types/staff/student-data-import/types";
+} from "@/constants/staff/student-data-import.constants";
+import type { FileParsedTableRowStudentRecord } from "@/types/staff/student-data-import.types";
 import Papa from "papaparse";
 import readXlsxFile from "read-excel-file";
 

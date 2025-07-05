@@ -10,25 +10,35 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useParsedStudentDataStore } from "@/stores/staff/student-data-import/parsed-student-data-store";
-import type { ActionButtonsProps } from "@/types/staff/student-data-import/types";
+import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data-store";
+import type { ActionButtonsProps } from "@/types/staff/student-data-import.types";
 import { CloudUpload, PlusCircle, Trash2 } from "lucide-react";
 
 const ActionButtons = <TData,>({ table }: ActionButtonsProps<TData>) => {
-  const { handleDeleteRecord, handleSelectRecord } =
+  const { handleMultipleDelete, handleSelectRecord, handleReorderRecords } =
     useParsedStudentDataStore();
   const handleDeleteMany = () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     if (selectedRows.length === 0) return;
 
-    selectedRows.forEach((row) => {
-      const record = row.original;
-      handleDeleteRecord((record as { id: string }).id);
-    });
+    // Get the IDs of the selected records
+    const selectedIds = selectedRows.map(
+      (row) => (row.original as { id: string }).id
+    );
+
+    handleMultipleDelete(selectedIds);
+    handleReorderRecords();
+
+    // Clear selection after deletion
+    table.setRowSelection({});
   };
+
   return (
     <div className="flex items-center p-1 gap-2">
-      <Button className="group relative overflow-hidden rounded-l-2xl rounded-r-lg border-0 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-gray-800 font-semibold px-6 py-2 transition-all duration-300 ease-out transform hover:-translate-y-0.5">
+      <Button
+        disabled={table.getRowCount() === 0}
+        className="group relative overflow-hidden rounded-l-2xl rounded-r-lg border-0 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-gray-800 font-semibold px-6 py-2 transition-all duration-300 ease-out transform hover:-translate-y-0.5"
+      >
         <CloudUpload className="h-4 w-4 text-blue-600 transition-transform duration-300" />
         <span className="relative z-10">Submit Data</span>
       </Button>

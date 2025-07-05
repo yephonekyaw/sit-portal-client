@@ -2,8 +2,8 @@ import React, { useState, useCallback } from "react";
 import { Upload, Plus, Info } from "lucide-react";
 import { RequiredColumnsDialog } from "./required-columns-dialog";
 import { FilePreview } from "./file-preview";
-import type { FileUploadProps } from "@/types/staff/student-data-import/types";
-import { isFileSupported } from "@/utils/staff/student-data-import/utils";
+import type { FileUploadProps } from "@/types/staff/student-data-import.types";
+import { isFileSupported } from "@/utils/staff/student-data-import.utils";
 
 export const FileUpload: React.FC<FileUploadProps> = ({
   onFilesSelected,

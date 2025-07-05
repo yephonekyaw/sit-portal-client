@@ -12,7 +12,7 @@ import {
 } from "../command";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { Badge } from "../badge";
-import type { FacetedFilterColumnProps } from "@/types/staff/student-data-import/types";
+import type { FacetedFilterColumnProps } from "@/types/staff/student-data-import.types";
 
 export function FacetedFilterColumn<TData, TValue>({
   column,

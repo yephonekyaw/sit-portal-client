@@ -4,7 +4,7 @@ import { FileUpload } from "@/components/staff/student-data-import/file-upload";
 import DataTable from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/staff/student-data-import/columns";
 import StudentDetailSheet from "@/components/staff/student-data-import/student-detail-sheet";
-import { useParsedStudentDataStore } from "@/stores/staff/student-data-import/parsed-student-data-store";
+import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data-store";
 
 export const StudentDataImportPage = () => {
   const [files, setFiles] = useState<File[]>([]);
