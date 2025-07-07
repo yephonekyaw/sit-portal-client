@@ -17,6 +17,7 @@ import { CloudUpload, PlusCircle, Trash2 } from "lucide-react";
 const ActionButtons = <TData,>({ table }: ActionButtonsProps<TData>) => {
   const { handleMultipleDelete, handleSelectRecord, handleReorderRecords } =
     useParsedStudentDataStore();
+
   const handleDeleteMany = () => {
     const selectedRows = table.getFilteredSelectedRowModel().rows;
     if (selectedRows.length === 0) return;
@@ -33,10 +34,16 @@ const ActionButtons = <TData,>({ table }: ActionButtonsProps<TData>) => {
     table.setRowSelection({});
   };
 
+  const handleSubmitData = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log("Data submitted");
+  };
+
   return (
     <div className="flex items-center p-1 gap-2">
       <Button
         disabled={table.getRowCount() === 0}
+        onClick={handleSubmitData}
         className="group relative overflow-hidden rounded-l-2xl rounded-r-lg border-0 bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 text-gray-800 font-semibold px-6 py-2 transition-all duration-300 ease-out transform hover:-translate-y-0.5"
       >
         <CloudUpload className="h-4 w-4 text-blue-600 transition-transform duration-300" />

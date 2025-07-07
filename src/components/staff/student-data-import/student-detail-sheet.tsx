@@ -57,7 +57,8 @@ const StudentDetailSheet = () => {
 
   const editableRecordFields = useMemo(
     () => ({
-      name: selectedRecord?.name || "John Doe",
+      firstName: selectedRecord?.firstName || "John",
+      lastName: selectedRecord?.lastName || "Doe",
       email: selectedRecord?.email || "john.doe@ad.sit.kmutt.ac.th",
       studentId: selectedRecord?.studentId || "66130500830",
       programCode: selectedRecord?.programCode as
@@ -68,7 +69,8 @@ const StudentDetailSheet = () => {
       academicYear: selectedRecord?.academicYear || "2025-2026",
     }),
     [
-      selectedRecord?.name,
+      selectedRecord?.firstName,
+      selectedRecord?.lastName,
       selectedRecord?.email,
       selectedRecord?.studentId,
       selectedRecord?.programCode,
@@ -140,13 +142,30 @@ const StudentDetailSheet = () => {
           >
             <FormField
               control={form.control}
-              name="name"
+              name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-blue-800">Name</FormLabel>
+                  <FormLabel className="text-blue-800">First Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="John Doe"
+                      placeholder="John"
+                      {...field}
+                      className="border-blue-200 focus:border-blue-500 focus:ring-blue-500 bg-blue-50 focus:bg-white"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-blue-800">Last Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Doe"
                       {...field}
                       className="border-blue-200 focus:border-blue-500 focus:ring-blue-500 bg-blue-50 focus:bg-white"
                     />

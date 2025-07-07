@@ -14,12 +14,10 @@ export const getProgramColor = (programCode: string): string => {
   );
 };
 
-export const getInitials = (name: string): string => {
-  return name
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase())
-    .slice(0, 2)
-    .join("");
+export const getInitials = (firstName: string, lastName: string): string => {
+  return (
+    firstName.charAt(0).toUpperCase() + (lastName.charAt(0).toUpperCase() || "")
+  );
 };
 
 export const formatFileSize = (bytes: number): string => {
@@ -95,7 +93,8 @@ export const formatParsedStudentData = (
     )
     .map((row, index) => ({
       id: (startingId + index).toString(),
-      name: String(row["name"] || "").trim(),
+      firstName: String(row["first name"] || "").trim(),
+      lastName: String(row["last name"] || "").trim(),
       email: String(row["email"] || "").trim(),
       studentId: String(row["student id"] || "").trim(),
       programCode: String(row["program code"] || "").trim(),

@@ -92,7 +92,7 @@ export const columns = ({
     ),
   },
   {
-    accessorKey: "name",
+    id: "fullName",
     header: ({ column }) => (
       <SearchFilterColumn
         column={column}
@@ -101,15 +101,16 @@ export const columns = ({
           <>
             <User className="h-4 w-4 text-gray-600 group-hover/header:text-blue-600 transition-colors duration-200" />
             <span className="font-medium text-gray-700 group-hover/header:text-blue-700 transition-colors duration-200">
-              Name
+              Full Name
             </span>
           </>
         }
       />
     ),
     cell: ({ row }) => {
-      const name = row.getValue("name") as string;
-      const initials = getInitials(name);
+      const firstName = row.original.firstName as string;
+      const lastName = row.original.lastName as string;
+      const initials = getInitials(firstName, lastName);
       const programCode = row.original.programCode;
 
       return (
@@ -127,7 +128,7 @@ export const columns = ({
           </div>
           <div className="relative">
             <span className="text-gray-800 font-medium transition-colors">
-              {name}
+              {`${firstName} ${lastName}`}
             </span>
             <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-blue-400 transition-all duration-300 ease-out group-hover/underline:w-full" />
           </div>

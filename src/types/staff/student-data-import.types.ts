@@ -9,7 +9,8 @@ export type ParsedFileStudentRecordSchemaType = z.infer<
 
 export interface FileParsedTableRowStudentRecord {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   studentId: string;
   programCode: string;

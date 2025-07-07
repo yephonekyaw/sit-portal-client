@@ -1,60 +1,61 @@
-name,email,student id,program code,academic year
-Harley Turner,alice@example.com,CS001,CS,2024-2025
-Blake Brown,bob@example.com,DSI002,DSI,2024-2025
-Jules Davis,carol@example.com,IT003,IT,2025-2026
-Nico Brown,dave@example.com,CS004,CS,2024-2025
-Parker Nguyen,eve@example.com,DSI005,DSI,2025-2026
-Harley Turner,frank@example.com,IT006,IT,2024-2025
-Sage Lee,grace@example.com,CS007,CS,2025-2026
-Dana Turner,heidi@example.com,DSI008,DSI,2024-2025
-Parker Garcia,ivan@example.com,IT009,IT,2025-2026
-Quinn Anderson,judy@example.com,CS010,CS,2024-2025
-Kai Young,user011@example.com,CS011,CS,2024-2025
-Alex Lee,user012@example.com,IT012,IT,2025-2026
-Blake Davis,user013@example.com,CS013,CS,2025-2026
-Oakley Zimmerman,user014@example.com,DSI014,DSI,2025-2026
-Alex Walker,user015@example.com,DSI015,DSI,2024-2025
-Logan Robinson,user016@example.com,IT016,IT,2025-2026
-Oakley Johnson,user017@example.com,CS017,CS,2025-2026
-Dana Walker,user018@example.com,CS018,CS,2025-2026
-Dana Nguyen,user019@example.com,CS019,CS,2025-2026
-Indie Patel,user020@example.com,CS020,CS,2025-2026
-Casey Brown,user021@example.com,IT021,IT,2024-2025
-Morgan Garcia,user022@example.com,CS022,CS,2025-2026
-Blake Davis,user023@example.com,DSI023,DSI,2024-2025
-Morgan Walker,user024@example.com,IT024,IT,2024-2025
-Dana Davis,user025@example.com,IT025,IT,2025-2026
-Parker Anderson,user026@example.com,CS026,CS,2025-2026
-Georgie Robinson,user027@example.com,DSI027,DSI,2024-2025
-Parker Walker,user028@example.com,CS028,CS,2024-2025
-Dana Evans,user029@example.com,DSI029,DSI,2025-2026
-Indie Evans,user030@example.com,CS030,CS,2024-2025
-Harley Patel,user031@example.com,IT031,IT,2025-2026
-Alex Turner,user032@example.com,DSI032,DSI,2025-2026
-Parker Brown,user033@example.com,DSI033,DSI,2024-2025
-Oakley Evans,user034@example.com,DSI034,DSI,2025-2026
-Kai Clark,user035@example.com,CS035,CS,2025-2026
-Emery Harris,user036@example.com,IT036,IT,2025-2026
-Riley Young,user037@example.com,IT037,IT,2025-2026
-Parker Walker,user038@example.com,CS038,CS,2025-2026
-Riley Zimmerman,user039@example.com,CS039,CS,2024-2025
-Finn Patel,user040@example.com,IT040,IT,2025-2026
-Morgan Zimmerman,user041@example.com,CS041,CS,2024-2025
-Riley Nguyen,user042@example.com,IT042,IT,2024-2025
-Blake Robinson,user043@example.com,IT043,IT,2024-2025
-Georgie Smith,user044@example.com,CS044,CS,2025-2026
-Nico Walker,user045@example.com,IT045,IT,2024-2025
-Blake Martinez,user046@example.com,IT046,IT,2024-2025
-Jules Nguyen,user047@example.com,CS047,CS,2025-2026
-Kai Lee,user048@example.com,IT048,IT,2025-2026
-Alex Smith,user049@example.com,CS049,CS,2024-2025
-Sage Young,user050@example.com,DSI050,DSI,2025-2026
-Kai Brown,user051@example.com,CS051,CS,2025-2026
-Oakley Patel,user052@example.com,DSI052,DSI,2024-2025
-Parker Clark,user053@example.com,IT053,IT,2025-2026
-Blake Davis,user054@example.com,IT054,IT,2025-2026
-Finn Patel,user055@example.com,CS055,CS,2025-2026
-Sage Smith,user056@example.com,IT056,IT,2025-2026
-Logan Harris,user057@example.com,CS057,CS,2025-2026
-Harley Lee,user058@example.com,DSI058,DSI,2025-2026
-Finn Brown,user059@example.com,IT059,IT,2025-2026
+first name,last name,email,student id,program code,academic year
+Harley,Turner,alice@example.com,CS001,CS,2024-2025
+Blake,Brown,bob@example.com,DSI002,DSI,2024-2025
+Jules,Davis,carol@example.com,IT003,IT,2025-2026
+Nico,Brown,dave@example.com,CS004,CS,2024-2025
+Parker,Nguyen,eve@example.com,DSI005,DSI,2025-2026
+Harley,Turner,frank@example.com,IT006,IT,2024-2025
+Sage,Lee,grace@example.com,CS007,CS,2025-2026
+Dana,Turner,heidi@example.com,DSI008,DSI,2024-2025
+Parker,Garcia,ivan@example.com,IT009,IT,2025-2026
+Quinn,Anderson,judy@example.com,CS010,CS,2024-2025
+Kai,Young,user011@example.com,CS011,CS,2024-2025
+Alex,Lee,user012@example.com,IT012,IT,2025-2026
+Blake,Davis,user013@example.com,CS013,CS,2025-2026
+Oakley,Zimmerman,user014@example.com,DSI014,DSI,2025-2026
+Alex,Walker,user015@example.com,DSI015,DSI,2024-2025
+Logan,Robinson,user016@example.com,IT016,IT,2025-2026
+Oakley,Johnson,user017@example.com,CS017,CS,2025-2026
+Dana,Walker,user018@example.com,CS018,CS,2025-2026
+Dana,Nguyen,user019@example.com,CS019,CS,2025-2026
+Indie,Patel,user020@example.com,CS020,CS,2025-2026
+Casey,Brown,user021@example.com,IT021,IT,2024-2025
+Morgan,Garcia,user022@example.com,CS022,CS,2025-2026
+Blake,Davis,user023@example.com,DSI023,DSI,2024-2025
+Morgan,Walker,user024@example.com,IT024,IT,2024-2025
+Dana,Davis,user025@example.com,IT025,IT,2025-2026
+Parker,Anderson,user026@example.com,CS026,CS,2025-2026
+Georgie,Robinson,user027@example.com,DSI027,DSI,2024-2025
+Parker,Walker,user028@example.com,CS028,CS,2024-2025
+Dana,Evans,user029@example.com,DSI029,DSI,2025-2026
+Indie,Evans,user030@example.com,CS030,CS,2024-2025
+Harley,Patel,user031@example.com,IT031,IT,2025-2026
+Alex,Turner,user032@example.com,DSI032,DSI,2025-2026
+Parker,Brown,user033@example.com,DSI033,DSI,2024-2025
+Oakley,Evans,user034@example.com,DSI034,DSI,2025-2026
+Kai,Clark,user035@example.com,CS035,CS,2025-2026
+Emery,Harris,user036@example.com,IT036,IT,2025-2026
+Riley,Young,user037@example.com,IT037,IT,2025-2026
+Parker,Walker,user038@example.com,CS038,CS,2025-2026
+Riley,Zimmerman,user039@example.com,CS039,CS,2024-2025
+Finn,Patel,user040@example.com,IT040,IT,2025-2026
+Morgan,Zimmerman,user041@example.com,CS041,CS,2024-2025
+Riley,Nguyen,user042@example.com,IT042,IT,2024-2025
+Blake,Robinson,user043@example.com,IT043,IT,2024-2025
+Georgie,Smith,user044@example.com,CS044,CS,2025-2026
+Nico,Walker,user045@example.com,IT045,IT,2024-2025
+Blake,Martinez,user046@example.com,IT046,IT,2024-2025
+Jules,Nguyen,user047@example.com,CS047,CS,2025-2026
+Kai,Lee,user048@example.com,IT048,IT,2025-2026
+Alex,Smith,user049@example.com,CS049,CS,2024-2025
+Sage,Young,user050@example.com,DSI050,DSI,2025-2026
+Kai,Brown,user051@example.com,CS051,CS,2025-2026
+Oakley,Patel,user052@example.com,DSI052,DSI,2024-2025
+Parker,Clark,user053@example.com,IT053,IT,2025-2026
+Blake,Davis,user054@example.com,IT054,IT,2025-2026
+Finn,Patel,user055@example.com,CS055,CS,2025-2026
+Sage,Smith,user056@example.com,IT056,IT,2025-2026
+Logan,Harris,user057@example.com,CS057,CS,2025-2026
+Harley,Lee,user058@example.com,DSI058,DSI,2025-2026
+Finn,Brown,user059@example.com,IT059,IT,2025-2026
+Jamie,Scott,user060@example.com,CS060,CS,2025-2026

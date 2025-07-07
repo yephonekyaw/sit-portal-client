@@ -5,7 +5,8 @@ export const SUPPORTED_FILE_TYPES = [
 ] as const;
 
 export const REQUIRED_COLUMNS = [
-  "name",
+  "first name",
+  "last name",
   "email",
   "student id",
   "program code",
@@ -13,7 +14,8 @@ export const REQUIRED_COLUMNS = [
 ] as const;
 
 export const REQUIRED_COLUMN_MAPPINGS = [
-  { key: "name", label: "Name" },
+  { key: "first_name", label: "First Name" },
+  { key: "last_name", label: "Last Name" },
   { key: "email", label: "Email" },
   { key: "student_id", label: "Student ID" },
   { key: "program_code", label: "Program Code" },
@@ -32,11 +34,3 @@ export const PROGRAM_COLORS = {
   IT: "bg-green-50 text-green-700 border-green-200",
   default: "bg-gray-50 text-gray-700 border-gray-200",
 } as const;
-
-export const EDITABLE_FIELDS = [
-  { id: "name", label: "Name", type: "text" },
-  { id: "email", label: "Email", type: "email" },
-  { id: "studentId", label: "Student ID", type: "text" },
-  { id: "programCode", label: "Program Code", type: "text" },
-  { id: "academicYear", label: "Academic Year", type: "text" },
-] as const;

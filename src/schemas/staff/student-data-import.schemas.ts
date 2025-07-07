@@ -20,7 +20,8 @@ const academicYearSchema = z.string().regex(/^\d{4}-\d{4}$/, {
 
 // Main schema for student data import
 export const parsedFileStudentRecordSchema = z.object({
-  name: z.string().min(1, { message: "Name is required." }),
+  firstName: z.string().min(1, { message: "First name is required." }),
+  lastName: z.string().min(1, { message: "Last name is required." }),
   email: z.string().email({ message: "Invalid email address." }),
   studentId: studentIdSchema,
   programCode: programCodeSchema,
