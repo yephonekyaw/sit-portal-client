@@ -1,45 +1,26 @@
 import { useState } from "react";
-import { ChevronLeft, FileText, Settings, HelpCircle } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { navigationConfig, type NavigationItem } from "./navigation-config";
-import { MobileNavigationItem } from "./mobile-navigation-item";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import type {
+  MobileNavProps,
+  MobileNavStackLevel,
+  NavigationItem,
+} from "@/types/nav.types";
+import { NAVIGATION_CONFIG } from "@/constants/nav.constants";
+import { useNavConfigStore } from "@/stores/nav.stores";
+import MobileNavItem from "./mobile-nav-item";
+import { findActivePath } from "@/utils/nav.utils";
 
-interface MobileNavigationProps {
-  onClose: () => void;
-}
+export function MobileNav({ onClose }: MobileNavProps) {
+  const currentRole = useNavConfigStore((s) => s.currentRole);
+  const location = useLocation();
 
-interface NavigationLevel {
-  items: NavigationItem[];
-  title?: string;
-}
-
-const rootNavigation: NavigationItem[] = [
-  {
-    title: "Student Portal",
-    href: "/student",
-    icon: FileText,
-    children: navigationConfig.student,
-  },
-  {
-    title: "Staff Portal",
-    href: "/staff",
-    icon: Settings,
-    children: navigationConfig.staff,
-  },
-  {
-    title: "Help & Support",
-    href: "/help",
-    icon: HelpCircle,
-    children: navigationConfig.help,
-  },
-];
-
-export function MobileNavigation({ onClose }: MobileNavigationProps) {
-  const [navigationStack, setNavigationStack] = useState<NavigationLevel[]>([
-    { items: rootNavigation },
-  ]);
+  const [navigationStack, setNavigationStack] = useState<MobileNavStackLevel[]>(
+    [{ items: NAVIGATION_CONFIG[currentRole] }]
+  );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [transitionDirection, setTransitionDirection] = useState<
     "forward" | "backward"
@@ -47,6 +28,13 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
 
   const currentLevel = navigationStack[navigationStack.length - 1];
   const isRootLevel = navigationStack.length === 1;
+
+  // Find active path and determine if back button should be highlighted
+  const activePath = findActivePath(
+    NAVIGATION_CONFIG[currentRole],
+    location.pathname
+  );
+  const isBackButtonActive = activePath.length > navigationStack.length;
 
   const handleItemClick = (item: NavigationItem) => {
     if (item.children && item.children.length > 0) {
@@ -58,7 +46,7 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
           ...prev,
           {
             items: item.children!,
-            title: item.title,
+            title: item.label,
           },
         ]);
 
@@ -67,7 +55,6 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
         }, 50);
       }, 150);
     } else {
-      console.log(`Navigate to: ${item.href}`);
       onClose();
     }
   };
@@ -108,19 +95,34 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
         }`}
       >
         {!isRootLevel && (
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+          <div
+            className={cn(
+              "px-6 py-4 border-b border-gray-200",
+              isBackButtonActive ? "bg-blue-50/50" : "bg-gray-50"
+            )}
+          >
             <Button
               variant="ghost"
               size="sm"
               onClick={handleBackClick}
               disabled={isTransitioning}
-              className="flex items-center gap-2 text-sm font-medium -ml-2 hover:bg-gray-100 transition-colors text-gray-700 disabled:opacity-50"
+              className={cn(
+                "flex items-center gap-2 text-sm font-medium -ml-2 transition-colors disabled:opacity-50",
+                isBackButtonActive
+                  ? "text-blue-700 hover:bg-blue-100"
+                  : "text-gray-700 hover:bg-gray-100"
+              )}
             >
               <ChevronLeft className="h-4 w-4" />
               Back
             </Button>
             <div className="mt-3">
-              <h3 className="font-semibold text-lg text-gray-900">
+              <h3
+                className={cn(
+                  "font-semibold text-lg",
+                  isBackButtonActive ? "text-blue-900" : "text-gray-900"
+                )}
+              >
                 {currentLevel.title}
               </h3>
             </div>
@@ -141,7 +143,7 @@ export function MobileNavigation({ onClose }: MobileNavigationProps) {
           <ScrollArea className="h-full">
             <div className="space-y-2 p-4">
               {currentLevel.items.map((item, index) => (
-                <MobileNavigationItem
+                <MobileNavItem
                   key={`${item.href}-${index}`}
                   item={item}
                   index={index}

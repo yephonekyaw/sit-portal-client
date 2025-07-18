@@ -4,9 +4,9 @@ import { FileUpload } from "@/components/staff/student-data-import/file-upload";
 import DataTable from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/staff/student-data-import/columns";
 import StudentDetailSheet from "@/components/staff/student-data-import/student-detail-sheet";
-import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data-store";
+import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data.stores";
 
-export const StudentDataImportPage = () => {
+const StudentDataImportPage = () => {
   const [files, setFiles] = useState<File[]>([]);
   const {
     parseFiles,
@@ -70,3 +70,5 @@ export const StudentDataImportPage = () => {
     </div>
   );
 };
+
+export default StudentDataImportPage;

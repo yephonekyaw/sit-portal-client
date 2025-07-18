@@ -9,17 +9,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { NotificationMenu } from "./noti-menu";
-import { UserMenu } from "./user-menu";
 import { Button } from "../ui/button";
-import { MobileNavigation } from "./mobile-navigation";
-import { DesktopNavigation } from "./desktop-navigation";
+import DesktopNav from "./desktop-nav";
+import { MobileNav } from "./mobile-nav";
+// import { NotificationMenu } from "./noti-menu";
+// import { UserMenu } from "./user-menu";
 
-interface NavbarProps {
-  className?: string;
-}
-
-export function Navbar({ className }: NavbarProps) {
+export function Navbar({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -29,7 +25,7 @@ export function Navbar({ className }: NavbarProps) {
         className
       )}
     >
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-20 items-center">
         <div className="hidden md:flex">
           <Link to="/" className="flex items-center space-x-2">
             <div className="p-1 bg-blue-100 rounded-lg">
@@ -52,7 +48,7 @@ export function Navbar({ className }: NavbarProps) {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="pr-0">
-            <MobileNavigation onClose={() => setIsOpen(false)} />
+            <MobileNav onClose={() => setIsOpen(false)} />
           </SheetContent>
         </Sheet>
 
@@ -68,85 +64,14 @@ export function Navbar({ className }: NavbarProps) {
         </div>
 
         <div className="hidden md:flex flex-1 items-center justify-center">
-          <DesktopNavigation className="w-full max-w-4xl flex items-center justify-center" />
+          <DesktopNav className="w-full max-w-4xl flex items-center justify-center" />
         </div>
 
-        <nav className="flex items-center gap-3">
+        {/* <nav className="flex items-center gap-3">
           <NotificationMenu />
           <UserMenu />
-        </nav>
+        </nav> */}
       </div>
     </header>
   );
 }
-
-// import * as React from "react";
-// import { Link } from "react-router-dom";
-// import { Menu } from "lucide-react";
-// import { cn } from "@/lib/utils";
-// import {
-//   Sheet,
-//   SheetContent,
-//   SheetDescription,
-//   SheetTitle,
-//   SheetTrigger,
-// } from "@/components/ui/sheet";
-// import { NotificationMenu } from "./noti-menu";
-// import { UserMenu } from "./user-menu";
-// import { Button } from "../ui/button";
-// import { MobileNavigation } from "./mobile-navigation";
-// import { DesktopNavigation } from "./desktop-navigation";
-
-// interface NavbarProps {
-//   className?: string;
-// }
-
-// export function Navbar({ className }: NavbarProps) {
-//   const [isOpen, setIsOpen] = React.useState(false);
-
-//   return (
-//     <header
-//       className={cn(
-//         "sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-center px-2 md:p-0",
-//         className
-//       )}
-//     >
-//       <div className="container flex h-16 items-center">
-//         <div className="flex items-center">
-//           <Link to="/" className="flex items-center space-x-2">
-//             <div className="p-1 bg-blue-100 rounded-lg">
-//               <img src="/logos/temp_logo.svg" className="w-8 h-8" />
-//             </div>
-//             <span className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-//               SIT PORTAL
-//             </span>
-//           </Link>
-//         </div>
-
-//         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-//           <SheetTitle className="sr-only">Mobile Navigation Menu</SheetTitle>
-//           <SheetDescription className="sr-only">
-//             Use the button below to toggle the mobile navigation menu.
-//           </SheetDescription>
-//           <SheetTrigger asChild>
-//             <Button variant="ghost" className="md:hidden">
-//               <Menu className="size-6" />
-//             </Button>
-//           </SheetTrigger>
-//           <SheetContent side="left" className="pr-0">
-//             <MobileNavigation onClose={() => setIsOpen(false)} />
-//           </SheetContent>
-//         </Sheet>
-
-//         <div className="hidden md:flex flex-1 items-center justify-center">
-//           <DesktopNavigation className="w-full max-w-4xl flex items-center justify-center" />
-//         </div>
-
-//         <nav className="flex items-center gap-3">
-//           <NotificationMenu />
-//           <UserMenu />
-//         </nav>
-//       </div>
-//     </header>
-//   );
-// }

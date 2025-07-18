@@ -13,9 +13,9 @@ const programCodeSchema = z.enum(["CS", "DSI", "IT"], {
   }),
 });
 
-// Schema for academic year: must be in the format 'YYYY-YYYY'
-const academicYearSchema = z.string().regex(/^\d{4}-\d{4}$/, {
-  message: "Academic year must be in the format YYYY-YYYY.",
+// Schema for academic year: must be in the format 'YYYY'
+const academicYearSchema = z.string().regex(/^\d{4}$/, {
+  message: "Academic year must be in the format YYYY.",
 });
 
 // Main schema for student data import

@@ -41,7 +41,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data-store";
+import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data.stores";
 
 const StudentDetailSheet = () => {
   const {
@@ -66,7 +66,7 @@ const StudentDetailSheet = () => {
         | "DSI"
         | "IT"
         | undefined,
-      academicYear: selectedRecord?.academicYear || "2025-2026",
+      academicYear: selectedRecord?.academicYear || "2025",
     }),
     [
       selectedRecord?.firstName,
@@ -241,7 +241,7 @@ const StudentDetailSheet = () => {
                   <FormLabel className="text-blue-800">Academic Year</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="YYYY-YYYY"
+                      placeholder="YYYY"
                       {...field}
                       className="border-blue-200 focus:border-blue-500 focus:ring-blue-500 bg-blue-50 focus:bg-white"
                     />
