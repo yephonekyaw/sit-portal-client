@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useParsedStudentDataStore } from "@/stores/staff/parsed-student-data.stores";
-import type { ActionButtonsProps } from "@/types/staff/student-data-import.types";
+import type { ActionButtonsProps } from "@/types/staff/data-import.types";
 import { CloudUpload, PlusCircle, Trash2 } from "lucide-react";
 
 const ActionButtons = <TData,>({ table }: ActionButtonsProps<TData>) => {

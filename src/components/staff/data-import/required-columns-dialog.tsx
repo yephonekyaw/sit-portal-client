@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Info } from "lucide-react";
-import { REQUIRED_COLUMN_MAPPINGS } from "@/constants/staff/student-data-import.constants";
+import { REQUIRED_COLUMN_MAPPINGS } from "@/constants/staff/data-import.constants";
 
 export const RequiredColumnsDialog = ({
   children,

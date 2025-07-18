@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import.schemas";
+import { parsedFileStudentRecordSchema } from "@/schemas/staff/data-import.schemas";
 import type { Column, Row, Table } from "@tanstack/react-table";
 
 // types of schemas

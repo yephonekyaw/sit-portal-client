@@ -2,8 +2,8 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User, RotateCcw, Trash2, Check, PlusCircle } from "lucide-react";
-import { parsedFileStudentRecordSchema } from "@/schemas/staff/student-data-import.schemas";
-import type { ParsedFileStudentRecordSchemaType } from "@/types/staff/student-data-import.types";
+import { parsedFileStudentRecordSchema } from "@/schemas/staff/data-import.schemas";
+import type { ParsedFileStudentRecordSchemaType } from "@/types/staff/data-import.types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {

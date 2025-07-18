@@ -17,14 +17,14 @@ const DesktopNavItem = ({
       to={hasChildren ? "#" : item.href}
       className={({ isActive }) =>
         cn(
-          "group flex items-center gap-3 px-4 py-[10px] rounded-xl transition-all duration-200 ease-out select-none",
+          "group flex items-center gap-3 px-4 py-[10px] rounded-full transition-all duration-200 ease-out select-none",
           "relative overflow-hidden",
           isTopLevel ? "text-sm font-medium" : "text-sm font-medium",
           isActive
             ? "bg-gradient-to-r from-blue-50 to-blue-50/80 text-blue-700 border border-blue-200/50"
             : "text-gray-700",
           !isActive &&
-            "hover:bg-gray-100/80 hover:text-gray-900 hover:border-gray-200/50 hover:border-solid",
+            "hover:bg-gray-100 hover:text-gray-900 hover:border-gray-200/50 hover:border-solid",
           "focus:outline-none focus:ring-2 focus:ring-blue-500/20",
           className
         )
@@ -37,7 +37,7 @@ const DesktopNavItem = ({
           )}
           <div
             className={cn(
-              "p-2 rounded-md transition-all duration-200 flex items-center justify-center",
+              "p-2 rounded-full transition-all duration-200 flex items-center justify-center",
               isActive
                 ? "bg-blue-100/80"
                 : "bg-gray-100/60 group-hover:bg-blue-100/80"

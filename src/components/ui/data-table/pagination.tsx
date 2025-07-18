@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../select";
-import type { PaginationProps } from "@/types/staff/student-data-import.types";
+import type { PaginationProps } from "@/types/staff/data-import.types";
 
 export function Pagination<TData>({ table }: PaginationProps<TData>) {
   return (

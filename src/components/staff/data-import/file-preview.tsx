@@ -1,8 +1,8 @@
 import React from "react";
 import { X, FileSpreadsheet, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { FilePreviewProps } from "@/types/staff/student-data-import.types";
-import { formatFileSize } from "@/utils/staff/student-data-import.utils";
+import type { FilePreviewProps } from "@/types/staff/data-import.types";
+import { formatFileSize } from "@/utils/staff/data-import.utils";
 
 export const FilePreview: React.FC<FilePreviewProps> = ({
   file,

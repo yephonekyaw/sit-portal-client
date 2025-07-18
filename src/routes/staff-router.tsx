@@ -1,6 +1,6 @@
 import StaffApp from "@/apps/staff-app";
-import StudentDataImportPage from "@/pages/staff/student-data-import-page";
-import StudentProgramRequirementPage from "@/pages/staff/student-program-requirement-page";
+import CentralDashboardPage from "@/pages/staff/central-dashboard-page";
+import DataImportPage from "@/pages/staff/data-import-page";
 
 const staffRouter = [
   {
@@ -8,12 +8,12 @@ const staffRouter = [
     element: <StaffApp />,
     children: [
       {
-        path: "student-management/data-import",
-        element: <StudentDataImportPage />,
+        path: "student-management/central-dashboard",
+        element: <CentralDashboardPage />,
       },
       {
-        path: "student-management/program-requirements",
-        element: <StudentProgramRequirementPage />,
+        path: "student-management/data-import",
+        element: <DataImportPage />,
       },
     ],
   },

@@ -17,12 +17,9 @@ import { FacetedFilterColumn } from "@/components/ui/data-table/faceted-filter-c
 import type {
   FileParsedTableRowStudentRecord as Record,
   StudentDataImportColumnsProps,
-} from "@/types/staff/student-data-import.types";
-import {
-  getInitials,
-  getProgramColor,
-} from "@/utils/staff/student-data-import.utils";
-import { PROGRAM_OPTIONS } from "@/constants/staff/student-data-import.constants";
+} from "@/types/staff/data-import.types";
+import { getInitials, getProgramColor } from "@/utils/staff/data-import.utils";
+import { PROGRAM_OPTIONS } from "@/constants/staff/data-import.constants";
 import {
   DropdownMenu,
   DropdownMenuContent,

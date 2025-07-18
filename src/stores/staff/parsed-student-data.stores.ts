@@ -3,13 +3,13 @@ import { devtools } from "zustand/middleware";
 import type {
   FileParsedTableRowStudentRecord,
   ParsedStudentDataState,
-} from "@/types/staff/student-data-import.types";
+} from "@/types/staff/data-import.types";
 import {
   formatParsedStudentData,
   parseCSV,
   parseExcel,
   validateColumns,
-} from "@/utils/staff/student-data-import.utils";
+} from "@/utils/staff/data-import.utils";
 
 export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
   devtools(

@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
-import type { RowActionsProps } from "@/types/staff/student-data-import.types";
+import type { RowActionsProps } from "@/types/staff/data-import.types";
 
 export function RowActions<TData>({
   row,

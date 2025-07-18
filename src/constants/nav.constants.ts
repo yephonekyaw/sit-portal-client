@@ -36,6 +36,11 @@ export const NAVIGATION_CONFIG: {
       icon: SquareDashedKanban,
       children: [
         {
+          label: "Central Dashboard",
+          href: "/staff/student-management/central-dashboard",
+          icon: BarChart3,
+        },
+        {
           label: "Data Import",
           href: "/staff/student-management/data-import",
           icon: Upload,

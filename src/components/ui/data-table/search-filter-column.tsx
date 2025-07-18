@@ -3,7 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { Input } from "../input";
 import { cn } from "@/lib/utils";
 import { Search, Filter, X } from "lucide-react";
-import type { SearchFilterColumnProps } from "@/types/staff/student-data-import.types";
+import type { SearchFilterColumnProps } from "@/types/staff/data-import.types";
 
 export function SearchFilterColumn<TData, TValue>({
   column,
