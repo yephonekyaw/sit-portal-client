@@ -108,9 +108,10 @@ You are a CITI Program Certificate Validation Expert. Your task is to validate t
 - Look for the exact phrase "This is to certify that:" followed by the student name
 
 **VALIDATION TASK:**
-Analyze both certificates according to the above criteria and provide your validation decision with detailed reasoning. Focus on the decision criteria and be explicit about which conditions led to your APPROVE/MANUAL REVIEW/REJECT decision.
+Analyze both certificates according to the above criteria and provide your validation decision with detailed reasoning. Focus on the decision criteria and be explicit about which conditions led to your **APPROVE**/**MANUAL REVIEW**/**REJECT** decision.
     `,
     has_expiration: true,
+    is_active: true,
     created_at: "2023-05-01T08:00:00Z",
     updated_at: "2024-05-15T10:30:00Z",
     program_requirements_count: 9,

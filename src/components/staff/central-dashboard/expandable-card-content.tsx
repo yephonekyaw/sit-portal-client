@@ -8,30 +8,48 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { FileText } from "lucide-react";
 import Markdown from "react-markdown";
 
-const VerificationTemplateMD = ({ template }: { template: string }) => {
+interface ExpandableCardContentProps {
+  title: string;
+  subtitle: string;
+  content: string;
+  value: string;
+  borderColor: string;
+  bgColor: string;
+  textColor: string;
+  maxHeight?: string;
+}
+
+export const ExpandableCardContent = ({
+  title,
+  subtitle,
+  content,
+  value,
+  borderColor,
+  bgColor,
+  textColor,
+  maxHeight = "60vh",
+}: ExpandableCardContentProps) => {
   return (
     <Accordion type="single" collapsible className="w-full">
-      <AccordionItem value="verification-template" className="border-0">
-        <AccordionTrigger className="hover:no-underline p-0 w-full border-l-4 border-blue-300 bg-blue-100 rounded-r-lg px-3 py-3 items-center">
-          <div className="">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <FileText className="h-4 w-4 text-blue-600" />
-              </div>
-              <div className="text-left">
-                <span className="text-sm font-medium text-blue-800">
-                  Verification Template
-                </span>
-                <p className="text-xs text-slate-600 mt-0.5">
-                  Template used by LLM for verification
-                </p>
-              </div>
+      <AccordionItem value={value} className="border-0">
+        <AccordionTrigger
+          className={`hover:no-underline w-full border-l-4 ${borderColor} ${bgColor} rounded-r-lg px-3 py-3 items-center`}
+        >
+          <div className="flex items-center gap-3">
+            <div className={`p-2 ${bgColor} rounded-lg`}>
+              <FileText className={`h-4 w-4 ${textColor}`} />
+            </div>
+            <div className="text-left">
+              <span className={`text-sm font-medium ${textColor}`}>
+                {title}
+              </span>
+              <p className="text-xs text-slate-600 mt-0.5">{subtitle}</p>
             </div>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-3">
           <div className="border border-blue-100 rounded-lg bg-white">
-            <ScrollArea className="h-[60vh] w-full p-4">
+            <ScrollArea className={`max-h-[${maxHeight}] w-full p-4`}>
               <div className="prose prose-sm max-w-none">
                 <Markdown
                   components={{
@@ -62,7 +80,7 @@ const VerificationTemplateMD = ({ template }: { template: string }) => {
                     ),
                   }}
                 >
-                  {template}
+                  {content}
                 </Markdown>
               </div>
             </ScrollArea>
@@ -73,4 +91,4 @@ const VerificationTemplateMD = ({ template }: { template: string }) => {
   );
 };
 
-export default VerificationTemplateMD;
+export default ExpandableCardContent;
