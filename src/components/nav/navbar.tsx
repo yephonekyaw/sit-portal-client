@@ -25,7 +25,7 @@ export function Navbar({ className }: { className?: string }) {
         className
       )}
     >
-      <div className="container flex h-20 items-center">
+      <div className="container flex h-[4rem] items-center">
         <div className="hidden md:flex">
           <Link to="/" className="flex items-center space-x-2">
             <div className="p-1 bg-blue-100 rounded-lg">

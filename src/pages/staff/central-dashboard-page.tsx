@@ -4,10 +4,10 @@ import PageHeader from "@/components/staff/central-dashboard/page-header";
 
 const CentralDashboardPage = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0 relative">
       <PageHeader />
-      <FloatingAddButtons />
       <MainContentWrapper />
+      <FloatingAddButtons />
     </div>
   );
 };

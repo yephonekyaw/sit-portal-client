@@ -20,7 +20,7 @@ const FloatingAddButtons = () => {
   };
 
   return (
-    <div className="absolute -bottom-6 right-4 sm:right-6 lg:right-8 z-50">
+    <div className="sticky z-50 bottom-4 w-full flex justify-end">
       <HoverCard openDelay={200} closeDelay={100}>
         <HoverCardTrigger asChild>
           <Button
