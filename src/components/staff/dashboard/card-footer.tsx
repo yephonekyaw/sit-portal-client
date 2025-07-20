@@ -1,4 +1,4 @@
-import { formatDate } from "@/utils/staff/central-dashboard.utils";
+import { formatDate } from "@/utils/staff/dashboard.utils";
 
 interface CardFooterProps {
   createdAt: string;

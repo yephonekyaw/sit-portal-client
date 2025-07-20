@@ -8,9 +8,10 @@ const PageHeader = () => {
           <FileUp className="h-6 w-6 text-blue-600" />
         </div>
         <div>
-          <h1 className="text-xl font-bold text-blue-900">Data Import</h1>
+          <h1 className="text-xl font-bold text-blue-900">Submissions</h1>
           <p className="mt-1 text-sm text-gray-600">
-            Streamline the enrollment process by uploading a single data file.
+            View and manage all student submissions for the program
+            requirements.
           </p>
         </div>
       </div>

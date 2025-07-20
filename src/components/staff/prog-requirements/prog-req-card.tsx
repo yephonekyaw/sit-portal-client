@@ -3,7 +3,7 @@ import type { ProgramRequirement } from "@/mock/prog-reqs.mock";
 import {
   getDeadlineString,
   getYearSuffix,
-} from "@/utils/staff/central-dashboard.utils";
+} from "@/utils/staff/dashboard.utils";
 import {
   AlertCircle,
   Hash,
@@ -12,12 +12,12 @@ import {
   Target,
   RotateCcw,
 } from "lucide-react";
-import CardBase from "../central-dashboard/card-base";
-import CardHeaderSection from "../central-dashboard/card-header-section";
-import ExpandableCardContent from "../central-dashboard/expandable-card-content";
-import CardInfoSection from "../central-dashboard/card-info-section";
-import CardInfoItem from "../central-dashboard/card-info-item";
-import CardFooter from "../central-dashboard/card-footer";
+import CardBase from "../dashboard/card-base";
+import CardHeaderSection from "../dashboard/card-header-section";
+import ExpandableCardContent from "../dashboard/expandable-card-content";
+import CardInfoSection from "../dashboard/card-info-section";
+import CardInfoItem from "../dashboard/card-info-item";
+import CardFooter from "../dashboard/card-footer";
 
 const ProgramRequirementCard = ({
   requirement,

@@ -7,6 +7,12 @@ import {
 
 export const NAV_ITEMS = [
   {
+    id: "sche",
+    label: "Schedules",
+    icon: Calendar,
+    href: "schedules",
+  },
+  {
     id: "prog",
     label: "Programs",
     icon: GraduationCap,
@@ -23,11 +29,5 @@ export const NAV_ITEMS = [
     label: "Requirements",
     icon: ClipboardList,
     href: "requirements",
-  },
-  {
-    id: "sche",
-    label: "Schedules",
-    icon: Calendar,
-    href: "schedules",
   },
 ];

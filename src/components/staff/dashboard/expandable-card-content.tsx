@@ -49,8 +49,8 @@ export const ExpandableCardContent = ({
         </AccordionTrigger>
         <AccordionContent className="pt-3">
           <div className="border border-blue-100 rounded-lg bg-white">
-            <ScrollArea className={`max-h-[${maxHeight}] w-full p-4`}>
-              <div className="prose prose-sm max-w-none">
+            <ScrollArea className="w-full p-4">
+              <div className={`prose prose-sm max-w-none max-h-[${maxHeight}]`}>
                 <Markdown
                   components={{
                     h1: ({ children }) => (

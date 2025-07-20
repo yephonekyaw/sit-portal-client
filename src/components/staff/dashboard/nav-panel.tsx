@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { NAV_ITEMS } from "@/constants/staff/central-dashboard.constants";
+import { NAV_ITEMS } from "@/constants/staff/dashboard.constants";
 import { cn } from "@/lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
 

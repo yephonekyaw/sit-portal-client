@@ -1,12 +1,12 @@
 import { CardContent } from "@/components/ui/card";
 import type { Certificate } from "@/mock/certificates.mock";
 import { Hash, CheckSquare, Upload, ShieldCheck } from "lucide-react";
-import CardBase from "../central-dashboard/card-base";
-import CardHeaderSection from "../central-dashboard/card-header-section";
-import ExpandableCardContent from "../central-dashboard/expandable-card-content";
-import CardInfoItem from "../central-dashboard/card-info-item";
-import CardFooter from "../central-dashboard/card-footer";
-import CardInfoSection from "../central-dashboard/card-info-section";
+import CardBase from "../dashboard/card-base";
+import CardHeaderSection from "../dashboard/card-header-section";
+import ExpandableCardContent from "../dashboard/expandable-card-content";
+import CardInfoItem from "../dashboard/card-info-item";
+import CardFooter from "../dashboard/card-footer";
+import CardInfoSection from "../dashboard/card-info-section";
 
 const CertificateCard = ({ certificate }: { certificate: Certificate }) => {
   return (

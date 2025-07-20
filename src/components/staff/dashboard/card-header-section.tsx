@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, XCircle, Edit, Trash2, TicketCheck } from "lucide-react";
-import { getInitials } from "@/utils/staff/central-dashboard.utils";
+import { getInitials } from "@/utils/staff/dashboard.utils";
 
 interface CardHeaderSectionProps {
   title: string;

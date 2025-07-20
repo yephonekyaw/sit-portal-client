@@ -36,8 +36,8 @@ export const NAVIGATION_CONFIG: {
       icon: SquareDashedKanban,
       children: [
         {
-          label: "Central Dashboard",
-          href: "/staff/student-management/central-dashboard",
+          label: "Dashboard",
+          href: "/staff/student-management/dashboard",
           icon: BarChart3,
         },
         {

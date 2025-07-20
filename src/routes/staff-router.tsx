@@ -1,10 +1,11 @@
 import StaffApp from "@/apps/staff-app";
-import CentralDashboardBaseLayout from "@/pages/staff/central-db-base-layout";
+import DashboardBaseLayout from "@/pages/staff/dashboard-base-layout";
 import CertificatesPage from "@/pages/staff/certificates-page";
 import DataImportPage from "@/pages/staff/data-import-page";
 import ProgramRequirementsPage from "@/pages/staff/prog-reqs-page";
 import ProgramsPage from "@/pages/staff/programs-page";
 import SchedulesPage from "@/pages/staff/schedules-page";
+import SubmissionsPage from "@/pages/staff/submissions-page";
 
 const staffRouter = [
   {
@@ -12,30 +13,39 @@ const staffRouter = [
     element: <StaffApp />,
     children: [
       {
-        path: "student-management/central-dashboard",
-        element: <CentralDashboardBaseLayout />,
+        path: "student-management",
         children: [
           {
-            path: "programs",
-            element: <ProgramsPage />,
+            path: "data-import",
+            element: <DataImportPage />,
           },
           {
-            path: "certificates",
-            element: <CertificatesPage />,
+            path: "submissions",
+            element: <SubmissionsPage />,
           },
           {
-            path: "requirements",
-            element: <ProgramRequirementsPage />,
-          },
-          {
-            path: "schedules",
-            element: <SchedulesPage />,
+            path: "dashboard",
+            element: <DashboardBaseLayout />,
+            children: [
+              {
+                path: "programs",
+                element: <ProgramsPage />,
+              },
+              {
+                path: "certificates",
+                element: <CertificatesPage />,
+              },
+              {
+                path: "requirements",
+                element: <ProgramRequirementsPage />,
+              },
+              {
+                path: "schedules",
+                element: <SchedulesPage />,
+              },
+            ],
           },
         ],
-      },
-      {
-        path: "student-management/data-import",
-        element: <DataImportPage />,
       },
     ],
   },

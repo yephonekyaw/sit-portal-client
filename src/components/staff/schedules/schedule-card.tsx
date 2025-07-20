@@ -1,15 +1,12 @@
 import type { Schedule } from "@/mock/schedules.mock";
-import CardBase from "../central-dashboard/card-base";
-import CardHeaderSection from "../central-dashboard/card-header-section";
+import CardBase from "../dashboard/card-base";
+import CardHeaderSection from "../dashboard/card-header-section";
 import { CardContent } from "@/components/ui/card";
-import CardInfoSection from "../central-dashboard/card-info-section";
-import CardInfoItem from "../central-dashboard/card-info-item";
-import CardFooter from "../central-dashboard/card-footer";
+import CardInfoSection from "../dashboard/card-info-section";
+import CardInfoItem from "../dashboard/card-info-item";
+import CardFooter from "../dashboard/card-footer";
 import { Hash, Clock, GraduationCap, CalendarDays } from "lucide-react";
-import {
-  formatDate,
-  isDeadlinePassed,
-} from "@/utils/staff/central-dashboard.utils";
+import { formatDate, isDeadlinePassed } from "@/utils/staff/dashboard.utils";
 
 const ScheduleCard = ({ schedule }: { schedule: Schedule }) => {
   return (

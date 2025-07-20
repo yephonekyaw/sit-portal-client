@@ -1,11 +1,11 @@
 import { CardContent } from "@/components/ui/card";
 import { Clock, Users, BookOpen, Hash } from "lucide-react";
 import { type Program } from "@/mock/programs.mock";
-import CardBase from "../central-dashboard/card-base";
-import CardHeaderSection from "../central-dashboard/card-header-section";
-import CardInfoSection from "../central-dashboard/card-info-section";
-import CardInfoItem from "../central-dashboard/card-info-item";
-import CardFooter from "../central-dashboard/card-footer";
+import CardBase from "../dashboard/card-base";
+import CardHeaderSection from "../dashboard/card-header-section";
+import CardInfoSection from "../dashboard/card-info-section";
+import CardInfoItem from "../dashboard/card-info-item";
+import CardFooter from "../dashboard/card-footer";
 
 export default function ProgramCard({ program }: { program: Program }) {
   return (
