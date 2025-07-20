@@ -39,3 +39,9 @@ export const getYearSuffix = (year: number) => {
   if (year === 3) return "3rd Year";
   return `${year}th Year`;
 };
+
+export const isDeadlinePassed = (deadline: string) => {
+  const today = new Date();
+  const deadlineDate = new Date(deadline);
+  return deadlineDate < today;
+};

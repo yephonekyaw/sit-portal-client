@@ -1,7 +1,7 @@
+import CertificateCard from "@/components/staff/certificates/certificate-card";
 import { certificates } from "@/mock/certificates.mock";
-import CertificateCard from "./certificate-card";
 
-const CertificatesSection = () => {
+const CertificatesPage = () => {
   return (
     <div className="space-y-4">
       {certificates.map((certificate) => (
@@ -11,4 +11,4 @@ const CertificatesSection = () => {
   );
 };
 
-export default CertificatesSection;
+export default CertificatesPage;

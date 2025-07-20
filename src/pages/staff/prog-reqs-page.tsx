@@ -1,7 +1,7 @@
 import { programRequirements } from "@/mock/prog-reqs.mock";
-import ProgramRequirementCard from "./prog-req-card";
+import ProgramRequirementCard from "@/components/staff/prog-requirements/prog-req-card";
 
-const ProgramRequirementsSection = () => {
+const ProgramRequirementsPage = () => {
   return (
     <div className="space-y-4">
       {programRequirements.map((requirement) => (
@@ -14,4 +14,4 @@ const ProgramRequirementsSection = () => {
   );
 };
 
-export default ProgramRequirementsSection;
+export default ProgramRequirementsPage;

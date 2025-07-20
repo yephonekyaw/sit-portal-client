@@ -6,17 +6,18 @@ import {
 } from "@/utils/staff/central-dashboard.utils";
 import {
   AlertCircle,
-  Calendar,
+  Hash,
   Clock,
   GraduationCap,
   Target,
+  RotateCcw,
 } from "lucide-react";
-import CardBase from "./card-base";
-import CardHeaderSection from "./card-header-section";
-import ExpandableCardContent from "./expandable-card-content";
-import CardInfoSection from "./card-info-section";
-import CardInfoItem from "./card-info-item";
-import CardFooter from "./card-footer";
+import CardBase from "../central-dashboard/card-base";
+import CardHeaderSection from "../central-dashboard/card-header-section";
+import ExpandableCardContent from "../central-dashboard/expandable-card-content";
+import CardInfoSection from "../central-dashboard/card-info-section";
+import CardInfoItem from "../central-dashboard/card-info-item";
+import CardFooter from "../central-dashboard/card-footer";
 
 const ProgramRequirementCard = ({
   requirement,
@@ -26,8 +27,11 @@ const ProgramRequirementCard = ({
   return (
     <CardBase>
       <CardHeaderSection
-        title={requirement.certificate_type.name}
-        code={requirement.certificate_type.code}
+        title={requirement.name}
+        codes={[
+          requirement.certificate_type.code,
+          requirement.program.program_code,
+        ]}
         isActive={requirement.is_active}
         onEdit={() => console.log("Edit requirement")}
         onDelete={() => console.log("Delete requirement")}
@@ -48,14 +52,12 @@ const ProgramRequirementCard = ({
 
         <CardInfoSection>
           <CardInfoItem
-            icon={<Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />}
-            iconBgColor="bg-blue-100"
+            icon={Hash}
             label="Requirement ID"
             value={`${requirement.id.slice(0, 8)}...`}
           />
           <CardInfoItem
-            icon={<Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />}
-            iconBgColor="bg-blue-100"
+            icon={Clock}
             label="Deadline"
             value={getDeadlineString(
               requirement.deadline_month,
@@ -63,40 +65,27 @@ const ProgramRequirementCard = ({
             )}
           />
           <CardInfoItem
-            icon={<Target className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600" />}
-            iconBgColor="bg-indigo-100"
+            icon={Target}
             label="Target Year"
             value={getYearSuffix(requirement.target_year)}
           />
           <CardInfoItem
-            icon={<Clock className="h-4 w-4 sm:h-5 sm:w-5 text-amber-600" />}
-            iconBgColor="bg-amber-100"
+            icon={RotateCcw}
             label="Recurrence"
-            value={requirement.recurrence_type}
+            value={
+              requirement.recurrence_type[0].toUpperCase() +
+              requirement.recurrence_type.slice(1)
+            }
           />
           <CardInfoItem
-            icon={
-              <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600" />
-            }
-            iconBgColor="bg-red-100"
+            icon={AlertCircle}
             label="Status"
             value={requirement.is_mandatory ? "Mandatory" : "Optional"}
           />
           <CardInfoItem
-            icon={
-              <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
-            }
-            iconBgColor="bg-blue-100"
-            label="Program Name"
-            value={requirement.program.name}
-          />
-          <CardInfoItem
-            icon={
-              <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
-            }
-            iconBgColor="bg-blue-100"
+            icon={GraduationCap}
             label="Program Code"
-            value={requirement.program.code}
+            value={requirement.program.program_code}
           />
         </CardInfoSection>
 

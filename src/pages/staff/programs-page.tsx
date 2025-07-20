@@ -1,7 +1,7 @@
+import ProgramCard from "@/components/staff/programs/program-card";
 import { programs } from "@/mock/programs.mock";
-import ProgramCard from "./program-card";
 
-const ProgramsSection = () => {
+const ProgramsPage = () => {
   return (
     <div className="space-y-4">
       {programs.map((program) => (
@@ -11,4 +11,4 @@ const ProgramsSection = () => {
   );
 };
 
-export default ProgramsSection;
+export default ProgramsPage;

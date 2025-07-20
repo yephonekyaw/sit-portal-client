@@ -1,6 +1,10 @@
 import StaffApp from "@/apps/staff-app";
-import CentralDashboardPage from "@/pages/staff/central-dashboard-page";
+import CentralDashboardBaseLayout from "@/pages/staff/central-db-base-layout";
+import CertificatesPage from "@/pages/staff/certificates-page";
 import DataImportPage from "@/pages/staff/data-import-page";
+import ProgramRequirementsPage from "@/pages/staff/prog-reqs-page";
+import ProgramsPage from "@/pages/staff/programs-page";
+import SchedulesPage from "@/pages/staff/schedules-page";
 
 const staffRouter = [
   {
@@ -9,7 +13,25 @@ const staffRouter = [
     children: [
       {
         path: "student-management/central-dashboard",
-        element: <CentralDashboardPage />,
+        element: <CentralDashboardBaseLayout />,
+        children: [
+          {
+            path: "programs",
+            element: <ProgramsPage />,
+          },
+          {
+            path: "certificates",
+            element: <CertificatesPage />,
+          },
+          {
+            path: "requirements",
+            element: <ProgramRequirementsPage />,
+          },
+          {
+            path: "schedules",
+            element: <SchedulesPage />,
+          },
+        ],
       },
       {
         path: "student-management/data-import",

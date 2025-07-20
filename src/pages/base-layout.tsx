@@ -1,15 +1,15 @@
 import type React from "react";
 import { Navbar } from "@/components/nav/navbar";
 
-interface TemplatePageProps {
+interface BaseLayoutProps {
   includeNavbar?: boolean;
   children: React.ReactNode;
 }
 
-export default function TemplatePage({
+export default function BaseLayout({
   includeNavbar,
   children,
-}: TemplatePageProps) {
+}: BaseLayoutProps) {
   return (
     <div className="min-h-screen">
       {includeNavbar && <Navbar />}

@@ -1,7 +1,8 @@
 export const programRequirements = [
   {
     id: "24d41114-de56-468e-a967-5b79846a6661",
-    program: { code: "CS-BSc", name: "Computer Science" },
+    name: "CITI RCR Certificate for CS-BSc",
+    program: { program_code: "CS-BSc" },
     certificate_type: {
       code: "CITI_RCR_CERT",
       name: "Responsible Conduct of Research (RCR) Certificate",

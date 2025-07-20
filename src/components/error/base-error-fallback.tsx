@@ -9,7 +9,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import TemplatePage from "@/pages/template-page";
+import BaseLayout from "@/pages/base-layout";
 
 interface BaseErrorFallbackProps {
   error: Error;
@@ -21,7 +21,7 @@ export const BaseErrorFallback: React.FC<BaseErrorFallbackProps> = ({
   resetErrorBoundary,
 }) => {
   return (
-    <TemplatePage includeNavbar={false}>
+    <BaseLayout includeNavbar={false}>
       <div className="w-full h-screen flex items-center justify-center">
         <Card className="relative z-10 w-[400px] bg-white/80 border-0">
           <CardHeader>
@@ -70,6 +70,6 @@ export const BaseErrorFallback: React.FC<BaseErrorFallbackProps> = ({
           </CardFooter>
         </Card>
       </div>
-    </TemplatePage>
+    </BaseLayout>
   );
 };

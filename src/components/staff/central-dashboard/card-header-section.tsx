@@ -2,23 +2,25 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, XCircle, Edit, Trash2 } from "lucide-react";
+import { CheckCircle, XCircle, Edit, Trash2, TicketCheck } from "lucide-react";
 import { getInitials } from "@/utils/staff/central-dashboard.utils";
 
 interface CardHeaderSectionProps {
   title: string;
-  code: string;
+  codes: string[];
   isActive: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
+  onClickVerify?: () => void;
 }
 
 const CardHeaderSection = ({
   title,
-  code,
+  codes,
   isActive,
   onEdit,
   onDelete,
+  onClickVerify,
 }: CardHeaderSectionProps) => {
   return (
     <CardHeader>
@@ -33,12 +35,17 @@ const CardHeaderSection = ({
             <CardTitle className="text-lg font-semibold text-slate-900 leading-tight">
               {title}
             </CardTitle>
-            <Badge
-              variant="outline"
-              className="mt-1.5 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-50 hover:text-blue-700"
-            >
-              {code}
-            </Badge>
+            <div className="flex flex-wrap gap-1.5">
+              {codes.map((code, index) => (
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="mt-1.5 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  {code}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
         <div className="flex items-center gap-2 self-start">
@@ -77,6 +84,17 @@ const CardHeaderSection = ({
             >
               <Trash2 className="h-4 w-4" />
               <span className="sr-only">Delete</span>
+            </Button>
+          )}
+          {onClickVerify && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="bg-blue-100 outline-none shadow-none border-none text-blue-600 hover:bg-blue-200 hover:text-blue-700 cursor-pointer transition-all duration-200 rounded-lg px-3 py-2 font-medium"
+              onClick={onClickVerify}
+            >
+              <TicketCheck className="h-4 w-4 mr-2" />
+              Verify
             </Button>
           )}
         </div>

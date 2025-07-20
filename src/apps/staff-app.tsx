@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import { BaseErrorFallback } from "@/components/error/base-error-fallback";
-import TemplatePage from "@/pages/template-page";
 import { useNavConfigStore } from "@/stores/nav.stores";
+import BaseLayout from "@/pages/base-layout";
 
 const StaffApp = () => {
   const setNavRole = useNavConfigStore((state) => state.setNavRole);
@@ -17,9 +17,9 @@ const StaffApp = () => {
       FallbackComponent={BaseErrorFallback}
       onReset={() => window.location.reload()}
     >
-      <TemplatePage includeNavbar>
+      <BaseLayout includeNavbar>
         <Outlet />
-      </TemplatePage>
+      </BaseLayout>
     </ErrorBoundary>
   );
 };
