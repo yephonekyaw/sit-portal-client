@@ -14,16 +14,6 @@ export const getProgramColor = (programCode: string): string => {
   );
 };
 
-export const getInitials = (firstName: string, lastName: string): string => {
-  return (
-    firstName.charAt(0).toUpperCase() + (lastName.charAt(0).toUpperCase() || "")
-  );
-};
-
-export const formatFileSize = (bytes: number): string => {
-  return `${(bytes / 1024).toFixed(2)} KB`;
-};
-
 export const isFileSupported = (fileType: string): boolean => {
   return SUPPORTED_FILE_TYPES.includes(
     fileType as (typeof SUPPORTED_FILE_TYPES)[number]

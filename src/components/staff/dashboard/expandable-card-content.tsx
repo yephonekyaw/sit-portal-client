@@ -5,19 +5,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import type { ExpandableCardContentProps } from "@/types/staff/dashboard.types";
 import { FileText } from "lucide-react";
 import Markdown from "react-markdown";
-
-interface ExpandableCardContentProps {
-  title: string;
-  subtitle: string;
-  content: string;
-  value: string;
-  borderColor: string;
-  bgColor: string;
-  textColor: string;
-  maxHeight?: string;
-}
 
 export const ExpandableCardContent = ({
   title,

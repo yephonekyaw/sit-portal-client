@@ -6,7 +6,8 @@ import CardInfoSection from "../dashboard/card-info-section";
 import CardInfoItem from "../dashboard/card-info-item";
 import CardFooter from "../dashboard/card-footer";
 import { Hash, Clock, GraduationCap, CalendarDays } from "lucide-react";
-import { formatDate, isDeadlinePassed } from "@/utils/staff/dashboard.utils";
+import { isDeadlinePassed } from "@/utils/staff/dashboard.utils";
+import { formatDate } from "@/utils/shared.utils";
 
 const ScheduleCard = ({ schedule }: { schedule: Schedule }) => {
   return (
@@ -27,7 +28,7 @@ const ScheduleCard = ({ schedule }: { schedule: Schedule }) => {
           <CardInfoItem
             icon={Clock}
             label="Submission Deadline"
-            value={formatDate(schedule.submission_deadline)}
+            value={formatDate(schedule.submission_deadline, {})}
           />
           <CardInfoItem
             icon={GraduationCap}

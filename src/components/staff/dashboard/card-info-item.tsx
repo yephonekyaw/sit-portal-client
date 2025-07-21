@@ -1,15 +1,7 @@
 import { cn } from "@/lib/utils";
-import type { LucideIcon } from "lucide-react";
+import type { CardInfoItemProps } from "@/types/staff/dashboard.types";
 
-const CardInfoItem = ({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: LucideIcon;
-  label: string;
-  value: string | number;
-}) => {
+const CardInfoItem = ({ icon: Icon, label, value }: CardInfoItemProps) => {
   return (
     <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 text-xs sm:text-sm">
       <div className={cn("p-1.5 sm:p-2 rounded-lg bg-blue-100")}>

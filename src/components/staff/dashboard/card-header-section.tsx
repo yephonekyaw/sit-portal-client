@@ -2,17 +2,9 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
+import type { CardHeaderSectionProps } from "@/types/staff/dashboard.types";
+import { getInitialsOneInput } from "@/utils/shared.utils";
 import { CheckCircle, XCircle, Edit, Trash2, TicketCheck } from "lucide-react";
-import { getInitials } from "@/utils/staff/dashboard.utils";
-
-interface CardHeaderSectionProps {
-  title: string;
-  codes: string[];
-  isActive: boolean;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  onClickVerify?: () => void;
-}
 
 const CardHeaderSection = ({
   title,
@@ -28,7 +20,7 @@ const CardHeaderSection = ({
         <div className="flex items-center gap-3 sm:gap-4">
           <Avatar className="h-12 w-12 sm:h-14 sm:w-14 bg-gradient-to-br from-blue-500 to-blue-600">
             <AvatarFallback className="bg-transparent text-white font-bold text-sm">
-              {getInitials(title)}
+              {getInitialsOneInput(title)}
             </AvatarFallback>
           </Avatar>
           <div>

@@ -1,10 +1,5 @@
 import { Card } from "@/components/ui/card";
-import type { ReactNode } from "react";
-
-interface CardBaseProps {
-  children: ReactNode;
-  className?: string;
-}
+import type { CardBaseProps } from "@/types/staff/dashboard.types";
 
 const CardBase = ({ children, className = "" }: CardBaseProps) => {
   return (

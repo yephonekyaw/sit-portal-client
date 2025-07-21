@@ -16,7 +16,7 @@ const DesktopNavRecursiveRender = ({
   return (
     <div
       className={cn(
-        "flex",
+        "flex min-w-full justify-center",
         horizontal ? "flex-row items-center space-x-2" : "flex-col space-y-2"
       )}
     >
@@ -49,7 +49,7 @@ const DesktopNavRecursiveRender = ({
               side={horizontal ? "bottom" : "right"}
               align="start"
               className={cn(
-                "w-full rounded-xl border border-gray-200/80 bg-white/95 backdrop-blur-sm p-3 shadow-xl",
+                "min-w-full rounded-xl border border-gray-200/80 bg-white/95 backdrop-blur-sm p-3 shadow-none",
                 "animate-in fade-in-0 zoom-in-95 duration-200",
                 "ring-1 ring-gray-900/5"
               )}

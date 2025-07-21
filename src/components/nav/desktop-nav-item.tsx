@@ -38,9 +38,7 @@ const DesktopNavItem = ({
           <div
             className={cn(
               "p-2 rounded-full transition-all duration-200 flex items-center justify-center",
-              isActive
-                ? "bg-blue-100/80"
-                : "bg-gray-100/60 group-hover:bg-blue-100/80"
+              isActive ? "bg-blue-100" : "bg-gray-100 group-hover:bg-blue-100"
             )}
           >
             <Icon

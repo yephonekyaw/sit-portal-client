@@ -1,9 +1,5 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import type { ReactNode } from "react";
-
-interface CardInfoSectionProps {
-  children: ReactNode;
-}
+import type { CardInfoSectionProps } from "@/types/staff/dashboard.types";
 
 const CardInfoSection = ({ children }: CardInfoSectionProps) => {
   return (

@@ -34,7 +34,7 @@ export default function MobileNavItem({
         className={cn(
           "w-full justify-between h-14 px-4 text-left transition-all duration-200 rounded-full disabled:opacity-50",
           isActive
-            ? "bg-gradient-to-r from-blue-50 to-blue-50/80 hover:from-blue-100 hover:to-blue-100/80 border border-blue-200/50"
+            ? "bg-gradient-to-r from-blue-50 to-blue-50/80 border border-blue-200/50"
             : "hover:bg-gray-100 border border-transparent"
         )}
       >

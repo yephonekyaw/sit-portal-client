@@ -1,9 +1,5 @@
-import { formatDate } from "@/utils/staff/dashboard.utils";
-
-interface CardFooterProps {
-  createdAt: string;
-  updatedAt: string;
-}
+import type { CardFooterProps } from "@/types/staff/dashboard.types";
+import { formatDate } from "@/utils/shared.utils";
 
 const CardFooter = ({ createdAt, updatedAt }: CardFooterProps) => {
   return (
@@ -11,13 +7,13 @@ const CardFooter = ({ createdAt, updatedAt }: CardFooterProps) => {
       <div className="flex items-center gap-4">
         <span className="text-slate-500">Created:</span>
         <span className="text-slate-700 font-medium">
-          {formatDate(createdAt)}
+          {formatDate(createdAt, {})}
         </span>
       </div>
       <div className="flex items-center gap-4">
         <span className="text-slate-500">Updated:</span>
         <span className="text-slate-700 font-medium">
-          {formatDate(updatedAt)}
+          {formatDate(updatedAt, {})}
         </span>
       </div>
     </div>

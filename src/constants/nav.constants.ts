@@ -1,6 +1,5 @@
 import type { NavigationItem } from "@/types/nav.types";
 import {
-  FileText,
   BarChart3,
   Upload,
   CheckCircle,
@@ -46,14 +45,9 @@ export const NAVIGATION_CONFIG: {
           icon: Upload,
         },
         {
-          label: "Certificate Verification",
-          href: "/staff/student-management/certificate-verification",
+          label: "Submissions",
+          href: "/staff/student-management/submissions",
           icon: CheckCircle,
-        },
-        {
-          label: "Program Requirements",
-          href: "/staff/student-management/program-requirements",
-          icon: FileText,
         },
       ],
     },

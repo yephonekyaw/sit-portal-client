@@ -18,7 +18,7 @@ import type {
   FileParsedTableRowStudentRecord as Record,
   StudentDataImportColumnsProps,
 } from "@/types/staff/data-import.types";
-import { getInitials, getProgramColor } from "@/utils/staff/data-import.utils";
+import { getProgramColor } from "@/utils/staff/data-import.utils";
 import { PROGRAM_OPTIONS } from "@/constants/staff/data-import.constants";
 import {
   DropdownMenu,
@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import ActionButtons from "./action-buttons";
+import { getInitialsTwoInputs } from "@/utils/shared.utils";
 
 let ACADEMIC_YEARS: { value: string; label: string }[] = [];
 
@@ -107,7 +108,7 @@ export const columns = ({
     cell: ({ row }) => {
       const firstName = row.original.firstName as string;
       const lastName = row.original.lastName as string;
-      const initials = getInitials(firstName, lastName);
+      const initials = getInitialsTwoInputs(firstName, lastName);
       const programCode = row.original.programCode;
 
       return (
