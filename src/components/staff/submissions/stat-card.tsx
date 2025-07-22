@@ -69,11 +69,6 @@ const StatCard = ({
             </div>
           ))}
         </div>
-
-        {/* Bottom accent */}
-        <div className="mt-4 pt-3 border-t border-blue-100/50">
-          <div className="h-0.5 sm:h-1 bg-blue-200 rounded-full opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-        </div>
       </CardContent>
     </Card>
   );

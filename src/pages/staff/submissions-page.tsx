@@ -1,7 +1,7 @@
 import GridView from "@/components/staff/submissions/grid-view";
 import PageHeader from "@/components/staff/submissions/page-header";
 import StatCardsSection from "@/components/staff/submissions/stat-cards-section";
-import SubmissionDetailSheet from "@/components/staff/submissions/submission-detail-dialog";
+import SubmissionDetailSheet from "@/components/staff/submissions/submission-detail-sheet";
 
 import { dashboardStats } from "@/mock/dashboard-stats.mock";
 import { submissions } from "@/mock/submissions.mock";
