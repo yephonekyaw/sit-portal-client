@@ -62,14 +62,14 @@ const VerificationHistoryComp = () => {
               <p className="text-sm mb-4">{history.comments}</p>
 
               <div className="flex items-center space-x-3 text-sm">
-                <Badge className={`${oldStatusConfig.color} shadow-sm`}>
+                <Badge className={`${oldStatusConfig.color}`}>
                   <oldStatusConfig.icon
                     className={`h-3 w-3 mr-1 ${oldStatusConfig.iconColor}`}
                   />
                   {oldStatusConfig.label}
                 </Badge>
                 <ArrowRight className="h-4 w-4 text-slate-400" />
-                <Badge className={`${newStatusConfig.color} shadow-sm`}>
+                <Badge className={`${newStatusConfig.color}`}>
                   <newStatusConfig.icon
                     className={`h-3 w-3 mr-1 ${newStatusConfig.iconColor}`}
                   />

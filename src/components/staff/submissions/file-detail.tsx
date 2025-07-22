@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import type { Submission } from "@/mock/submissions.mock";
+import type { Submission } from "@/types/staff/submission.types";
 import { formatDate, formatFileSize } from "@/utils/shared.utils";
 import {
   Bot,
@@ -12,8 +12,13 @@ import {
   FileText,
   ImageIcon,
 } from "lucide-react";
+import { memo } from "react";
 
-const FileDetails = ({ submission }: { submission: Submission }) => (
+interface FileDetailsProps {
+  submission: Submission;
+}
+
+const FileDetails = ({ submission }: FileDetailsProps) => (
   <div className="space-y-4">
     {/* File Info */}
     <Card className="shadow-none border border-blue-100">
@@ -123,4 +128,4 @@ const FileDetails = ({ submission }: { submission: Submission }) => (
   </div>
 );
 
-export default FileDetails;
+export default memo(FileDetails);

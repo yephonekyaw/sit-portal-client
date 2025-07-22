@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { StatCardProps } from "@/types/staff/submission.types";
+import { memo } from "react";
 
 const StatCard = ({
   title,
@@ -74,4 +75,4 @@ const StatCard = ({
   );
 };
 
-export default StatCard;
+export default memo(StatCard);

@@ -5,21 +5,27 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { submissions } from "@/mock/submissions.mock";
+import { useSubmissionDetailSheet } from "@/stores/staff/submission-detail.stores";
 import { useState } from "react";
 import VerificationHistoryComp from "./verification-history";
 import SubmissionOverview from "./submission-overview";
 import FileDetails from "./file-detail";
 
 const SubmissionDetailSheet = () => {
-  const submission = submissions[0];
+  const { selectedSubmission, isDetailSheetOpen, closeDetailSheet } = useSubmissionDetailSheet();
   const [activeTab, setActiveTab] = useState("details");
 
+  if (!selectedSubmission) {
+    return null;
+  }
+
   return (
-    <Sheet>
+    <Sheet open={isDetailSheetOpen} onOpenChange={closeDetailSheet}>
       <SheetContent className="w-full sm:max-w-2xl lg:max-w-4xl overflow-y-auto px-6 pb-4">
         <SheetHeader className="px-0">
-          <SheetTitle className="text-xl">Submission Details</SheetTitle>
+          <SheetTitle className="text-xl">
+            Submission Details - {selectedSubmission.student.user.first_name} {selectedSubmission.student.user.last_name}
+          </SheetTitle>
         </SheetHeader>
 
         <div className="space-y-6">
@@ -38,8 +44,8 @@ const SubmissionDetailSheet = () => {
             </TabsList>
 
             <TabsContent value="details" className="space-y-4">
-              <SubmissionOverview submission={submission} />
-              <FileDetails submission={submission} />
+              <SubmissionOverview submission={selectedSubmission} />
+              <FileDetails submission={selectedSubmission} />
             </TabsContent>
 
             <TabsContent value="history" className="space-y-6">

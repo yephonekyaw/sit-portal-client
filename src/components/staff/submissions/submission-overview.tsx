@@ -2,10 +2,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
-import type { Submission } from "@/mock/submissions.mock";
+import type { Submission } from "@/types/staff/submission.types";
 import { formatDate, getInitialsTwoInputs } from "@/utils/shared.utils";
+import { memo } from "react";
 
-const SubmissionOverview = ({ submission }: { submission: Submission }) => {
+interface SubmissionOverviewProps {
+  submission: Submission;
+}
+
+const SubmissionOverview = ({ submission }: SubmissionOverviewProps) => {
   const statusConfig =
     SUBMISSION_STATUS_CONFIGS[
       submission.status as keyof typeof SUBMISSION_STATUS_CONFIGS
@@ -107,4 +112,4 @@ const SubmissionOverview = ({ submission }: { submission: Submission }) => {
   );
 };
 
-export default SubmissionOverview;
+export default memo(SubmissionOverview);

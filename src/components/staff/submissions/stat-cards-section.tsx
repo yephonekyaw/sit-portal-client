@@ -11,16 +11,31 @@ import { CheckCircle, Clock, FileCheck, Users } from "lucide-react";
 import StatCard from "./stat-card";
 import { STAT_CARD_COLOR_PALETTES } from "@/constants/staff/submission.constants";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { dashboardStats } from "@/mock/dashboard-stats.mock";
+import { useSubmissionsFilters } from "@/stores/staff/submissions-filter.stores";
+import {
+  useDashboardStats,
+  useDashboardStatsFilters,
+} from "@/stores/staff/dashboard-stats.stores";
+import { useEffect } from "react";
+
+interface StatCardsSectionProps {
+  statsDrawerOpen: boolean;
+  setStatsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const StatCardsSection = ({
   statsDrawerOpen,
   setStatsDrawerOpen,
-}: {
-  statsDrawerOpen: boolean;
-  setStatsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const stats = dashboardStats[0];
+}: StatCardsSectionProps) => {
+  // Get current filter values (only academic year and requirement schedule for stats)
+  const { filters } = useSubmissionsFilters();
+  const { updateFilters } = useDashboardStatsFilters();
+  const { stats, error } = useDashboardStats();
+
+  // Sync dashboard stats filters with submission filters (only academicYear and requirementScheduleId)
+  useEffect(() => {
+    updateFilters(filters.academicYear, filters.requirementScheduleId);
+  }, [filters.academicYear, filters.requirementScheduleId, updateFilters]);
 
   const totalTimingSubmissions =
     stats.on_time_submissions + stats.late_submissions + stats.overdue_count;
@@ -42,6 +57,12 @@ const StatCardsSection = ({
 
             <ScrollArea className="">
               <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-h-[60vh]">
+                {error && (
+                  <div className="text-red-600 text-sm mb-4 p-3 bg-red-50 rounded-lg border border-red-200">
+                    Error loading stats: {error}
+                  </div>
+                )}
+
                 <div className="grid gap-4 grid-cols-1 md:grid-cols-2 mt-2">
                   {/* Required Submissions */}
                   <StatCard

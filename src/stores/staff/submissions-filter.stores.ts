@@ -4,150 +4,132 @@ import { subscribeWithSelector } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 import { useParams } from "react-router-dom";
 import { submissions } from "@/mock/submissions.mock";
+import { unsubmittedStudents } from "@/mock/unsubmitted-students.mock";
+import {
+  applySubmissionFilters,
+  applyUnsubmittedFilters,
+} from "@/utils/staff/submission-filters.utils";
+import {
+  applyPagination,
+  calculatePaginationMeta,
+} from "@/utils/staff/pagination.utils";
+import { isEqual } from "@/utils/shared/deep-equality.utils";
 import type {
   Submission,
+  UnsubmittedStudent,
   SubmissionFilters,
   SubmissionsFilterStoreState,
   SubmissionStatus,
+  ViewMode,
 } from "@/types/staff/submission.types";
 
+// Constants
 const getCurrentYear = () => new Date().getFullYear().toString();
+const DEFAULT_PAGE_SIZE = 24;
 
-const applyFilters = (
-  submissions: Submission[],
-  filters: SubmissionFilters
-): Submission[] => {
-  return submissions.filter((submission) => {
-    // Academic year filter (always required)
-    if (
-      submission.requirement_schedule.academic_year.year_code !==
-      filters.academicYear
-    ) {
-      return false;
-    }
+// Helper function to create initial filters
+const createInitialFilters = (): SubmissionFilters => ({
+  academicYear: getCurrentYear(),
+  requirementScheduleId: undefined,
+  status: undefined,
+  search: undefined,
+  viewMode: "submitted",
+});
 
-    // Requirement schedule ID filter
-    if (
-      filters.requirementScheduleId &&
-      submission.requirement_schedule.id !== filters.requirementScheduleId
-    ) {
-      return false;
-    }
-
-    // Status filter
-    if (filters.status && submission.status !== filters.status) {
-      return false;
-    }
-
-    // Search filter (search in student name, email, roll number)
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase().trim();
-      if (searchLower) {
-        const fullName =
-          `${submission.student.user.first_name} ${submission.student.user.last_name}`.toLowerCase();
-        const studentMatch =
-          submission.student.user.first_name
-            .toLowerCase()
-            .includes(searchLower) ||
-          submission.student.user.last_name
-            .toLowerCase()
-            .includes(searchLower) ||
-          fullName.includes(searchLower) ||
-          submission.student.user.email.toLowerCase().includes(searchLower) ||
-          submission.student.roll_number.toLowerCase().includes(searchLower);
-
-        if (!studentMatch) {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  });
-};
-
-const applyPagination = (
-  submissions: Submission[],
-  page: number,
+// Helper function to compute filtered and paginated data
+const computeDerivedData = (
+  allSubmissions: Submission[],
+  allUnsubmittedStudents: UnsubmittedStudent[],
+  filters: SubmissionFilters,
+  currentPage: number,
   pageSize: number
-): Submission[] => {
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  return submissions.slice(startIndex, endIndex);
-};
+) => {
+  // Apply filters
+  const filteredSubmissions = applySubmissionFilters(allSubmissions, filters);
+  const filteredUnsubmitted = applyUnsubmittedFilters(
+    allUnsubmittedStudents,
+    filters
+  );
 
-const getInitialDerivedState = () => {
-  const currentYear = getCurrentYear();
-  const initialFilters: SubmissionFilters = {
-    academicYear: currentYear,
-    requirementScheduleId: undefined,
-    status: undefined,
-    search: undefined,
-  };
+  // Determine current dataset based on view mode
+  const currentData =
+    filters.viewMode === "submitted"
+      ? filteredSubmissions
+      : filteredUnsubmitted;
 
-  const filtered = applyFilters(submissions, initialFilters);
-  const totalPages = Math.max(1, Math.ceil(filtered.length / 24));
-  const paginated = applyPagination(filtered, 1, 24);
+  // Calculate pagination metadata
+  const paginationMeta = calculatePaginationMeta(
+    currentData.length,
+    currentPage,
+    pageSize
+  );
+
+  // Apply pagination
+  const paginatedSubmissions = applyPagination(
+    filteredSubmissions,
+    paginationMeta.page,
+    pageSize
+  );
+  const paginatedUnsubmitted = applyPagination(
+    filteredUnsubmitted,
+    paginationMeta.page,
+    pageSize
+  );
 
   return {
-    filteredSubmissions: filtered,
-    paginatedSubmissions: paginated,
-    pagination: {
-      page: 1,
-      pageSize: 24,
-      totalItems: filtered.length,
-      totalPages,
-    },
+    filteredSubmissions,
+    filteredUnsubmittedStudents: filteredUnsubmitted,
+    paginatedSubmissions,
+    paginatedUnsubmittedStudents: paginatedUnsubmitted,
+    pagination: paginationMeta,
   };
 };
 
+// Initialize derived state with default values
+const getInitialDerivedState = () => {
+  const initialFilters = createInitialFilters();
+  return computeDerivedData(
+    submissions,
+    unsubmittedStudents,
+    initialFilters,
+    1,
+    DEFAULT_PAGE_SIZE
+  );
+};
+
+// Store creation
 export const useSubmissionsFiltersStore = create<SubmissionsFilterStoreState>()(
   subscribeWithSelector((set, get) => {
     const initialDerived = getInitialDerivedState();
+    const initialFilters = createInitialFilters();
 
     return {
-      // Initial state
+      // Data state
       allSubmissions: submissions,
+      allUnsubmittedStudents: unsubmittedStudents,
       ...initialDerived,
 
-      filters: {
-        academicYear: getCurrentYear(),
-        requirementScheduleId: undefined,
-        status: undefined,
-        search: undefined,
-      },
+      // Filter state
+      filters: initialFilters,
 
+      // UI state
       isLoading: false,
       error: null,
 
-      // Internal helper to update derived state
+      // Internal helper to recompute derived state
       _updateDerivedState: () => {
         try {
           const state = get();
-          const filtered = applyFilters(state.allSubmissions, state.filters);
-          const totalPages = Math.max(
-            1,
-            Math.ceil(filtered.length / state.pagination.pageSize)
-          );
-
-          // Ensure page is within bounds
-          const safePage = Math.min(state.pagination.page, totalPages);
-
-          const paginated = applyPagination(
-            filtered,
-            safePage,
+          const derivedData = computeDerivedData(
+            state.allSubmissions,
+            state.allUnsubmittedStudents,
+            state.filters,
+            state.pagination.page,
             state.pagination.pageSize
           );
 
           set({
-            filteredSubmissions: filtered,
-            paginatedSubmissions: paginated,
-            pagination: {
-              ...state.pagination,
-              page: safePage,
-              totalItems: filtered.length,
-              totalPages,
-            },
+            ...derivedData,
             error: null,
           });
         } catch (error) {
@@ -157,7 +139,14 @@ export const useSubmissionsFiltersStore = create<SubmissionsFilterStoreState>()(
         }
       },
 
-      // Actions
+      // Filter actions - all reset to page 1
+      setViewMode: (mode: ViewMode) => {
+        set((state) => ({
+          filters: { ...state.filters, viewMode: mode },
+          pagination: { ...state.pagination, page: 1 },
+        }));
+      },
+
       setAcademicYear: (year: string) => {
         set((state) => ({
           filters: { ...state.filters, academicYear: year },
@@ -186,6 +175,7 @@ export const useSubmissionsFiltersStore = create<SubmissionsFilterStoreState>()(
         }));
       },
 
+      // Pagination actions
       setPage: (page: number) => {
         set((state) => ({
           pagination: { ...state.pagination, page },
@@ -198,6 +188,7 @@ export const useSubmissionsFiltersStore = create<SubmissionsFilterStoreState>()(
         }));
       },
 
+      // Utility actions
       clearAllFilters: () => {
         set((state) => ({
           filters: {
@@ -221,43 +212,14 @@ export const useSubmissionsFiltersStore = create<SubmissionsFilterStoreState>()(
             requirementScheduleId:
               requirementSchedule || state.filters.requirementScheduleId,
           },
-          pagination: {
-            ...state.pagination,
-            page: 1,
-          },
+          pagination: { ...state.pagination, page: 1 },
         }));
       },
     };
   })
 );
 
-// Subscribe to filter and pagination changes to update derived state
-// Use deep comparison for filters and pagination to avoid infinite loops
-const isEqual = (a: unknown, b: unknown): boolean => {
-  if (a === b) return true;
-  if (a == null || b == null) return false;
-  if (typeof a !== "object" || typeof b !== "object") return a === b;
-
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
-
-  if (keysA.length !== keysB.length) return false;
-
-  for (const key of keysA) {
-    if (
-      !keysB.includes(key) ||
-      !isEqual(
-        (a as Record<string, unknown>)[key],
-        (b as Record<string, unknown>)[key]
-      )
-    ) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
+// Auto-update derived state when filters or pagination change
 useSubmissionsFiltersStore.subscribe(
   (state) => ({
     filters: state.filters,
@@ -281,7 +243,56 @@ useSubmissionsFiltersStore.subscribe(
   }
 );
 
-// Debounced search hook
+// =============================================================================
+// HOOKS & SELECTORS
+// =============================================================================
+
+/**
+ * Hook for accessing paginated submissions data and loading states
+ */
+export const useSubmissionsData = () =>
+  useSubmissionsFiltersStore(
+    useShallow((state) => ({
+      paginatedSubmissions: state.paginatedSubmissions,
+      paginatedUnsubmittedStudents: state.paginatedUnsubmittedStudents,
+      isLoading: state.isLoading,
+      error: state.error,
+      totalItems: state.pagination.totalItems,
+      viewMode: state.filters.viewMode,
+    }))
+  );
+
+/**
+ * Hook for managing filters with optimized selectors
+ */
+export const useSubmissionsFilters = () =>
+  useSubmissionsFiltersStore(
+    useShallow((state) => ({
+      filters: state.filters,
+      setViewMode: state.setViewMode,
+      setAcademicYear: state.setAcademicYear,
+      setRequirementScheduleId: state.setRequirementScheduleId,
+      setStatus: state.setStatus,
+      setSearch: state.setSearch,
+      clearAllFilters: state.clearAllFilters,
+    }))
+  );
+
+/**
+ * Hook for pagination controls
+ */
+export const useSubmissionsPagination = () =>
+  useSubmissionsFiltersStore(
+    useShallow((state) => ({
+      pagination: state.pagination,
+      setPage: state.setPage,
+      setPageSize: state.setPageSize,
+    }))
+  );
+
+/**
+ * Debounced search hook to prevent excessive API calls
+ */
 export const useDebouncedSearch = () => {
   const setSearch = useSubmissionsFiltersStore((state) => state.setSearch);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -309,6 +320,9 @@ export const useDebouncedSearch = () => {
   return debouncedSetSearch;
 };
 
+/**
+ * Hook to initialize filters from URL parameters
+ */
 export const useInitializeSubmissionsFromParams = () => {
   const params = useParams();
   const initializeFromParams = useSubmissionsFiltersStore(
@@ -319,38 +333,3 @@ export const useInitializeSubmissionsFromParams = () => {
     initializeFromParams(params.academicYear, params.requirementSchedule);
   }, [params.academicYear, params.requirementSchedule, initializeFromParams]);
 };
-
-export const useSubmissionsPagination = () =>
-  useSubmissionsFiltersStore(
-    useShallow((state) => ({
-      pagination: state.pagination,
-      setPage: state.setPage,
-      setPageSize: state.setPageSize,
-    }))
-  );
-
-// Additional selector hooks for better performance
-export const useSubmissionsData = () =>
-  useSubmissionsFiltersStore(
-    useShallow((state) => ({
-      paginatedSubmissions: state.paginatedSubmissions,
-      isLoading: state.isLoading,
-      error: state.error,
-      totalItems: state.pagination.totalItems,
-    }))
-  );
-
-export const useSubmissionsFilters = () =>
-  useSubmissionsFiltersStore(
-    useShallow((state) => ({
-      filters: state.filters,
-      setAcademicYear: state.setAcademicYear,
-      setRequirementScheduleId: state.setRequirementScheduleId,
-      setStatus: state.setStatus,
-      setSearch: state.setSearch,
-      clearAllFilters: state.clearAllFilters,
-    }))
-  );
-
-// Type exports
-export type { SubmissionStatus };

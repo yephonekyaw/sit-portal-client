@@ -1,24 +1,23 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
-import type { Submission } from "@/mock/submissions.mock";
+import type { Submission } from "@/types/staff/submission.types";
 import { formatDate, formatFileSize } from "@/utils/shared.utils";
 import {
   getFileIcon,
   getConfidenceColor,
 } from "@/utils/staff/submission.utils";
-import { Download, MoreHorizontal, Clock, Bot, Eye } from "lucide-react";
+import { Clock, Bot } from "lucide-react";
+import { memo } from "react";
 
-const GridViewCard = ({ submission }: { submission: Submission }) => {
+interface GridViewCardProps {
+  submission: Submission;
+  onViewDetails?: (submission: Submission) => void;
+}
+
+const GridViewCard = ({ submission, onViewDetails }: GridViewCardProps) => {
   const statusConfig =
     SUBMISSION_STATUS_CONFIGS[
       submission.status as keyof typeof SUBMISSION_STATUS_CONFIGS
@@ -37,14 +36,26 @@ const GridViewCard = ({ submission }: { submission: Submission }) => {
   const confidenceScore = submission.agent_confidence_score;
 
   return (
-    <Card className="group hover:shadow-md hover:ring-1 hover:ring-blue-400/40 transition-all duration-200 border-slate-200 h-fit cursor-pointer">
+    <Card
+      className="group hover:shadow-md hover:ring-1 hover:ring-blue-400/40 transition-all duration-200 border-slate-200 h-fit cursor-pointer"
+      onClick={() => onViewDetails?.(submission)}
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${submission.student.user.first_name} ${submission.student.user.last_name}'s submission`}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onViewDetails?.(submission);
+        }
+      }}
+    >
       <CardContent className="px-4 space-y-3">
         {/* Header */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center space-x-3 flex-1 min-w-0">
             <div className="relative">
-              <Avatar className="h-9 w-9 bg-gradient-to-br from-blue-500 to-blue-600 flex-shrink-0">
-                <AvatarFallback className="bg-transparent text-white font-semibold text-xs">
+              <Avatar className="h-9 w-9 bg-gradient-to-br from-slate-500 to-slate-600 flex-shrink-0">
+                <AvatarFallback className="text-white font-semibold text-xs bg-gradient-to-r from-blue-500 to-blue-600">
                   {`${submission.student.user.first_name[0]}${submission.student.user.last_name[0]}`.toUpperCase()}
                 </AvatarFallback>
               </Avatar>
@@ -60,7 +71,7 @@ const GridViewCard = ({ submission }: { submission: Submission }) => {
             </div>
           </div>
 
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -71,7 +82,7 @@ const GridViewCard = ({ submission }: { submission: Submission }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-36">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onViewDetails?.(submission)}>
                 <Eye className="h-4 w-4 mr-2" />
                 View Details
               </DropdownMenuItem>
@@ -80,7 +91,7 @@ const GridViewCard = ({ submission }: { submission: Submission }) => {
                 Download
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
         </div>
 
         {/* Status and Certificate Badges */}
@@ -157,4 +168,4 @@ const GridViewCard = ({ submission }: { submission: Submission }) => {
   );
 };
 
-export default GridViewCard;
+export default memo(GridViewCard);

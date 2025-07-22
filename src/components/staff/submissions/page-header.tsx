@@ -5,6 +5,10 @@ import {
   BarChart3,
   X,
   Settings2,
+  RotateCcw,
+  FileCheck,
+  FileX,
+  View,
 } from "lucide-react";
 import {
   useSubmissionsFilters,
@@ -35,6 +39,7 @@ const PageHeader = ({
 }) => {
   const {
     filters,
+    setViewMode,
     setAcademicYear,
     setRequirementScheduleId,
     setStatus,
@@ -86,162 +91,207 @@ const PageHeader = ({
         </div>
 
         {/* Filter Controls */}
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-gray-500" />
-            <span className="text-sm font-medium text-gray-700">Filters:</span>
+        <div className="grid gird-cols-1 sm:grid-cols-2 gap-1">
+          <div className="flex items-center justify-between sm:justify-start gap-2">
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-700">
+                Filters:
+              </span>
+            </div>
+
+            {/* Filter Popover */}
+            <Popover
+              open={isFilterPopoverOpen}
+              onOpenChange={setIsFilterPopoverOpen}
+            >
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-white border-blue-200 text-gray-700 hover:bg-blue-50 hover:border-blue-300 text-xs"
+                >
+                  <Settings2 className="h-4 w-4" />
+                  Configure Filters
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-80 bg-white border-blue-200"
+                align="start"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium text-sm text-gray-900">
+                      Filter Options
+                    </h4>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-gray-500 hover:text-gray-700 h-auto p-1"
+                        onClick={() => {
+                          clearAllFilters();
+                          setSearchInput("");
+                        }}
+                        title="Clear all filters"
+                      >
+                        <RotateCcw className="h-3.5 w-3.5" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-gray-500 hover:text-gray-700 h-auto p-1"
+                        onClick={() => setIsFilterPopoverOpen(false)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Academic Year Filter */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Academic Year
+                    </label>
+                    <Select
+                      value={filters.academicYear}
+                      onValueChange={setAcademicYear}
+                    >
+                      <SelectTrigger className="w-full bg-white border-gray-200 text-sm">
+                        <SelectValue placeholder="Select academic year" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="2024">2024</SelectItem>
+                        <SelectItem value="2023">2023</SelectItem>
+                        <SelectItem value="2022">2022</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Program Filter */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-700">
+                      Requirement Schedule
+                    </label>
+                    <Select
+                      value={filters.requirementScheduleId || "all"}
+                      onValueChange={(value) =>
+                        setRequirementScheduleId(
+                          value === "all" ? undefined : value
+                        )
+                      }
+                    >
+                      <SelectTrigger className="w-full bg-white border-gray-200 text-sm">
+                        <SelectValue placeholder="Select requirement schedule" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Schedules</SelectItem>
+                        <SelectItem value="req_schedule_1">
+                          Fall 2024 - CS Program
+                        </SelectItem>
+                        <SelectItem value="req_schedule_2">
+                          Spring 2024 - CS Program
+                        </SelectItem>
+                        <SelectItem value="req_schedule_3">
+                          Fall 2024 - IT Program
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Status Filter */}
+                  <div className="space-y-2">
+                    <label
+                      className={`text-sm font-medium ${
+                        filters.viewMode === "unsubmitted"
+                          ? "text-gray-400"
+                          : "text-gray-700"
+                      }`}
+                    >
+                      Status
+                    </label>
+                    <Select
+                      value={
+                        filters.viewMode === "unsubmitted"
+                          ? "all"
+                          : filters.status || "all"
+                      }
+                      onValueChange={(value) =>
+                        setStatus(
+                          filters.viewMode === "unsubmitted" || value === "all"
+                            ? undefined
+                            : (value as SubmissionStatus)
+                        )
+                      }
+                      disabled={filters.viewMode === "unsubmitted"}
+                    >
+                      <SelectTrigger className="w-full bg-white border-gray-200 text-sm">
+                        <SelectValue placeholder="Select status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="approved">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            Approved
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="pending">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                            Pending
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="rejected">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                            Rejected
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="manual_review">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                            Manual Review
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
-          {/* Filter Popover */}
-          <Popover
-            open={isFilterPopoverOpen}
-            onOpenChange={setIsFilterPopoverOpen}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-white border-blue-200 text-gray-700 hover:bg-blue-50 hover:border-blue-300 text-sm"
+          <div className="flex items-center justify-between sm:justify-end gap-2">
+            <div className="flex items-center gap-2">
+              <View className="h-4 w-4 text-gray-500" />
+              <span className="text-sm font-medium text-gray-700">View:</span>
+            </div>
+            <div className="inline-flex rounded-lg border border-blue-200 bg-white p-1 gap-1">
+              <button
+                onClick={() => setViewMode("submitted")}
+                className={`inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
+                  filters.viewMode === "submitted"
+                    ? "bg-blue-100 text-blue-700"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
               >
-                <Settings2 className="h-4 w-4" />
-                Configure Filters
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-80 bg-white border-blue-200"
-              align="start"
-            >
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <h4 className="font-medium text-sm text-gray-900">
-                    Filter Options
-                  </h4>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-gray-500 hover:text-gray-700 h-auto p-1"
-                    onClick={() => setIsFilterPopoverOpen(false)}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-
-                {/* Academic Year Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">
-                    Academic Year
-                  </label>
-                  <Select
-                    value={filters.academicYear}
-                    onValueChange={setAcademicYear}
-                  >
-                    <SelectTrigger className="w-full bg-white border-gray-200 text-sm">
-                      <SelectValue placeholder="Select academic year" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="2024">2024</SelectItem>
-                      <SelectItem value="2023">2023</SelectItem>
-                      <SelectItem value="2022">2022</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Program Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">
-                    Requirement Schedule
-                  </label>
-                  <Select
-                    value={filters.requirementScheduleId || "all"}
-                    onValueChange={(value) =>
-                      setRequirementScheduleId(
-                        value === "all" ? undefined : value
-                      )
-                    }
-                  >
-                    <SelectTrigger className="w-full bg-white border-gray-200 text-sm">
-                      <SelectValue placeholder="Select requirement schedule" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Schedules</SelectItem>
-                      <SelectItem value="req_schedule_1">
-                        Fall 2024 - CS Program
-                      </SelectItem>
-                      <SelectItem value="req_schedule_2">
-                        Spring 2024 - CS Program
-                      </SelectItem>
-                      <SelectItem value="req_schedule_3">
-                        Fall 2024 - IT Program
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Status Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">
-                    Status
-                  </label>
-                  <Select
-                    value={filters.status || "all"}
-                    onValueChange={(value) =>
-                      setStatus(
-                        value === "all"
-                          ? undefined
-                          : (value as SubmissionStatus)
-                      )
-                    }
-                  >
-                    <SelectTrigger className="w-full bg-white border-gray-200 text-sm">
-                      <SelectValue placeholder="Select status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Status</SelectItem>
-                      <SelectItem value="approved">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                          Approved
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="pending">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-                          Pending
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="rejected">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                          Rejected
-                        </div>
-                      </SelectItem>
-                      <SelectItem value="manual_review">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 rounded-full bg-orange-500"></div>
-                          Manual Review
-                        </div>
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-2 pt-2 border-t border-gray-200">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="w-full text-gray-600 border-gray-300 hover:bg-gray-50"
-                    onClick={() => {
-                      clearAllFilters();
-                      setSearchInput("");
-                    }}
-                  >
-                    Clear All
-                  </Button>
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
+                <FileCheck className="h-3.5 w-3.5" />
+                Submitted
+              </button>
+              <button
+                onClick={() => setViewMode("unsubmitted")}
+                className={`inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
+                  filters.viewMode === "unsubmitted"
+                    ? "bg-orange-100 text-orange-700"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+              >
+                <FileX className="h-3.5 w-3.5" />
+                Unsubmitted
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Active Filters Display */}
@@ -299,6 +349,24 @@ const PageHeader = ({
                 }}
               />
             </Badge>
+          )}
+
+          {/* Clear All Button - only show if there are active filters */}
+          {(filters.requirementScheduleId ||
+            filters.status ||
+            filters.search) && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-xs text-gray-500 hover:text-gray-700 hover:bg-gray-100 h-7 px-2"
+              onClick={() => {
+                clearAllFilters();
+                setSearchInput("");
+              }}
+            >
+              <RotateCcw className="h-3 w-3 mr-1" />
+              Clear All
+            </Button>
           )}
         </div>
       </div>
