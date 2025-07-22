@@ -93,7 +93,7 @@ const PageHeader = ({
         {/* Filter Controls */}
         <div className="grid gird-cols-1 sm:grid-cols-2 gap-1">
           <div className="flex items-center justify-between sm:justify-start gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mr-2">
               <Filter className="h-4 w-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-700">
                 Filters:
@@ -263,7 +263,7 @@ const PageHeader = ({
           </div>
 
           <div className="flex items-center justify-between sm:justify-end gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mr-2">
               <View className="h-4 w-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-700">View:</span>
             </div>
