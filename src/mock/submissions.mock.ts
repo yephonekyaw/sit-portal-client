@@ -1800,5 +1800,3 @@ export const submissions = [
     expired_at: "2024-08-18T00:00:00",
   },
 ];
-
-export type Submission = (typeof submissions)[number];

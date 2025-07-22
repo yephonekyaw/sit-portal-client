@@ -1,52 +1,15 @@
-import React from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 import { useShallow } from "zustand/shallow";
 import { useParams } from "react-router-dom";
-import { submissions, type Submission } from "@/mock/submissions.mock";
-
-type SubmissionStatus = "pending" | "approved" | "rejected" | "manual_review";
-
-interface SubmissionFilters {
-  academicYear: string;
-  requirementScheduleId?: string;
-  status?: SubmissionStatus;
-  search?: string;
-}
-
-interface PaginationState {
-  page: number;
-  pageSize: number;
-  totalItems: number;
-  totalPages: number;
-}
-
-interface SubmissionsFilterStoreState {
-  allSubmissions: Submission[];
-  filteredSubmissions: Submission[];
-  paginatedSubmissions: Submission[];
-
-  filters: SubmissionFilters;
-
-  pagination: PaginationState;
-
-  isLoading: boolean;
-
-  // Actions
-  setAcademicYear: (year: string) => void;
-  setRequirementScheduleId: (id: string | undefined) => void;
-  setStatus: (status: SubmissionStatus | undefined) => void;
-  setSearch: (search: string | undefined) => void;
-  setPage: (page: number) => void;
-  setPageSize: (pageSize: number) => void;
-  initializeFromParams: (
-    academicYear?: string,
-    requirementSchedule?: string
-  ) => void;
-
-  // Internal helper
-  _updateDerivedState: () => void;
-}
+import { submissions } from "@/mock/submissions.mock";
+import type {
+  Submission,
+  SubmissionFilters,
+  SubmissionsFilterStoreState,
+  SubmissionStatus,
+} from "@/types/staff/submission.types";
 
 const getCurrentYear = () => new Date().getFullYear().toString();
 
@@ -78,18 +41,24 @@ const applyFilters = (
 
     // Search filter (search in student name, email, roll number)
     if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      const studentMatch =
-        submission.student.user.first_name
-          .toLowerCase()
-          .includes(searchLower) ||
-        submission.student.user.last_name.toLowerCase().includes(searchLower) ||
-        submission.student.user.email.toLowerCase().includes(searchLower) ||
-        submission.student.roll_number.toLowerCase().includes(searchLower) ||
-        submission.certificate_type.name.toLowerCase().includes(searchLower);
+      const searchLower = filters.search.toLowerCase().trim();
+      if (searchLower) {
+        const fullName =
+          `${submission.student.user.first_name} ${submission.student.user.last_name}`.toLowerCase();
+        const studentMatch =
+          submission.student.user.first_name
+            .toLowerCase()
+            .includes(searchLower) ||
+          submission.student.user.last_name
+            .toLowerCase()
+            .includes(searchLower) ||
+          fullName.includes(searchLower) ||
+          submission.student.user.email.toLowerCase().includes(searchLower) ||
+          submission.student.roll_number.toLowerCase().includes(searchLower);
 
-      if (!studentMatch) {
-        return false;
+        if (!studentMatch) {
+          return false;
+        }
       }
     }
 
@@ -107,114 +76,188 @@ const applyPagination = (
   return submissions.slice(startIndex, endIndex);
 };
 
-export const useSubmissionsFiltersStore = create<SubmissionsFilterStoreState>()(
-  subscribeWithSelector((set, get) => ({
-    // Initial state
-    allSubmissions: submissions,
-    filteredSubmissions: [],
-    paginatedSubmissions: [],
+const getInitialDerivedState = () => {
+  const currentYear = getCurrentYear();
+  const initialFilters: SubmissionFilters = {
+    academicYear: currentYear,
+    requirementScheduleId: undefined,
+    status: undefined,
+    search: undefined,
+  };
 
-    filters: {
-      academicYear: getCurrentYear(),
-      requirementScheduleId: undefined,
-      status: undefined,
-      search: undefined,
-    },
+  const filtered = applyFilters(submissions, initialFilters);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / 24));
+  const paginated = applyPagination(filtered, 1, 24);
 
+  return {
+    filteredSubmissions: filtered,
+    paginatedSubmissions: paginated,
     pagination: {
       page: 1,
-      pageSize: 20,
-      totalItems: submissions.length,
-      totalPages: Math.ceil(submissions.length / 20),
+      pageSize: 24,
+      totalItems: filtered.length,
+      totalPages,
     },
+  };
+};
 
-    isLoading: false,
+export const useSubmissionsFiltersStore = create<SubmissionsFilterStoreState>()(
+  subscribeWithSelector((set, get) => {
+    const initialDerived = getInitialDerivedState();
 
-    // Internal helper to update derived state
-    _updateDerivedState: () => {
-      const state = get();
-      const filtered = applyFilters(state.allSubmissions, state.filters);
-      const totalPages = Math.ceil(filtered.length / state.pagination.pageSize);
-      const paginated = applyPagination(
-        filtered,
-        state.pagination.page,
-        state.pagination.pageSize
-      );
+    return {
+      // Initial state
+      allSubmissions: submissions,
+      ...initialDerived,
 
-      set({
-        filteredSubmissions: filtered,
-        paginatedSubmissions: paginated,
-        pagination: {
-          ...state.pagination,
-          totalItems: filtered.length,
-          totalPages: Math.max(1, totalPages),
-        },
-      });
-    },
+      filters: {
+        academicYear: getCurrentYear(),
+        requirementScheduleId: undefined,
+        status: undefined,
+        search: undefined,
+      },
 
-    // Actions
-    setAcademicYear: (year: string) => {
-      set((state) => ({
-        filters: { ...state.filters, academicYear: year },
-        pagination: { ...state.pagination, page: 1 },
-      }));
-    },
+      isLoading: false,
+      error: null,
 
-    setRequirementScheduleId: (id: string | undefined) => {
-      set((state) => ({
-        filters: { ...state.filters, requirementScheduleId: id },
-        pagination: { ...state.pagination, page: 1 },
-      }));
-    },
+      // Internal helper to update derived state
+      _updateDerivedState: () => {
+        try {
+          const state = get();
+          const filtered = applyFilters(state.allSubmissions, state.filters);
+          const totalPages = Math.max(
+            1,
+            Math.ceil(filtered.length / state.pagination.pageSize)
+          );
 
-    setStatus: (status: SubmissionStatus | undefined) => {
-      set((state) => ({
-        filters: { ...state.filters, status },
-        pagination: { ...state.pagination, page: 1 },
-      }));
-    },
+          // Ensure page is within bounds
+          const safePage = Math.min(state.pagination.page, totalPages);
 
-    setSearch: (search: string | undefined) => {
-      set((state) => ({
-        filters: { ...state.filters, search },
-        pagination: { ...state.pagination, page: 1 },
-      }));
-    },
+          const paginated = applyPagination(
+            filtered,
+            safePage,
+            state.pagination.pageSize
+          );
 
-    setPage: (page: number) => {
-      set((state) => ({
-        pagination: { ...state.pagination, page },
-      }));
-    },
+          set({
+            filteredSubmissions: filtered,
+            paginatedSubmissions: paginated,
+            pagination: {
+              ...state.pagination,
+              page: safePage,
+              totalItems: filtered.length,
+              totalPages,
+            },
+            error: null,
+          });
+        } catch (error) {
+          set({
+            error: error instanceof Error ? error.message : "An error occurred",
+          });
+        }
+      },
 
-    setPageSize: (pageSize: number) => {
-      set((state) => ({
-        pagination: { ...state.pagination, pageSize, page: 1 },
-      }));
-    },
+      // Actions
+      setAcademicYear: (year: string) => {
+        set((state) => ({
+          filters: { ...state.filters, academicYear: year },
+          pagination: { ...state.pagination, page: 1 },
+        }));
+      },
 
-    initializeFromParams: (
-      academicYear?: string,
-      requirementSchedule?: string
-    ) => {
-      set((state) => ({
-        filters: {
-          ...state.filters,
-          academicYear: academicYear || state.filters.academicYear,
-          requirementScheduleId:
-            requirementSchedule || state.filters.requirementScheduleId,
-        },
-        pagination: {
-          ...state.pagination,
-          page: 1,
-        },
-      }));
-    },
-  }))
+      setRequirementScheduleId: (id: string | undefined) => {
+        set((state) => ({
+          filters: { ...state.filters, requirementScheduleId: id },
+          pagination: { ...state.pagination, page: 1 },
+        }));
+      },
+
+      setStatus: (status: SubmissionStatus | undefined) => {
+        set((state) => ({
+          filters: { ...state.filters, status },
+          pagination: { ...state.pagination, page: 1 },
+        }));
+      },
+
+      setSearch: (search: string | undefined) => {
+        set((state) => ({
+          filters: { ...state.filters, search },
+          pagination: { ...state.pagination, page: 1 },
+        }));
+      },
+
+      setPage: (page: number) => {
+        set((state) => ({
+          pagination: { ...state.pagination, page },
+        }));
+      },
+
+      setPageSize: (pageSize: number) => {
+        set((state) => ({
+          pagination: { ...state.pagination, pageSize, page: 1 },
+        }));
+      },
+
+      clearAllFilters: () => {
+        set((state) => ({
+          filters: {
+            ...state.filters,
+            requirementScheduleId: undefined,
+            status: undefined,
+            search: undefined,
+          },
+          pagination: { ...state.pagination, page: 1 },
+        }));
+      },
+
+      initializeFromParams: (
+        academicYear?: string,
+        requirementSchedule?: string
+      ) => {
+        set((state) => ({
+          filters: {
+            ...state.filters,
+            academicYear: academicYear || state.filters.academicYear,
+            requirementScheduleId:
+              requirementSchedule || state.filters.requirementScheduleId,
+          },
+          pagination: {
+            ...state.pagination,
+            page: 1,
+          },
+        }));
+      },
+    };
+  })
 );
 
 // Subscribe to filter and pagination changes to update derived state
-// Only subscribe to filters and allSubmissions, NOT the derived state
+// Use deep comparison for filters and pagination to avoid infinite loops
+const isEqual = (a: unknown, b: unknown): boolean => {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (typeof a !== "object" || typeof b !== "object") return a === b;
+
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (const key of keysA) {
+    if (
+      !keysB.includes(key) ||
+      !isEqual(
+        (a as Record<string, unknown>)[key],
+        (b as Record<string, unknown>)[key]
+      )
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 useSubmissionsFiltersStore.subscribe(
   (state) => ({
     filters: state.filters,
@@ -227,10 +270,44 @@ useSubmissionsFiltersStore.subscribe(
     useSubmissionsFiltersStore.getState()._updateDerivedState();
   },
   {
-    equalityFn: (a, b) =>
-      a.filters === b.filters && a.allSubmissions === b.allSubmissions,
+    equalityFn: (a, b) => {
+      return (
+        isEqual(a.filters, b.filters) &&
+        a.allSubmissions === b.allSubmissions &&
+        a.page === b.page &&
+        a.pageSize === b.pageSize
+      );
+    },
   }
 );
+
+// Debounced search hook
+export const useDebouncedSearch = () => {
+  const setSearch = useSubmissionsFiltersStore((state) => state.setSearch);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const debouncedSetSearch = useMemo(() => {
+    return (searchValue: string | undefined) => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      timeoutRef.current = setTimeout(() => {
+        setSearch(searchValue);
+      }, 300);
+    };
+  }, [setSearch]);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  return debouncedSetSearch;
+};
 
 export const useInitializeSubmissionsFromParams = () => {
   const params = useParams();
@@ -238,7 +315,7 @@ export const useInitializeSubmissionsFromParams = () => {
     (state) => state.initializeFromParams
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     initializeFromParams(params.academicYear, params.requirementSchedule);
   }, [params.academicYear, params.requirementSchedule, initializeFromParams]);
 };
@@ -251,3 +328,29 @@ export const useSubmissionsPagination = () =>
       setPageSize: state.setPageSize,
     }))
   );
+
+// Additional selector hooks for better performance
+export const useSubmissionsData = () =>
+  useSubmissionsFiltersStore(
+    useShallow((state) => ({
+      paginatedSubmissions: state.paginatedSubmissions,
+      isLoading: state.isLoading,
+      error: state.error,
+      totalItems: state.pagination.totalItems,
+    }))
+  );
+
+export const useSubmissionsFilters = () =>
+  useSubmissionsFiltersStore(
+    useShallow((state) => ({
+      filters: state.filters,
+      setAcademicYear: state.setAcademicYear,
+      setRequirementScheduleId: state.setRequirementScheduleId,
+      setStatus: state.setStatus,
+      setSearch: state.setSearch,
+      clearAllFilters: state.clearAllFilters,
+    }))
+  );
+
+// Type exports
+export type { SubmissionStatus };

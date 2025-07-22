@@ -1,18 +1,27 @@
-import { useSubmissionsFiltersStore } from "@/stores/staff/submissions-filter.stores";
+import { useSubmissionsData } from "@/stores/staff/submissions-filter.stores";
 import GridViewCard from "./grid-view-card";
 
 const GridView = () => {
-  const { allSubmissions: submissions } = useSubmissionsFiltersStore();
+  const { paginatedSubmissions: submissions, isLoading, error } = useSubmissionsData();
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-  //       {Array.from({ length: 6 }).map((_, i) => (
-  //         <div key={i} className="h-48 bg-gray-100 rounded-lg animate-pulse" />
-  //       ))}
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="h-48 bg-gray-100 rounded-lg animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-red-500">
+        <p className="text-lg font-medium mb-2">Error loading submissions</p>
+        <p className="text-sm">{error}</p>
+      </div>
+    );
+  }
 
   if (submissions.length === 0) {
     return (

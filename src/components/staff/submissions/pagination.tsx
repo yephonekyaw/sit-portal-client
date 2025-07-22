@@ -15,28 +15,13 @@ import {
 } from "@/components/ui/select";
 import { useSubmissionsPagination } from "@/stores/staff/submissions-filter.stores";
 
-interface SubmissionsPaginationProps {
-  currentPage?: number;
-  totalPages?: number;
-  pageSize?: number;
-  totalItems?: number;
-  selectedCount?: number;
-}
-
-export function SubmissionsPagination({
-  currentPage: propCurrentPage,
-  totalPages: propTotalPages,
-  pageSize: propPageSize,
-  totalItems: propTotalItems,
-  selectedCount = 0,
-}: SubmissionsPaginationProps) {
+export function SubmissionsPagination() {
   const { pagination, setPage, setPageSize } = useSubmissionsPagination();
 
-  // Use props as fallback, but prefer store values
-  const currentPage = propCurrentPage ?? pagination.page;
-  const totalPages = propTotalPages ?? pagination.totalPages;
-  const pageSize = propPageSize ?? pagination.pageSize;
-  const totalItems = propTotalItems ?? pagination.totalItems;
+  const currentPage = pagination.page;
+  const totalPages = pagination.totalPages;
+  const pageSize = pagination.pageSize;
+  const totalItems = pagination.totalItems;
 
   const canGoPrevious = currentPage > 1;
   const canGoNext = currentPage < totalPages;
@@ -52,9 +37,15 @@ export function SubmissionsPagination({
     <div className="flex items-center justify-between px-4 py-2 bg-white border-t border-gray-200 rounded-b-2xl">
       <div className="hidden md:flex flex-1">
         <p className="text-sm text-gray-600 font-medium">
-          <span className="text-gray-900">{selectedCount}</span> of{" "}
-          <span className="text-gray-900">{totalItems}</span> submission(s)
-          selected
+          Showing{" "}
+          <span className="text-gray-900">
+            {Math.min((currentPage - 1) * pageSize + 1, totalItems)}
+          </span>
+          -
+          <span className="text-gray-900">
+            {Math.min(currentPage * pageSize, totalItems)}
+          </span>{" "}
+          of <span className="text-gray-900">{totalItems}</span> submission(s)
         </p>
       </div>
 
@@ -67,7 +58,7 @@ export function SubmissionsPagination({
               <SelectValue placeholder={pageSize} />
             </SelectTrigger>
             <SelectContent side="top" className="border-gray-200">
-              {[20, 30, 50, 100].map((size) => (
+              {[24, 36, 48, 60].map((size) => (
                 <SelectItem
                   key={size}
                   value={`${size}`}
