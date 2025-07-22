@@ -1,18 +1,26 @@
 import GridView from "@/components/staff/submissions/grid-view";
 import PageHeader from "@/components/staff/submissions/page-header";
 import StatCardsSection from "@/components/staff/submissions/stat-cards-section";
+import { SubmissionsPagination } from "@/components/staff/submissions/pagination";
 import SubmissionDetailSheet from "@/components/staff/submissions/submission-detail-sheet";
+import { useInitializeSubmissionsFromParams } from "@/stores/staff/submissions-filter.stores";
 
-import { dashboardStats } from "@/mock/dashboard-stats.mock";
-import { submissions } from "@/mock/submissions.mock";
+import { useState } from "react";
 
 const SubmissionsPage = () => {
+  const [statsDrawerOpen, setStatsDrawerOpen] = useState(false);
+  useInitializeSubmissionsFromParams();
+
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0">
-      <PageHeader />
-      <StatCardsSection stats={dashboardStats[0]} />
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-8 space-y-4">
+      <PageHeader setStatsDrawerOpen={setStatsDrawerOpen} />
+      <StatCardsSection
+        statsDrawerOpen={statsDrawerOpen}
+        setStatsDrawerOpen={setStatsDrawerOpen}
+      />
       <GridView />
-      <SubmissionDetailSheet submission={submissions[0]} />
+      <SubmissionsPagination />
+      <SubmissionDetailSheet />
     </div>
   );
 };

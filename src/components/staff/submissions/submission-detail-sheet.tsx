@@ -1,29 +1,22 @@
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Submission } from "@/mock/submissions.mock";
-import { Eye } from "lucide-react";
+import { submissions } from "@/mock/submissions.mock";
 import { useState } from "react";
 import VerificationHistoryComp from "./verification-history";
 import SubmissionOverview from "./submission-overview";
 import FileDetails from "./file-detail";
 
-const SubmissionDetailSheet = ({ submission }: { submission: Submission }) => {
+const SubmissionDetailSheet = () => {
+  const submission = submissions[0];
   const [activeTab, setActiveTab] = useState("details");
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-          <Eye className="h-4 w-4" />
-        </Button>
-      </SheetTrigger>
       <SheetContent className="w-full sm:max-w-2xl lg:max-w-4xl overflow-y-auto px-6 pb-4">
         <SheetHeader className="px-0">
           <SheetTitle className="text-xl">Submission Details</SheetTitle>

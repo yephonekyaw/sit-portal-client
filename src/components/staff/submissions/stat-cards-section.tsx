@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -6,17 +5,22 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
-import { ChartArea, CheckCircle, Clock, FileCheck, Users } from "lucide-react";
+import { CheckCircle, Clock, FileCheck, Users } from "lucide-react";
 import StatCard from "./stat-card";
 import { STAT_CARD_COLOR_PALETTES } from "@/constants/staff/submission.constants";
-import type { DashboardStat } from "@/mock/dashboard-stats.mock";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { dashboardStats } from "@/mock/dashboard-stats.mock";
 
-const StatCardsSection = ({ stats }: { stats: DashboardStat }) => {
-  const [open, setOpen] = useState(false);
+const StatCardsSection = ({
+  statsDrawerOpen,
+  setStatsDrawerOpen,
+}: {
+  statsDrawerOpen: boolean;
+  setStatsDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const stats = dashboardStats[0];
 
   const totalTimingSubmissions =
     stats.on_time_submissions + stats.late_submissions + stats.overdue_count;
@@ -25,18 +29,7 @@ const StatCardsSection = ({ stats }: { stats: DashboardStat }) => {
     <>
       {/* Compact summary chip */}
       <div className="flex items-center gap-3">
-        <Drawer open={open} onOpenChange={setOpen}>
-          <DrawerTrigger asChild>
-            <Button
-              variant="outline"
-              size="sm"
-              className="font-medium text-sm gap-1.5"
-            >
-              <ChartArea className="h-4 w-4" />
-              <span>Statistics</span>
-            </Button>
-          </DrawerTrigger>
-
+        <Drawer open={statsDrawerOpen} onOpenChange={setStatsDrawerOpen}>
           <DrawerContent className="min-h-[80vh] px-4 pb-6">
             <DrawerDescription className="sr-only">
               View detailed submission statistics and insights.

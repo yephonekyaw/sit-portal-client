@@ -24,6 +24,14 @@ const staffRouter = [
             element: <SubmissionsPage />,
           },
           {
+            path: "submissions/:academicYear",
+            element: <SubmissionsPage />,
+          },
+          {
+            path: "submissions/:academicYear/:requirementSchedule",
+            element: <SubmissionsPage />,
+          },
+          {
             path: "dashboard",
             element: <DashboardBaseLayout />,
             children: [
