@@ -28,7 +28,7 @@ const ProgramRequirementCard = ({
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate(`/staff/student-management/dashboard/requirements/edit/${requirement.id}`);
+    navigate(`/staff/requirements/edit/${requirement.id}`);
   };
 
   const handleDelete = () => {

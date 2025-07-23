@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
 import type { Submission } from "@/types/staff/submission.types";
-import { formatDate, getInitialsTwoInputs } from "@/utils/shared.utils";
+import { formatDate, getInitialsTwoInputs } from "@/utils/shared/shared.utils";
 import { memo } from "react";
 
 interface SubmissionOverviewProps {

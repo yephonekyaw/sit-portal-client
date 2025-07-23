@@ -8,12 +8,38 @@ import ProgramRequirementsPage from "@/pages/staff/prog-reqs-page";
 import ProgramsPage from "@/pages/staff/programs-page";
 import SchedulesPage from "@/pages/staff/schedules-page";
 import SubmissionsPage from "@/pages/staff/submissions-page";
+import StaffPage from "@/pages/staff/staff-page";
+import StaffFormPage from "@/pages/staff/staff-form-page";
 
 const staffRouter = [
   {
     path: "",
     element: <StaffApp />,
     children: [
+      {
+        path: "staff-management",
+        element: <StaffPage />,
+      },
+      {
+        path: "staff-management/new",
+        element: <StaffFormPage />,
+      },
+      {
+        path: "programs/new",
+        element: <ProgramFormPage />,
+      },
+      {
+        path: "programs/edit/:programId",
+        element: <ProgramFormPage />,
+      },
+      {
+        path: "requirements/new",
+        element: <ProgramRequirementFormPage />,
+      },
+      {
+        path: "requirements/edit/:requirementId",
+        element: <ProgramRequirementFormPage />,
+      },
       {
         path: "student-management",
         children: [
@@ -38,16 +64,12 @@ const staffRouter = [
             element: <DashboardBaseLayout />,
             children: [
               {
+                path: "schedules",
+                element: <SchedulesPage />,
+              },
+              {
                 path: "programs",
                 element: <ProgramsPage />,
-              },
-              {
-                path: "programs/new",
-                element: <ProgramFormPage />,
-              },
-              {
-                path: "programs/edit/:programId",
-                element: <ProgramFormPage />,
               },
               {
                 path: "certificates",
@@ -56,18 +78,6 @@ const staffRouter = [
               {
                 path: "requirements",
                 element: <ProgramRequirementsPage />,
-              },
-              {
-                path: "requirements/new",
-                element: <ProgramRequirementFormPage />,
-              },
-              {
-                path: "requirements/edit/:requirementId",
-                element: <ProgramRequirementFormPage />,
-              },
-              {
-                path: "schedules",
-                element: <SchedulesPage />,
               },
             ],
           },

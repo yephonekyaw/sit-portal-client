@@ -28,7 +28,7 @@ const FloatingAddButtons = () => {
         >
           <div
             onClick={() =>
-              navigate("/staff/student-management/dashboard/programs/new")
+              navigate("/staff/programs/new")
             }
             className="group rounded-lg p-2 cursor-pointer transition-colors duration-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 border-0 focus:bg-gradient-to-r focus:from-blue-50 focus:to-blue-100"
           >
@@ -43,7 +43,7 @@ const FloatingAddButtons = () => {
           </div>
           <div
             onClick={() =>
-              navigate("/staff/student-management/dashboard/requirements/new")
+              navigate("/staff/requirements/new")
             }
             className="group rounded-lg p-2 cursor-pointer transition-colors duration-200 hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 border-0 focus:bg-gradient-to-r focus:from-purple-50 focus:to-purple-100"
           >

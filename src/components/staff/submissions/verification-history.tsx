@@ -5,7 +5,7 @@ import {
   verificationHistories,
   type VerificationHistory,
 } from "@/mock/verification-histories.mock";
-import { formatDate } from "@/utils/shared.utils";
+import { formatDate } from "@/utils/shared/shared.utils";
 import { ArrowRight, Bot, MessageSquare, User } from "lucide-react";
 
 const VerificationHistoryComp = () => {

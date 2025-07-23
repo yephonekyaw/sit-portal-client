@@ -12,7 +12,7 @@ export default function ProgramCard({ program }: { program: Program }) {
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate(`/staff/student-management/dashboard/programs/edit/${program.id}`);
+    navigate(`/staff/programs/edit/${program.id}`);
   };
 
   const handleDelete = () => {

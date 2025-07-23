@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import type { Submission } from "@/types/staff/submission.types";
-import { formatDate, formatFileSize } from "@/utils/shared.utils";
+import { formatDate, formatFileSize } from "@/utils/shared/shared.utils";
 import { Bot, Download, FileCheck, FileIcon } from "lucide-react";
 import { memo } from "react";
 import DocumentPreview from "./document-preview";

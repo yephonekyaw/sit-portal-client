@@ -2,7 +2,7 @@ import React from "react";
 import { X, FileSpreadsheet, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { FilePreviewProps } from "@/types/staff/data-import.types";
-import { formatFileSize } from "@/utils/shared.utils";
+import { formatFileSize } from "@/utils/shared/shared.utils";
 
 export const FilePreview: React.FC<FilePreviewProps> = ({
   file,

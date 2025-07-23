@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import type { CardHeaderSectionProps } from "@/types/staff/dashboard.types";
-import { getInitialsOneInput } from "@/utils/shared.utils";
+import { getInitialsOneInput } from "@/utils/shared/shared.utils";
 import { CheckCircle, XCircle, Edit, Trash2, TicketCheck } from "lucide-react";
 
 const CardHeaderSection = ({
@@ -18,7 +18,7 @@ const CardHeaderSection = ({
     <CardHeader>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
         <div className="flex items-center gap-3 sm:gap-4">
-          <Avatar className="h-12 w-12 sm:h-14 sm:w-14 bg-gradient-to-br from-blue-500 to-blue-600">
+          <Avatar className="h-10 w-10 sm:h-12 sm:w-12 bg-gradient-to-br from-blue-500 to-blue-600">
             <AvatarFallback className="bg-transparent text-white font-bold text-sm">
               {getInitialsOneInput(title)}
             </AvatarFallback>

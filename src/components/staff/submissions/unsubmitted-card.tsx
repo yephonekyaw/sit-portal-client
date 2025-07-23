@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { UnsubmittedStudent } from "@/types/staff/submission.types";
-import { formatDate } from "@/utils/shared.utils";
+import { formatDate } from "@/utils/shared/shared.utils";
 import { Clock, AlertCircle } from "lucide-react";
 import { memo } from "react";
 
