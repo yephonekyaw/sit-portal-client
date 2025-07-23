@@ -5,19 +5,10 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const FloatingAddButtons = () => {
-  const handleAddProgram = () => {
-    console.log("Add program clicked");
-  };
-
-  const handleAddCertificate = () => {
-    console.log("Add certificate clicked");
-  };
-
-  const handleAddRequirement = () => {
-    console.log("Add requirement clicked");
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="sticky z-50 bottom-4 w-full flex justify-end">
@@ -36,7 +27,9 @@ const FloatingAddButtons = () => {
           className="w-full p-2 bg-white/80 backdrop-blur-lg border border-gray-200/50 rounded-xl shadow-xl mb-2"
         >
           <div
-            onClick={handleAddProgram}
+            onClick={() =>
+              navigate("/staff/student-management/dashboard/programs/new")
+            }
             className="group rounded-lg p-2 cursor-pointer transition-colors duration-200 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 border-0 focus:bg-gradient-to-r focus:from-blue-50 focus:to-blue-100"
           >
             <div className="flex items-center">
@@ -49,20 +42,9 @@ const FloatingAddButtons = () => {
             </div>
           </div>
           <div
-            onClick={handleAddCertificate}
-            className="group rounded-lg p-2 cursor-pointer transition-colors duration-200 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 border-0 focus:bg-gradient-to-r focus:from-green-50 focus:to-green-100"
-          >
-            <div className="flex items-center">
-              <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-200 transition-colors duration-200">
-                <Plus className="h-4 w-4 text-green-600" />
-              </div>
-              <span className="font-medium text-gray-800 text-sm">
-                Add a Certificate
-              </span>
-            </div>
-          </div>
-          <div
-            onClick={handleAddRequirement}
+            onClick={() =>
+              navigate("/staff/student-management/dashboard/requirements/new")
+            }
             className="group rounded-lg p-2 cursor-pointer transition-colors duration-200 hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 border-0 focus:bg-gradient-to-r focus:from-purple-50 focus:to-purple-100"
           >
             <div className="flex items-center">

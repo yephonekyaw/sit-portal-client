@@ -18,12 +18,24 @@ import ExpandableCardContent from "../dashboard/expandable-card-content";
 import CardInfoSection from "../dashboard/card-info-section";
 import CardInfoItem from "../dashboard/card-info-item";
 import CardFooter from "../dashboard/card-footer";
+import { useNavigate } from "react-router-dom";
 
 const ProgramRequirementCard = ({
   requirement,
 }: {
   requirement: ProgramRequirement;
 }) => {
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate(`/staff/student-management/dashboard/requirements/edit/${requirement.id}`);
+  };
+
+  const handleDelete = () => {
+    console.log("Delete requirement", requirement.id);
+    // TODO: Implement delete functionality
+  };
+
   return (
     <CardBase>
       <CardHeaderSection
@@ -33,8 +45,8 @@ const ProgramRequirementCard = ({
           requirement.program.program_code,
         ]}
         isActive={requirement.is_active}
-        onEdit={() => console.log("Edit requirement")}
-        onDelete={() => console.log("Delete requirement")}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
       />
 
       <CardContent className="pt-0 space-y-6">
