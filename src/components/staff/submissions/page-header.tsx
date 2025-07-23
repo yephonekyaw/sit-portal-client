@@ -311,10 +311,6 @@ const PageHeader = ({
               className="bg-purple-100 text-purple-800 border-purple-200 hover:bg-purple-200"
             >
               Schedule: {filters.requirementScheduleId}
-              <X
-                className="ml-1 h-3 w-3 cursor-pointer hover:text-purple-600"
-                onClick={() => setRequirementScheduleId(undefined)}
-              />
             </Badge>
           )}
 
@@ -327,10 +323,6 @@ const PageHeader = ({
               Status:{" "}
               {filters.status.charAt(0).toUpperCase() +
                 filters.status.slice(1).replace("_", " ")}
-              <X
-                className="ml-1 h-3 w-3 cursor-pointer hover:text-green-600"
-                onClick={() => setStatus(undefined)}
-              />
             </Badge>
           )}
 

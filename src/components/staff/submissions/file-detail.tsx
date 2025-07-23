@@ -3,16 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import type { Submission } from "@/types/staff/submission.types";
 import { formatDate, formatFileSize } from "@/utils/shared.utils";
-import {
-  Bot,
-  Download,
-  Eye,
-  FileCheck,
-  FileIcon,
-  FileText,
-  ImageIcon,
-} from "lucide-react";
+import { Bot, Download, FileCheck, FileIcon } from "lucide-react";
 import { memo } from "react";
+import DocumentPreview from "./document-preview";
 
 interface FileDetailsProps {
   submission: Submission;
@@ -23,39 +16,25 @@ const FileDetails = ({ submission }: FileDetailsProps) => (
     {/* File Info */}
     <Card className="shadow-none border border-blue-100">
       <CardContent className="space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="flex items-center space-x-3 flex-1 min-w-0">
             <div className="p-2 bg-slate-200 rounded-lg">
               <FileIcon className="h-5 w-5 text-slate-600" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-medium truncate">{submission.file_name}</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm font-medium truncate">
+                {submission.file_name}
+              </p>
+              <p className="text-xs text-muted-foreground">
                 {formatFileSize(submission.file_size)} • {submission.mime_type}
               </p>
             </div>
           </div>
-          <Button variant="outline" size="sm" className="shrink-0">
-            <Download className="h-4 w-4 mr-2" />
-            Download
-          </Button>
-        </div>
-
-        {/* File Preview */}
-        <div className="border-2 border-dashed border-slate-200 rounded-lg p-6 bg-slate-50/50">
-          <div className="text-center">
-            {submission.mime_type.startsWith("image/") ? (
-              <ImageIcon className="h-10 w-10 mx-auto text-slate-400 mb-2" />
-            ) : (
-              <FileText className="h-10 w-10 mx-auto text-slate-400 mb-2" />
-            )}
-            <p className="text-sm text-muted-foreground">
-              {submission.mime_type.startsWith("image/") ? "Image" : "PDF"}{" "}
-              Preview
-            </p>
-            <Button variant="ghost" size="sm" className="mt-2">
-              <Eye className="h-4 w-4 mr-2" />
-              View Full Size
+          <div className="flex gap-2 shrink-0">
+            <DocumentPreview submission={submission} />
+            <Button variant="outline" size="sm">
+              <Download className="h-4 w-4 mr-2" />
+              Download
             </Button>
           </div>
         </div>

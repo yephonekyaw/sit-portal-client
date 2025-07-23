@@ -4,7 +4,8 @@
       "Bash(npm run dev)",
       "Bash(taskkill:*)",
       "Bash(Ctrl+C)",
-      "Bash(wmic process where:*)"
+      "Bash(wmic process where:*)",
+      "Bash(rm:*)"
     ],
     "deny": []
   }
