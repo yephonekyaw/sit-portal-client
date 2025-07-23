@@ -20,11 +20,6 @@ export const NAVIGATION_CONFIG: {
   ],
   staff: [
     {
-      label: "Dashboard",
-      href: "/staff/dashboard",
-      icon: BarChart3,
-    },
-    {
       label: "Staff Management",
       href: "/staff/staff-management",
       icon: UserLock,
