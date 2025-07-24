@@ -5,7 +5,12 @@
       "Bash(taskkill:*)",
       "Bash(Ctrl+C)",
       "Bash(wmic process where:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint:*)"
     ],
     "deny": []
   }

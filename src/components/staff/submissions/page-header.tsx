@@ -8,7 +8,7 @@ import {
   RotateCcw,
   FileCheck,
   FileX,
-  View,
+  ScanSearch,
 } from "lucide-react";
 import {
   useSubmissionsFilters,
@@ -264,7 +264,7 @@ const PageHeader = ({
 
           <div className="flex items-center justify-between sm:justify-end gap-2">
             <div className="flex items-center gap-2 mr-2">
-              <View className="h-4 w-4 text-gray-500" />
+              <ScanSearch className="h-4 w-4 text-gray-500" />
               <span className="text-sm font-medium text-gray-700">View:</span>
             </div>
             <div className="inline-flex rounded-lg border border-blue-200 bg-white p-1 gap-1">

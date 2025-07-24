@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { certificates } from "@/components/student/dashboard/mock-certificates";
 
 // Lazy load components with React.lazy
@@ -31,12 +31,9 @@ const CertificatesGridSkeleton = () => (
 );
 
 export default function StudentDashboard() {
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const studentName = "Alex Chen";
 
   const handleFilesSelected = (files: File[]) => {
-    setSelectedFiles(files);
-    // Handle file upload logic here
     console.log("Files selected:", files);
   };
 

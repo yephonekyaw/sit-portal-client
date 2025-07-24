@@ -12,7 +12,7 @@ import {
 import { Button } from "../ui/button";
 import DesktopNav from "./desktop-nav";
 import { MobileNav } from "./mobile-nav";
-// import { NotificationMenu } from "./noti-menu";
+import { NotificationCenter } from "./notification-center";
 // import { UserMenu } from "./user-menu";
 
 export function Navbar({ className }: { className?: string }) {
@@ -67,10 +67,10 @@ export function Navbar({ className }: { className?: string }) {
           <DesktopNav className="w-full max-w-4xl flex items-center justify-center" />
         </div>
 
-        {/* <nav className="flex items-center gap-3">
-          <NotificationMenu />
-          <UserMenu />
-        </nav> */}
+        <nav className="flex items-center gap-3">
+          <NotificationCenter />
+          {/* <UserMenu /> */}
+        </nav>
       </div>
     </header>
   );
