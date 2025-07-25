@@ -46,7 +46,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
           className={cn(
             "relative",
@@ -83,7 +83,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                 {unreadCount > 0 && (
                   <Badge
                     variant="destructive"
-                    className="bg-red-500 text-white text-xs px-1.5 py-0.5"
+                    className="bg-red-600 text-white text-xs px-1.5 py-0.5"
                   >
                     {unreadCount}
                   </Badge>
@@ -95,7 +95,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
               <div className="flex items-center gap-1 mt-2">
                 {unreadCount > 0 && (
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     size="sm"
                     onClick={markAllAsRead}
                     className="h-7 px-2 text-xs font-medium text-gray-600 hover:bg-gray-100"
@@ -105,10 +105,10 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                   </Button>
                 )}
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
                   onClick={clearAll}
-                  className="h-7 px-2 text-xs font-medium text-red-600 hover:bg-red-50"
+                  className="h-7 px-2 text-xs font-medium text-red-600 hover:bg-red-50 hover:text-red-600"
                 >
                   <Trash2 className="h-3 w-3 mr-1" />
                   Clear all
@@ -134,13 +134,14 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                   <h3 className="text-lg font-medium text-gray-900 mb-2">
                     Failed to load notifications
                   </h3>
-                  <p className="text-sm text-gray-600 max-w-sm mb-4">
-                    {error}
-                  </p>
+                  <p className="text-sm text-gray-600 max-w-sm mb-4">{error}</p>
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => currentRole && fetchNotifications(currentRole as "student" | "staff")}
+                    onClick={() =>
+                      currentRole &&
+                      fetchNotifications(currentRole as "student" | "staff")
+                    }
                   >
                     Try again
                   </Button>

@@ -197,7 +197,7 @@ export function NotificationItem({
             <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
               {isUnread && (
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
                   onClick={handleMarkAsRead}
                   className="h-6 w-6 p-0 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
@@ -207,7 +207,7 @@ export function NotificationItem({
                 </Button>
               )}
               <Button
-                variant="ghost"
+                variant="outline"
                 size="sm"
                 onClick={handleDelete}
                 className="h-6 w-6 p-0 text-gray-500 hover:text-red-600 hover:bg-red-50"
