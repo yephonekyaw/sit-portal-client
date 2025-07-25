@@ -17,7 +17,7 @@ export interface Staff {
   employee_id: string;
   department: string;
   created_at: string;
-  updated_at?: string;
+  updated_at: string;
 }
 
 export interface Role {

@@ -12,7 +12,7 @@ import {
 import { Button } from "../ui/button";
 import DesktopNav from "./desktop-nav";
 import { MobileNav } from "./mobile-nav";
-import { NotificationCenter } from "./notification-center";
+import { NotificationCenter } from "../notifications/notification-center";
 // import { UserMenu } from "./user-menu";
 
 export function Navbar({ className }: { className?: string }) {

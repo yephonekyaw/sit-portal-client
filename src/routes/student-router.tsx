@@ -1,5 +1,5 @@
 import StudentApp from "@/apps/student-app";
-import StudentDashboard from "@/pages/student/dashboard-page";
+import CertificateSubmissionsPage from "@/pages/student/certificate-submissions-page";
 
 const studentRouter = [
   {
@@ -7,8 +7,8 @@ const studentRouter = [
     element: <StudentApp />,
     children: [
       {
-        path: "",
-        element: <StudentDashboard />,
+        path: "student/certificate-submission",
+        element: <CertificateSubmissionsPage />,
       },
     ],
   },

@@ -19,15 +19,9 @@ import { formatDistanceToNow } from "date-fns";
 import ReactMarkdown from "react-markdown";
 import type {
   Notification,
+  NotificationItemProps,
   NotificationPriority,
 } from "@/types/notification.types";
-
-interface NotificationItemProps {
-  notification: Notification;
-  onMarkAsRead: (notificationId: string) => void;
-  onDelete: (notificationId: string) => void;
-  className?: string;
-}
 
 const getTypeIcon = (notificationTypeId: string) => {
   switch (notificationTypeId) {
@@ -94,12 +88,10 @@ const getTypeColor = (notificationTypeId: string) => {
 };
 
 const getFormattedTitle = (notification: Notification): string => {
-  // Use the subject from the backend templates directly
   return notification.subject;
 };
 
 const getFormattedDescription = (notification: Notification): string => {
-  // Use the body from the backend templates directly
   return notification.body;
 };
 

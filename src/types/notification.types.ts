@@ -85,3 +85,10 @@ export interface NotificationState {
   // Computed
   getUnreadCount: () => number;
 }
+
+export interface NotificationItemProps {
+  notification: Notification;
+  onMarkAsRead: (notificationId: string) => void;
+  onDelete: (notificationId: string) => void;
+  className?: string;
+}
