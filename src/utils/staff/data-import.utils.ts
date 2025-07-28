@@ -3,7 +3,12 @@ import {
   REQUIRED_COLUMNS,
   SUPPORTED_FILE_TYPES,
 } from "@/constants/staff/data-import.constants";
-import type { FileParsedTableRowStudentRecord } from "@/types/staff/data-import.types";
+import type {
+  FileParsedTableRowStudentRecord,
+  ValidationError,
+  FileParseResult,
+} from "@/types/staff/data-import.types";
+import { fileParsedTableRowStudentRecordSchema } from "@/schemas/staff/data-import.schemas";
 import Papa from "papaparse";
 import readXlsxFile from "read-excel-file";
 
@@ -22,7 +27,7 @@ export const isFileSupported = (fileType: string): boolean => {
 
 export const parseCSV = async (
   file: File
-): Promise<FileParsedTableRowStudentRecord[]> => {
+): Promise<{ data: any[]; errors: string[] }> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -33,7 +38,10 @@ export const parseCSV = async (
           dynamicTyping: true,
           skipEmptyLines: true,
         });
-        resolve(parsed.data as FileParsedTableRowStudentRecord[]);
+        resolve({
+          data: parsed.data as any[],
+          errors: parsed.errors.map((err) => err.message),
+        });
       } catch (error) {
         reject(error);
       }
@@ -45,15 +53,27 @@ export const parseCSV = async (
 
 export const parseExcel = async (
   file: File
-): Promise<FileParsedTableRowStudentRecord[]> => {
-  const rows = await readXlsxFile(file);
-  const header = rows[0].map(String);
-  return rows.slice(1).map((row) =>
-    header.reduce((acc, key, index) => {
-      acc[key] = row[index] as string;
-      return acc;
-    }, {} as FileParsedTableRowStudentRecord)
-  );
+): Promise<{ data: any[]; errors: string[] }> => {
+  try {
+    const rows = await readXlsxFile(file);
+    const header = rows[0].map(String);
+    const data = rows.slice(1).map((row) =>
+      header.reduce((acc, key, index) => {
+        acc[key] = row[index] as string;
+        return acc;
+      }, {} as any)
+    );
+    return { data, errors: [] };
+  } catch (error) {
+    return {
+      data: [],
+      errors: [
+        error instanceof Error
+          ? error.message
+          : "Unknown error parsing Excel file",
+      ],
+    };
+  }
 };
 
 export const validateColumns = (
@@ -66,23 +86,36 @@ export const validateColumns = (
   return REQUIRED_COLUMNS.every((col) => fileColumns.includes(col));
 };
 
-export const formatParsedStudentData = (
-  data: FileParsedTableRowStudentRecord[],
+export const validateAndFormatStudentData = (
+  rawData: any[],
   fileName: string,
   startingId: number
-): FileParsedTableRowStudentRecord[] => {
-  return data
-    .filter((row) =>
-      REQUIRED_COLUMNS.every(
-        (col) =>
-          row[col] !== null &&
-          row[col] !== undefined &&
-          row[col] !== "" &&
-          String(row[col]).trim() !== ""
-      )
-    )
-    .map((row, index) => ({
-      id: (startingId + index).toString(),
+): FileParseResult => {
+  const validatedData: FileParsedTableRowStudentRecord[] = [];
+  const errors: ValidationError[] = [];
+
+  rawData.forEach((row, rowIndex) => {
+    // Check if row has all required columns
+    const missingColumns = REQUIRED_COLUMNS.filter(
+      (col) =>
+        row[col] === null ||
+        row[col] === undefined ||
+        row[col] === "" ||
+        String(row[col]).trim() === ""
+    );
+
+    if (missingColumns.length > 0) {
+      errors.push({
+        field: `Row ${rowIndex + 2}`,
+        message: `Missing required columns: ${missingColumns.join(", ")}`,
+        value: row,
+      });
+      return;
+    }
+
+    // Create the record object
+    const recordData = {
+      id: (startingId + validatedData.length).toString(),
       firstName: String(row["first name"] || "").trim(),
       lastName: String(row["last name"] || "").trim(),
       email: String(row["email"] || "").trim(),
@@ -90,5 +123,44 @@ export const formatParsedStudentData = (
       programCode: String(row["program code"] || "").trim(),
       academicYear: String(row["academic year"] || "").trim(),
       sourceFile: fileName,
-    }));
+    };
+
+    // Validate using Zod schema
+    const validationResult =
+      fileParsedTableRowStudentRecordSchema.safeParse(recordData);
+
+    if (validationResult.success) {
+      validatedData.push(validationResult.data);
+    } else {
+      // Extract Zod validation errors
+      validationResult.error.errors.forEach((error) => {
+        errors.push({
+          field: `Row ${rowIndex + 2} - ${error.path.join(".")}`,
+          message: error.message,
+          value: error.path.reduce((obj: any, key) => obj?.[key], recordData),
+        });
+      });
+    }
+  });
+
+  return {
+    success: errors.length === 0,
+    data: validatedData,
+    errors: errors.length > 0 ? errors : undefined,
+    fileName,
+  };
+};
+
+export const removeDuplicates = (
+  data: FileParsedTableRowStudentRecord[]
+): FileParsedTableRowStudentRecord[] => {
+  const seen = new Set<string>();
+  return data.filter((record) => {
+    const key = `${record.studentId}-${record.email}`;
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
 };

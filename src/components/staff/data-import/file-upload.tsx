@@ -8,6 +8,7 @@ import { isFileSupported } from "@/utils/staff/data-import.utils";
 export const FileUpload: React.FC<FileUploadProps> = ({
   onFilesSelected,
   filesWithErrors = [],
+  fileParseResults = {},
 }) => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -137,6 +138,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
                   file={file}
                   onRemove={handleRemoveFile}
                   hasError={filesWithErrors.includes(file.name)}
+                  parseResult={fileParseResults[file.name]}
                 />
               ))}
             </div>

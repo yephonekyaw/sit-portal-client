@@ -18,12 +18,46 @@ const academicYearSchema = z.string().regex(/^\d{4}$/, {
   message: "Academic year must be in the format YYYY.",
 });
 
+// Schema for email: must be a valid email ending with @ad.sit.kmutt.ac.th
+const emailSchema = z
+  .string()
+  .email({ message: "Invalid email address." })
+  .refine((email) => email.endsWith("@ad.sit.kmutt.ac.th"), {
+    message: "Email must end with @ad.sit.kmutt.ac.th",
+  });
+
 // Main schema for student data import
 export const parsedFileStudentRecordSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required." }),
   lastName: z.string().min(1, { message: "Last name is required." }),
-  email: z.string().email({ message: "Invalid email address." }),
+  email: emailSchema,
   studentId: studentIdSchema,
   programCode: programCodeSchema,
   academicYear: academicYearSchema,
 });
+
+// Schema for the complete record including id and sourceFile
+export const fileParsedTableRowStudentRecordSchema = z.object({
+  id: z.string(),
+  firstName: z.string().min(1, { message: "First name is required." }),
+  lastName: z.string().min(1, { message: "Last name is required." }),
+  email: emailSchema,
+  studentId: studentIdSchema,
+  programCode: programCodeSchema,
+  academicYear: academicYearSchema,
+  sourceFile: z.string().optional(),
+});
+
+// Validation result types
+export type ValidationError = {
+  field: string;
+  message: string;
+  value: unknown;
+};
+
+export type FileParseResult = {
+  success: boolean;
+  data?: z.infer<typeof fileParsedTableRowStudentRecordSchema>[];
+  errors?: ValidationError[];
+  fileName: string;
+};

@@ -12,6 +12,7 @@ const StudentDataImportPage = () => {
     parseFiles,
     parsedData,
     filesWithErrors,
+    fileParseResults,
     isLoading,
     handleSelectRecord,
   } = useParsedStudentDataStore();
@@ -31,6 +32,7 @@ const StudentDataImportPage = () => {
           <FileUpload
             onFilesSelected={setFiles}
             filesWithErrors={filesWithErrors}
+            fileParseResults={fileParseResults}
           />
         </div>
 

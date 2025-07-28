@@ -3,12 +3,14 @@ import { devtools } from "zustand/middleware";
 import type {
   FileParsedTableRowStudentRecord,
   ParsedStudentDataState,
+  FileParseResult,
 } from "@/types/staff/data-import.types";
 import {
-  formatParsedStudentData,
+  validateAndFormatStudentData,
   parseCSV,
   parseExcel,
   validateColumns,
+  removeDuplicates,
 } from "@/utils/staff/data-import.utils";
 import { toast } from "sonner";
 
@@ -18,6 +20,7 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
       // Initial State
       parsedData: [],
       filesWithErrors: [],
+      fileParseResults: {},
       isLoading: false,
       isSheetOpen: false,
       selectedRecord: null,
@@ -31,7 +34,11 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
           );
 
           // If no files are selected, we only keep manual entry data
-          set({ parsedData: manualEntryData, filesWithErrors: [] });
+          set({
+            parsedData: manualEntryData,
+            filesWithErrors: [],
+            fileParseResults: {},
+          });
 
           // Even if no files are selected, we still need to reorder records coming thru manual entry
           // This ensures that the IDs are sequential after any additions or deletions
@@ -40,37 +47,99 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
         }
 
         set({ isLoading: true });
-        const allData: FileParsedTableRowStudentRecord[] = get().parsedData;
+        const manualEntryData = get().parsedData.filter(
+          (record) => record.sourceFile === "Manual Entry"
+        );
+        const allData: FileParsedTableRowStudentRecord[] = [...manualEntryData];
         const errors: string[] = [];
-        let rowCount = 1;
+        const parseResults: Record<string, FileParseResult> = {};
+        let rowCount = allData.length + 1;
 
         try {
           for (const file of files) {
             try {
-              let jsonData: FileParsedTableRowStudentRecord[] = [];
+              let rawData: any[] = [];
+              let parseErrors: string[] = [];
 
               if (file.name.endsWith(".csv")) {
-                jsonData = await parseCSV(file);
+                const result = await parseCSV(file);
+                rawData = result.data;
+                parseErrors = result.errors;
               } else if (
                 file.name.endsWith(".xls") ||
                 file.name.endsWith(".xlsx")
               ) {
-                jsonData = await parseExcel(file);
+                const result = await parseExcel(file);
+                rawData = result.data;
+                parseErrors = result.errors;
               }
 
-              if (validateColumns(jsonData)) {
-                const formattedData = formatParsedStudentData(
-                  jsonData,
-                  file.name,
-                  rowCount
-                );
-                allData.push(...formattedData);
-                rowCount += formattedData.length;
+              // Check if file has required columns
+              if (!validateColumns(rawData)) {
+                const result: FileParseResult = {
+                  success: false,
+                  errors: [
+                    {
+                      field: "File Structure",
+                      message:
+                        "Missing required columns. Please check that your file contains all required columns.",
+                      value: Object.keys(rawData[0] || {}),
+                    },
+                  ],
+                  fileName: file.name,
+                };
+                parseResults[file.name] = result;
+                errors.push(file.name);
+                continue;
+              }
+
+              // Validate and format the data
+              const validationResult = validateAndFormatStudentData(
+                rawData,
+                file.name,
+                rowCount
+              );
+
+              parseResults[file.name] = validationResult;
+
+              if (validationResult.success && validationResult.data) {
+                allData.push(...validationResult.data);
+                rowCount += validationResult.data.length;
               } else {
                 errors.push(file.name);
+                // Show detailed error toast
+                const errorCount = validationResult.errors?.length || 0;
+                toast.error(
+                  `File ${file.name} has ${errorCount} validation error(s)`,
+                  {
+                    description: `${errorCount} rows failed validation. Check the file preview for details.`,
+                  }
+                );
+              }
+
+              // Show parse errors if any
+              if (parseErrors.length > 0) {
+                toast.error(`Parse errors in ${file.name}`, {
+                  description: parseErrors.join("; "),
+                });
               }
             } catch (error) {
-              toast.error(`Error parsing file ${file.name}.`, {
+              const result: FileParseResult = {
+                success: false,
+                errors: [
+                  {
+                    field: "File Processing",
+                    message:
+                      error instanceof Error
+                        ? error.message
+                        : "Unknown error occurred",
+                    value: file.name,
+                  },
+                ],
+                fileName: file.name,
+              };
+              parseResults[file.name] = result;
+              toast.error(`Error parsing file ${file.name}`, {
                 description:
                   error instanceof Error ? error.message : String(error),
               });
@@ -81,7 +150,21 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
           set({ isLoading: false });
         }
 
-        set({ parsedData: allData, filesWithErrors: errors });
+        // Remove duplicates from all data
+        const deduplicatedData = removeDuplicates(allData);
+        const duplicatesRemoved = allData.length - deduplicatedData.length;
+
+        if (duplicatesRemoved > 0) {
+          toast.info(`${duplicatesRemoved} duplicate record(s) removed`, {
+            description: "Duplicates were identified by Student ID and Email",
+          });
+        }
+
+        set({
+          parsedData: deduplicatedData,
+          filesWithErrors: errors,
+          fileParseResults: parseResults,
+        });
 
         // Reorder records after parsing
         // This ensures that the IDs are sequential after any additions or deletions
@@ -94,6 +177,7 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
         set({
           parsedData: [],
           filesWithErrors: [],
+          fileParseResults: {},
           isSheetOpen: false,
           selectedRecord: null,
           mode: "edit",
@@ -211,5 +295,6 @@ export const useFileParserState = () =>
   useParsedStudentDataStore((state) => ({
     parsedData: state.parsedData,
     filesWithErrors: state.filesWithErrors,
+    fileParseResults: state.fileParseResults,
     isLoading: state.isLoading,
   }));

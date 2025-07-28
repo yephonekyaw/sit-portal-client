@@ -1,33 +1,34 @@
 import { z } from "zod";
-import { parsedFileStudentRecordSchema } from "@/schemas/staff/data-import.schemas";
+import { 
+  parsedFileStudentRecordSchema, 
+  fileParsedTableRowStudentRecordSchema,
+  type ValidationError,
+  type FileParseResult
+} from "@/schemas/staff/data-import.schemas";
 import type { Column, Row, Table } from "@tanstack/react-table";
 
-// types of schemas
+// Export types from schemas
 export type ParsedFileStudentRecordSchemaType = z.infer<
   typeof parsedFileStudentRecordSchema
 >;
 
-export interface FileParsedTableRowStudentRecord {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  studentId: string;
-  programCode: string;
-  academicYear: string;
-  sourceFile?: string;
-  [key: string]: string | undefined;
-}
+export type FileParsedTableRowStudentRecord = z.infer<
+  typeof fileParsedTableRowStudentRecordSchema
+>;
+
+export type { ValidationError, FileParseResult };
 
 export interface FileUploadProps {
   onFilesSelected: (files: File[]) => void;
   filesWithErrors?: string[];
+  fileParseResults?: Record<string, FileParseResult>;
 }
 
 export interface FilePreviewProps {
   file: File;
   onRemove: (file: File) => void;
   hasError?: boolean;
+  parseResult?: FileParseResult;
 }
 
 export interface StudentDataImportColumnsProps {
@@ -83,6 +84,7 @@ export interface ParsedStudentDataState {
   // File Parser State
   parsedData: FileParsedTableRowStudentRecord[];
   filesWithErrors: string[];
+  fileParseResults: Record<string, FileParseResult>;
   isLoading: boolean;
 
   // Record Manager State
