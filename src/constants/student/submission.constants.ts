@@ -1,37 +1,37 @@
-import { 
-  CheckCircle, 
-  XCircle, 
-  Clock, 
-  AlertTriangle, 
+import {
+  CheckCircle,
+  XCircle,
+  Clock,
+  AlertTriangle,
   Timer,
-  FileText
+  FileText,
 } from "lucide-react";
 
 // File upload constants
 export const SUPPORTED_FILE_TYPES = {
-  'application/pdf': {
-    extension: '.pdf',
-    description: 'PDF Document',
+  "application/pdf": {
+    extension: ".pdf",
+    description: "PDF Document",
     maxSize: 10 * 1024 * 1024, // 10MB
   },
-  'image/jpeg': {
-    extension: '.jpg',
-    description: 'JPEG Image',
+  "image/jpeg": {
+    extension: ".jpg",
+    description: "JPEG Image",
     maxSize: 10 * 1024 * 1024, // 10MB
   },
-  'image/jpg': {
-    extension: '.jpg',
-    description: 'JPG Image',
+  "image/jpg": {
+    extension: ".jpg",
+    description: "JPG Image",
     maxSize: 10 * 1024 * 1024, // 10MB
   },
-  'image/png': {
-    extension: '.png',
-    description: 'PNG Image',
+  "image/png": {
+    extension: ".png",
+    description: "PNG Image",
     maxSize: 10 * 1024 * 1024, // 10MB
   },
-  'image/webp': {
-    extension: '.webp',
-    description: 'WebP Image',
+  "image/webp": {
+    extension: ".webp",
+    description: "WebP Image",
     maxSize: 10 * 1024 * 1024, // 10MB
   },
 } as const;
@@ -150,48 +150,6 @@ export const ACCEPTED_FILE_EXTENSIONS = ".pdf,.jpg,.jpeg,.png,.webp";
 // Default pagination settings
 export const DEFAULT_PAGE_SIZE = 10;
 
-// Deadline calculation helpers
-export const calculateDaysUntilDeadline = (deadline: string): number => {
-  const deadlineDate = new Date(deadline);
-  const now = new Date();
-  const diffTime = deadlineDate.getTime() - now.getTime();
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-};
-
-export const getDeadlineStatus = (
-  deadline: string, 
-  hasApprovedSubmission: boolean = false
-): keyof typeof DEADLINE_STATUS_CONFIGS => {
-  if (hasApprovedSubmission) {
-    return "completed";
-  }
-  
-  const daysUntil = calculateDaysUntilDeadline(deadline);
-  
-  if (daysUntil < 0) {
-    return "overdue";
-  }
-  
-  if (daysUntil <= URGENT_DEADLINE_DAYS) {
-    return "urgent";
-  }
-  
-  if (daysUntil > URGENT_DEADLINE_DAYS) {
-    return "upcoming";
-  }
-  
-  return "pending";
-};
-
-// File size formatter
-export const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-};
-
 export default {
   SUPPORTED_FILE_TYPES,
   DEADLINE_STATUS_CONFIGS,
@@ -203,7 +161,4 @@ export default {
   MAX_FILE_SIZE,
   ACCEPTED_FILE_EXTENSIONS,
   DEFAULT_PAGE_SIZE,
-  calculateDaysUntilDeadline,
-  getDeadlineStatus,
-  formatFileSize,
 };

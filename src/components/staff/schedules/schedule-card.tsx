@@ -7,7 +7,7 @@ import CardInfoItem from "../dashboard/card-info-item";
 import CardFooter from "../dashboard/card-footer";
 import { Hash, Clock, GraduationCap, CalendarDays } from "lucide-react";
 import { isDeadlinePassed } from "@/utils/staff/dashboard.utils";
-import { formatDate } from "@/utils/shared/shared.utils";
+import { formatDate } from "@/utils/common.utils";
 
 const ScheduleCard = ({ schedule }: { schedule: Schedule }) => {
   return (

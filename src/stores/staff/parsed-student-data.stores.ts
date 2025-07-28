@@ -10,6 +10,7 @@ import {
   parseExcel,
   validateColumns,
 } from "@/utils/staff/data-import.utils";
+import { toast } from "sonner";
 
 export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
   devtools(
@@ -69,7 +70,10 @@ export const useParsedStudentDataStore = create<ParsedStudentDataState>()(
                 errors.push(file.name);
               }
             } catch (error) {
-              console.error(`Error parsing file ${file.name}:`, error);
+              toast.error(`Error parsing file ${file.name}.`, {
+                description:
+                  error instanceof Error ? error.message : String(error),
+              });
               errors.push(file.name);
             }
           }

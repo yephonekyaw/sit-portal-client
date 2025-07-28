@@ -4,34 +4,43 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
-import { formatFileSize } from "@/constants/student/submission.constants";
-import { formatDate } from "@/utils/shared/shared.utils";
-import { 
-  Download, 
-  FileIcon, 
-  Bot, 
-  FileCheck, 
+import { formatFileSize } from "@/utils/common.utils";
+import { formatDate } from "@/utils/common.utils";
+import {
+  Download,
+  FileIcon,
+  Bot,
+  FileCheck,
   AlertCircle,
-  Info
+  Info,
 } from "lucide-react";
 import { memo } from "react";
-import type { ProgramRequirementSchedule, CertificateSubmission } from "@/types/student/submission.types";
+import type {
+  ProgramRequirementSchedule,
+  CertificateSubmission,
+} from "@/types/student/submission.types";
 
 interface SubmissionOverviewProps {
   schedule: ProgramRequirementSchedule;
   submission?: CertificateSubmission;
 }
 
-const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) => {
+const SubmissionOverview = ({
+  schedule,
+  submission,
+}: SubmissionOverviewProps) => {
   const statusConfig = submission
     ? SUBMISSION_STATUS_CONFIGS[
         submission.status as keyof typeof SUBMISSION_STATUS_CONFIGS
       ]
     : null;
-  
 
   const getInitials = (name: string) => {
-    return name.split(' ').map(word => word[0]).join('').toUpperCase();
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
   };
 
   const isOverdue = new Date(schedule.submission_deadline) < new Date();
@@ -44,14 +53,19 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="p-1.5 rounded-lg bg-background">
-                <statusConfig.icon className={`h-4 w-4 ${statusConfig.iconColor}`} />
+                <statusConfig.icon
+                  className={`h-4 w-4 ${statusConfig.iconColor}`}
+                />
               </div>
               <p className="font-semibold">{statusConfig.label}</p>
             </div>
             <div className="text-right">
               <p className="text-xs text-muted-foreground">Last Updated</p>
               <p className="font-medium text-sm">
-                {formatDate(submission.updated_at || submission.submitted_at, {})}
+                {formatDate(
+                  submission.updated_at || submission.submitted_at,
+                  {}
+                )}
               </p>
             </div>
           </div>
@@ -65,7 +79,9 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
           <div className="flex items-center space-x-3 mb-4">
             <Avatar className="h-10 w-10 bg-gradient-to-br from-blue-500 to-blue-600">
               <AvatarFallback className="bg-transparent text-white font-bold text-sm">
-                {getInitials(schedule.program_requirement.certificate_type.name)}
+                {getInitials(
+                  schedule.program_requirement.certificate_type.name
+                )}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
@@ -111,7 +127,11 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Deadline:</span>
-              <span className={`font-medium ${isOverdue && !submission ? 'text-red-600' : ''}`}>
+              <span
+                className={`font-medium ${
+                  isOverdue && !submission ? "text-red-600" : ""
+                }`}
+              >
                 {formatDate(schedule.submission_deadline, {})}
               </span>
             </div>
@@ -140,7 +160,9 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
                 <Info className="h-4 w-4 text-blue-600" />
               </div>
               <div className="flex-1">
-                <h4 className="font-medium text-blue-900 mb-2 text-sm">Special Instructions</h4>
+                <h4 className="font-medium text-blue-900 mb-2 text-sm">
+                  Special Instructions
+                </h4>
                 <p className="text-xs text-blue-800 leading-relaxed">
                   {schedule.program_requirement.special_instruction}
                 </p>
@@ -158,7 +180,9 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
               <FileCheck className="h-4 w-4 text-blue-600" />
             </div>
             <div className="flex-1">
-              <h4 className="font-medium text-blue-900 mb-2 text-sm">About This Certificate</h4>
+              <h4 className="font-medium text-blue-900 mb-2 text-sm">
+                About This Certificate
+              </h4>
               <p className="text-xs text-blue-800 leading-relaxed">
                 {schedule.program_requirement.certificate_type.description}
               </p>
@@ -172,7 +196,7 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
         <Card className="shadow-none border border-blue-100">
           <CardContent className="space-y-4">
             <h4 className="font-medium text-slate-900">Submission Details</h4>
-            
+
             {/* File Info */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div className="flex items-center space-x-3 flex-1 min-w-0">
@@ -184,7 +208,8 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
                     {submission.file_name}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {formatFileSize(submission.file_size)} • {submission.mime_type}
+                    {formatFileSize(submission.file_size)} •{" "}
+                    {submission.mime_type}
                   </p>
                 </div>
               </div>
@@ -237,7 +262,10 @@ const SubmissionOverview = ({ schedule, submission }: SubmissionOverviewProps) =
                   Last Updated
                 </p>
                 <p className="text-xs font-semibold">
-                  {formatDate(submission.updated_at || submission.submitted_at, {})}
+                  {formatDate(
+                    submission.updated_at || submission.submitted_at,
+                    {}
+                  )}
                 </p>
               </div>
               {submission.expired_at && (

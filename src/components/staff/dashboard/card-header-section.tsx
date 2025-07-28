@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import type { CardHeaderSectionProps } from "@/types/staff/dashboard.types";
-import { getInitialsOneInput } from "@/utils/shared/shared.utils";
+import { getInitialsOneInput } from "@/utils/common.utils";
 import { CheckCircle, XCircle, Edit, Trash2, TicketCheck } from "lucide-react";
 
 const CardHeaderSection = ({

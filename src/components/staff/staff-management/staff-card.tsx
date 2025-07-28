@@ -7,7 +7,7 @@ import CardHeaderSection from "../dashboard/card-header-section";
 import CardInfoSection from "../dashboard/card-info-section";
 import CardInfoItem from "../dashboard/card-info-item";
 import CardFooter from "../dashboard/card-footer";
-import { formatDate } from "@/utils/shared/shared.utils";
+import { formatDate } from "@/utils/common.utils";
 
 export default function StaffCard({ staff, onEdit }: StaffCardProps) {
   const handleEdit = () => {

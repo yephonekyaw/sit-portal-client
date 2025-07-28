@@ -2,13 +2,13 @@ import React, { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, Plus, X, FileText, AlertCircle } from "lucide-react";
-import { 
-  SUPPORTED_FILE_TYPES, 
-  MAX_FILE_SIZE, 
+import {
+  SUPPORTED_FILE_TYPES,
+  MAX_FILE_SIZE,
   ACCEPTED_FILE_EXTENSIONS,
-  formatFileSize 
 } from "@/constants/student/submission.constants";
 import type { ProgramRequirementSchedule } from "@/types/student/submission.types";
+import { formatFileSize } from "@/utils/common.utils";
 
 interface FileUploadSectionProps {
   schedule: ProgramRequirementSchedule;
@@ -28,19 +28,25 @@ const FileUploadSection = ({
 
   const supportedTypes = Object.keys(SUPPORTED_FILE_TYPES);
 
-  const isFileSupported = useCallback((fileType: string): boolean => {
-    return supportedTypes.includes(fileType);
-  }, [supportedTypes]);
+  const isFileSupported = useCallback(
+    (fileType: string): boolean => {
+      return supportedTypes.includes(fileType);
+    },
+    [supportedTypes]
+  );
 
-  const validateFile = useCallback((file: File): string | null => {
-    if (!isFileSupported(file.type)) {
-      return `File type not supported. Please upload PDF, JPG, PNG, or WebP files.`;
-    }
-    if (file.size > MAX_FILE_SIZE) {
-      return `File size too large. Maximum size is 10MB.`;
-    }
-    return null;
-  }, [isFileSupported]);
+  const validateFile = useCallback(
+    (file: File): string | null => {
+      if (!isFileSupported(file.type)) {
+        return `File type not supported. Please upload PDF, JPG, PNG, or WebP files.`;
+      }
+      if (file.size > MAX_FILE_SIZE) {
+        return `File size too large. Maximum size is 10MB.`;
+      }
+      return null;
+    },
+    [isFileSupported]
+  );
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -53,17 +59,20 @@ const FileUploadSection = ({
     }
   }, []);
 
-  const processFile = useCallback((file: File) => {
-    setError(null);
-    const validationError = validateFile(file);
-    
-    if (validationError) {
-      setError(validationError);
-      return;
-    }
+  const processFile = useCallback(
+    (file: File) => {
+      setError(null);
+      const validationError = validateFile(file);
 
-    setSelectedFile(file);
-  }, [validateFile]);
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+
+      setSelectedFile(file);
+    },
+    [validateFile]
+  );
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
@@ -106,7 +115,11 @@ const FileUploadSection = ({
       setSelectedFile(null);
       onClose?.();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred while submitting');
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred while submitting"
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -118,13 +131,16 @@ const FileUploadSection = ({
     <Card className="shadow-none border border-blue-100">
       <CardContent className="space-y-4">
         <h4 className="font-medium text-slate-900">Submit Certificate</h4>
-        
+
         {isOverdue ? (
           <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
             <AlertCircle className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-            <p className="text-blue-800 font-medium text-sm">Submission deadline has passed</p>
+            <p className="text-blue-800 font-medium text-sm">
+              Submission deadline has passed
+            </p>
             <p className="text-blue-600 text-xs">
-              The deadline was {new Date(schedule.submission_deadline).toLocaleDateString()}
+              The deadline was{" "}
+              {new Date(schedule.submission_deadline).toLocaleDateString()}
             </p>
           </div>
         ) : (
@@ -165,9 +181,9 @@ const FileUploadSection = ({
                 <label
                   htmlFor="certificate-upload"
                   className={`inline-flex items-center px-4 py-2 font-medium rounded-lg transition-colors duration-200 cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 ${
-                    isSubmitting 
-                      ? 'bg-gray-400 text-white cursor-not-allowed' 
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                    isSubmitting
+                      ? "bg-gray-400 text-white cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
                   }`}
                 >
                   <Plus className="mr-2 h-4 w-4" />
@@ -187,9 +203,12 @@ const FileUploadSection = ({
                           <FileText className="h-4 w-4 text-blue-600" />
                         </div>
                         <div className="text-left">
-                          <p className="font-medium text-sm">{selectedFile.name}</p>
+                          <p className="font-medium text-sm">
+                            {selectedFile.name}
+                          </p>
                           <p className="text-xs text-gray-500">
-                            {formatFileSize(selectedFile.size)} • {selectedFile.type}
+                            {formatFileSize(selectedFile.size)} •{" "}
+                            {selectedFile.type}
                           </p>
                         </div>
                       </div>
@@ -220,9 +239,13 @@ const FileUploadSection = ({
 
             {/* Guidelines */}
             <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
-              <h4 className="font-medium text-blue-900 mb-2 text-sm">Upload Guidelines:</h4>
+              <h4 className="font-medium text-blue-900 mb-2 text-sm">
+                Upload Guidelines:
+              </h4>
               <ul className="text-xs text-blue-800 space-y-1">
-                <li>• Ensure the certificate is clearly visible and readable</li>
+                <li>
+                  • Ensure the certificate is clearly visible and readable
+                </li>
                 <li>• File should be in PDF format or high-quality image</li>
                 <li>• Make sure all text and details are legible</li>
                 <li>• Certificate should show your full name as registered</li>

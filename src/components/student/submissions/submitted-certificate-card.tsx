@@ -3,22 +3,31 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
-import { formatDate, formatFileSize } from "@/utils/shared/shared.utils";
-import { getFileIcon, getConfidenceColor } from "@/utils/staff/submission.utils";
+import { formatDate, formatFileSize } from "@/utils/common.utils";
+import {
+  getFileIcon,
+  getConfidenceColor,
+} from "@/utils/staff/submission.utils";
 import { Clock, Bot, Calendar } from "lucide-react";
 import { memo } from "react";
-import type { ProgramRequirementSchedule, CertificateSubmission } from "@/types/student/submission.types";
+import type {
+  ProgramRequirementSchedule,
+  CertificateSubmission,
+} from "@/types/student/submission.types";
 
 interface SubmittedCertificateCardProps {
   schedule: ProgramRequirementSchedule;
   submission: CertificateSubmission;
-  onViewDetails?: (schedule: ProgramRequirementSchedule, submission: CertificateSubmission) => void;
+  onViewDetails?: (
+    schedule: ProgramRequirementSchedule,
+    submission: CertificateSubmission
+  ) => void;
 }
 
-const SubmittedCertificateCard = ({ 
-  schedule, 
-  submission, 
-  onViewDetails 
+const SubmittedCertificateCard = ({
+  schedule,
+  submission,
+  onViewDetails,
 }: SubmittedCertificateCardProps) => {
   const statusConfig =
     SUBMISSION_STATUS_CONFIGS[
@@ -36,7 +45,11 @@ const SubmittedCertificateCard = ({
   };
 
   const getInitials = (name: string) => {
-    return name.split(' ').map(word => word[0]).join('').toUpperCase();
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
   };
 
   const confidenceScore = submission.agent_confidence_score;
@@ -62,7 +75,9 @@ const SubmittedCertificateCard = ({
             <div className="relative">
               <Avatar className="h-10 w-10 bg-gradient-to-br from-blue-500 to-blue-600 flex-shrink-0">
                 <AvatarFallback className="text-white font-semibold text-sm bg-gradient-to-r from-blue-500 to-blue-600">
-                  {getInitials(schedule.program_requirement.certificate_type.name)}
+                  {getInitials(
+                    schedule.program_requirement.certificate_type.name
+                  )}
                 </AvatarFallback>
               </Avatar>
             </div>
@@ -71,7 +86,8 @@ const SubmittedCertificateCard = ({
                 {schedule.program_requirement.name}
               </p>
               <p className="text-sm text-slate-500 font-medium">
-                {schedule.program_requirement.certificate_type.code} • {schedule.program_requirement.program.program_code}
+                {schedule.program_requirement.certificate_type.code} •{" "}
+                {schedule.program_requirement.program.program_code}
               </p>
             </div>
           </div>
@@ -80,7 +96,9 @@ const SubmittedCertificateCard = ({
         {/* Status and Certificate Badges */}
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <Badge
-            className={`${statusConfig?.color || 'bg-gray-100 text-gray-700'} text-xs px-2.5 py-1 font-medium`}
+            className={`${
+              statusConfig?.color || "bg-gray-100 text-gray-700"
+            } text-xs px-2.5 py-1 font-medium`}
           >
             {statusConfig?.icon && (
               <statusConfig.icon
@@ -89,7 +107,7 @@ const SubmittedCertificateCard = ({
             )}
             {statusConfig?.label || submission.status}
           </Badge>
-          
+
           <div className="flex items-center gap-1">
             {schedule.program_requirement.is_mandatory && (
               <Badge

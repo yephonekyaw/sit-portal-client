@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
 import type { Submission } from "@/types/staff/submission.types";
-import { formatDate, formatFileSize } from "@/utils/shared/shared.utils";
+import { formatDate, formatFileSize } from "@/utils/common.utils";
 import {
   getFileIcon,
   getConfidenceColor,

@@ -26,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import ActionButtons from "./action-buttons";
-import { getInitialsTwoInputs } from "@/utils/shared/shared.utils";
+import { getInitialsTwoInputs } from "@/utils/common.utils";
 
 let ACADEMIC_YEARS: { value: string; label: string }[] = [];
 

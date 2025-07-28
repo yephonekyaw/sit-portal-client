@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
-import { formatDate } from "@/utils/shared/shared.utils";
+import { formatDate } from "@/utils/common.utils";
 import { ArrowRight, Bot, MessageSquare, User } from "lucide-react";
 import type { VerificationHistory } from "@/types/student/submission.types";
 
@@ -9,7 +9,9 @@ interface StudentVerificationHistoryProps {
   verificationHistories: VerificationHistory[];
 }
 
-const StudentVerificationHistory = ({ verificationHistories }: StudentVerificationHistoryProps) => {
+const StudentVerificationHistory = ({
+  verificationHistories,
+}: StudentVerificationHistoryProps) => {
   const HistoryItem = ({
     history,
     isLast,
@@ -55,7 +57,9 @@ const StudentVerificationHistory = ({ verificationHistories }: StudentVerificati
             <div className="bg-white rounded-xl p-4 border border-blue-100">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <p className="font-semibold">{isAgent ? "System" : "Staff"}</p>
+                  <p className="font-semibold">
+                    {isAgent ? "System" : "Staff"}
+                  </p>
                   <Badge variant="outline">
                     {isAgent ? "Automated" : "Manual"}
                   </Badge>

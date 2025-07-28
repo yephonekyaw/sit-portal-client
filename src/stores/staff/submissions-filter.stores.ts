@@ -13,7 +13,7 @@ import {
   applyPagination,
   calculatePaginationMeta,
 } from "@/utils/staff/pagination.utils";
-import { isEqual } from "@/utils/shared/deep-equality.utils";
+import { isEqual } from "@/utils/common.utils";
 import type {
   Submission,
   UnsubmittedStudent,

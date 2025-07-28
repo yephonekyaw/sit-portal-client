@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { formatDate } from "@/utils/shared/shared.utils";
+import { formatDate } from "@/utils/common.utils";
 import { AlertCircle, Calendar, Bot } from "lucide-react";
 import { memo } from "react";
 import type { ProgramRequirementSchedule } from "@/types/student/submission.types";
@@ -12,9 +12,9 @@ interface UnsubmittedCertificateCardProps {
   onViewDetails?: (schedule: ProgramRequirementSchedule) => void;
 }
 
-const UnsubmittedCertificateCard = ({ 
-  schedule, 
-  onViewDetails
+const UnsubmittedCertificateCard = ({
+  schedule,
+  onViewDetails,
 }: UnsubmittedCertificateCardProps) => {
   const isOverdue = new Date(schedule.submission_deadline) < new Date();
   const daysUntilDeadline = Math.ceil(
@@ -23,11 +23,15 @@ const UnsubmittedCertificateCard = ({
   );
 
   const getInitials = (name: string) => {
-    return name.split(' ').map(word => word[0]).join('').toUpperCase();
+    return name
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
   };
 
   return (
-    <Card 
+    <Card
       className="group hover:shadow-md hover:ring-1 hover:ring-blue-400/40 transition-all duration-200 border-gray-200 h-full cursor-pointer"
       onClick={() => onViewDetails?.(schedule)}
       role="button"
@@ -47,7 +51,9 @@ const UnsubmittedCertificateCard = ({
             <div className="relative">
               <Avatar className="h-10 w-10 bg-gradient-to-br from-gray-400 to-gray-500 flex-shrink-0">
                 <AvatarFallback className="text-white font-semibold text-sm bg-gradient-to-r from-blue-500 to-blue-600">
-                  {getInitials(schedule.program_requirement.certificate_type.name)}
+                  {getInitials(
+                    schedule.program_requirement.certificate_type.name
+                  )}
                 </AvatarFallback>
               </Avatar>
             </div>
@@ -56,7 +62,8 @@ const UnsubmittedCertificateCard = ({
                 {schedule.program_requirement.name}
               </p>
               <p className="text-sm text-slate-500 font-medium">
-                {schedule.program_requirement.certificate_type.code} • {schedule.program_requirement.program.program_code}
+                {schedule.program_requirement.certificate_type.code} •{" "}
+                {schedule.program_requirement.program.program_code}
               </p>
             </div>
           </div>
@@ -83,7 +90,7 @@ const UnsubmittedCertificateCard = ({
           <Badge className="bg-amber-50 text-amber-700 border-amber-200 text-xs px-2.5 py-1 font-medium">
             Not Submitted
           </Badge>
-          
+
           <div className="flex items-center gap-1">
             {schedule.program_requirement.is_mandatory && (
               <Badge
@@ -140,15 +147,10 @@ const UnsubmittedCertificateCard = ({
                 AI Confidence
               </span>
             </div>
-            <span className="text-sm font-medium text-gray-400">
-              0%
-            </span>
+            <span className="text-sm font-medium text-gray-400">0%</span>
           </div>
           <div className="relative">
-            <Progress
-              value={0}
-              className="h-1.5 bg-gray-200"
-            />
+            <Progress value={0} className="h-1.5 bg-gray-200" />
           </div>
         </div>
       </CardContent>

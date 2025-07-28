@@ -1,5 +1,5 @@
 import type { CardFooterProps } from "@/types/staff/dashboard.types";
-import { formatDate } from "@/utils/shared/shared.utils";
+import { formatDate } from "@/utils/common.utils";
 
 const CardFooter = ({ createdAt, updatedAt }: CardFooterProps) => {
   return (
