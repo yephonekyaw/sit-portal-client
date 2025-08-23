@@ -21,11 +21,11 @@ export function Navbar({ className }: { className?: string }) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-center px-2 md:p-0",
+        "sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 flex items-center justify-center px-2 sm:px-4 lg:px-6",
         className
       )}
     >
-      <div className="container flex h-[4rem] items-center">
+      <div className="container flex h-[4rem] items-center w-full max-w-screen lg:max-w-7xl">
         <div className="hidden md:flex">
           <Link to="/" className="flex items-center space-x-2">
             <div className="p-1 bg-blue-100 rounded-lg">

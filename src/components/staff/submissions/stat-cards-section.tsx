@@ -56,7 +56,7 @@ const StatCardsSection = ({
             </DrawerHeader>
 
             <ScrollArea className="">
-              <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-h-[60vh]">
+              <div className="w-full max-w-screen lg:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-h-[60vh]">
                 {error && (
                   <div className="text-red-600 text-sm mb-4 p-3 bg-red-50 rounded-lg border border-red-200">
                     Error loading stats: {error}

@@ -13,20 +13,22 @@ import {
 import type { ProgramRequirementSchedule } from "@/types/student/submission.types";
 
 export default function CertificateSubmissionsPage() {
-  const { 
-    filteredSchedules, 
-    schedules, 
-    getSubmissionForSchedule
-  } = useSubmissionData();
+  const { filteredSchedules, schedules, getSubmissionForSchedule } =
+    useSubmissionData();
   const { filters } = useSubmissionFilters();
   const { openUploadModal } = useSubmissionModal();
 
-  const handleViewDetails = useCallback((schedule: ProgramRequirementSchedule) => {
-    openUploadModal(schedule);
-  }, [openUploadModal]);
+  const handleViewDetails = useCallback(
+    (schedule: ProgramRequirementSchedule) => {
+      openUploadModal(schedule);
+    },
+    [openUploadModal]
+  );
 
-
-  const handleFileUpload = async (file: File, scheduleId: string): Promise<void> => {
+  const handleFileUpload = async (
+    file: File,
+    scheduleId: string
+  ): Promise<void> => {
     // Simulate API call
     console.log(`Uploading ${file.name} for schedule ${scheduleId}`);
     return new Promise<void>((resolve, reject) => {
@@ -45,7 +47,7 @@ export default function CertificateSubmissionsPage() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="w-full">
       {/* Page Header */}
       <PageHeader
         filteredCount={filteredSchedules.length}
@@ -57,7 +59,7 @@ export default function CertificateSubmissionsPage() {
         {filteredSchedules.length > 0 ? (
           filteredSchedules.map((schedule) => {
             const submission = getSubmissionForSchedule(schedule.id);
-            
+
             return submission ? (
               <SubmittedCertificateCard
                 key={schedule.id}
@@ -91,9 +93,7 @@ export default function CertificateSubmissionsPage() {
       </div>
 
       {/* Detail Sheet */}
-      <SubmissionDetailSheet
-        onSubmit={handleFileUpload}
-      />
+      <SubmissionDetailSheet onSubmit={handleFileUpload} />
     </div>
   );
 }
