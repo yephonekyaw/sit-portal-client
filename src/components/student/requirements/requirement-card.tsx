@@ -5,110 +5,27 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/common.utils";
 import { getConfidenceColor } from "@/utils/staff/submission.utils";
-import {
-  FileText,
-  Bot,
-  Clock,
-  AlertCircle,
-  CheckCircle2,
-  XCircle,
-  Eye,
-  Calendar,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
+import { FileText, Bot, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { memo, useState } from "react";
-import type { StudentRequirementWithSubmission } from "@/services/student/requirements/types";
+import type { RequirementCardProps } from "@/types/student/requirement.types";
 import { useRequirementStore } from "@/stores/student/requirement.store";
-
-interface RequirementCardProps {
-  requirement: StudentRequirementWithSubmission;
-}
+import {
+  truncateText,
+  getRequirementStatusBadges,
+  shouldShowApprovedDetails,
+} from "@/utils/student/requirement.utils";
+import { DEFAULT_TEXT_TRUNCATE_LENGTH } from "@/constants/student/requirement.constants";
 
 const RequirementCard = ({ requirement }: RequirementCardProps) => {
   const { openDetailSheet } = useRequirementStore();
   const [showFullInstructions, setShowFullInstructions] = useState(false);
-  const isSubmitted = !!requirement.submissionId;
-  const isOverdue = new Date(requirement.submissionDeadline) < new Date();
 
-  const truncateText = (text: string, maxLength: number = 200) => {
-    if (text.length <= maxLength) return text;
-    return text.slice(0, maxLength) + "...";
-  };
-
-  const getStatusBadges = () => {
-    const badges = [];
-
-    if (isSubmitted && requirement.submissionStatus) {
-      switch (requirement.submissionStatus) {
-        case "approved":
-          badges.push({
-            label: "Approved",
-            icon: CheckCircle2,
-            className: "bg-green-100 text-green-700 border-green-200",
-          });
-          break;
-        case "rejected":
-          badges.push({
-            label: "Rejected",
-            icon: XCircle,
-            className: "bg-red-100 text-red-700 border-red-200",
-          });
-          break;
-        case "manual_review":
-          badges.push({
-            label: "Under Review",
-            icon: Eye,
-            className: "bg-purple-100 text-purple-700 border-purple-200",
-          });
-          break;
-        default:
-          badges.push({
-            label: "Pending",
-            icon: Clock,
-            className: "bg-yellow-100 text-yellow-700 border-yellow-200",
-          });
-          break;
-      }
-
-      // Add timing badge for submitted items
-      if (requirement.submissionTiming) {
-        if (requirement.submissionTiming === "late") {
-          badges.push({
-            label: "Late Submission",
-            icon: AlertCircle,
-            className: "bg-orange-100 text-orange-700 border-orange-200",
-          });
-        }
-      }
-    } else {
-      // Not submitted
-      if (isOverdue) {
-        badges.push({
-          label: "Overdue",
-          icon: AlertCircle,
-          className: "bg-red-100 text-red-700 border-red-200",
-        });
-      } else {
-        badges.push({
-          label: "Not Submitted",
-          icon: FileText,
-          className: "bg-orange-100 text-orange-800 border-orange-300",
-        });
-      }
-    }
-
-    return badges;
-  };
-
-  const statusBadges = getStatusBadges();
-
-  const showApprovedDetails =
-    isSubmitted && requirement.submissionStatus === "approved";
+  const statusBadges = getRequirementStatusBadges(requirement);
+  const showApprovedDetails = shouldShowApprovedDetails(requirement);
 
   const confidenceScore = requirement.agentConfidenceScore ?? 0;
   const instructionsText = requirement.specialInstruction || "";
-  const shouldTruncate = instructionsText.length > 200;
+  const shouldTruncate = instructionsText.length > DEFAULT_TEXT_TRUNCATE_LENGTH;
 
   return (
     <Card
@@ -126,7 +43,7 @@ const RequirementCard = ({ requirement }: RequirementCardProps) => {
         }
       }}
     >
-      <CardContent className="space-y-3 text-black p-4">
+      <CardContent className="space-y-4 text-black">
         {/* Header */}
         <div className="flex items-center space-x-3">
           <Avatar className="h-10 w-10 bg-blue-500 flex-shrink-0">

@@ -7,11 +7,13 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRequirementStore } from "@/stores/student/requirement.store";
 import { useState } from "react";
+import type { TabState } from "@/types/student/requirement.types";
 import SheetOverview from "./sheet-overview";
 import FileUploadSection from "./file-upload-section";
+import { isRequirementSubmitted } from "@/utils/student/requirement.utils";
 
 const DetailSheet = () => {
-  const [activeTab, setActiveTab] = useState("details");
+  const [activeTab, setActiveTab] = useState<TabState>("details");
   const { selectedRequirement, detailSheetState, closeDetailSheet } =
     useRequirementStore();
 
@@ -29,7 +31,7 @@ const DetailSheet = () => {
         <div className="space-y-6">
           <Tabs
             value={activeTab}
-            onValueChange={setActiveTab}
+            onValueChange={(value) => setActiveTab(value as TabState)}
             className="w-full"
           >
             <TabsList className="grid w-full grid-cols-2 mb-6">
@@ -39,7 +41,7 @@ const DetailSheet = () => {
               <TabsTrigger
                 value="history"
                 className="shadow-none outline-none"
-                disabled={!selectedRequirement.submissionId}
+                disabled={!isRequirementSubmitted(selectedRequirement)}
               >
                 History
               </TabsTrigger>
@@ -48,7 +50,7 @@ const DetailSheet = () => {
             <TabsContent value="details" className="space-y-4">
               <SheetOverview requirement={selectedRequirement} />
 
-              {!selectedRequirement.submissionId && (
+              {!isRequirementSubmitted(selectedRequirement) && (
                 <FileUploadSection requirement={selectedRequirement} />
               )}
             </TabsContent>

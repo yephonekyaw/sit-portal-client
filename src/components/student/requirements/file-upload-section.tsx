@@ -5,48 +5,21 @@ import { Upload, Plus, X, FileText, AlertCircle } from "lucide-react";
 import {
   SUPPORTED_FILE_TYPES,
   MAX_FILE_SIZE,
-  ACCEPTED_FILE_EXTENSIONS,
-} from "@/constants/student/submission.constants";
-import type { StudentRequirementWithSubmission } from "@/services/student/requirements/types";
+  SUPPORTED_FILE_EXTENSIONS,
+  UPLOAD_GUIDELINES,
+} from "@/constants/student/requirement.constants";
+import type { FileUploadSectionProps } from "@/types/student/requirement.types";
 import { formatFileSize } from "@/utils/common.utils";
+import {
+  isRequirementOverdue,
+  validateFileForUpload,
+} from "@/utils/student/requirement.utils";
 
-interface FileUploadSectionProps {
-  requirement: StudentRequirementWithSubmission;
-  onSubmit?: (file: File, scheduleId: string) => Promise<void>;
-  onClose?: () => void;
-}
-
-const FileUploadSection = ({
-  requirement,
-  onSubmit,
-  onClose,
-}: FileUploadSectionProps) => {
+const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const supportedTypes = Object.keys(SUPPORTED_FILE_TYPES);
-
-  const isFileSupported = useCallback(
-    (fileType: string): boolean => {
-      return supportedTypes.includes(fileType);
-    },
-    [supportedTypes]
-  );
-
-  const validateFile = useCallback(
-    (file: File): string | null => {
-      if (!isFileSupported(file.type)) {
-        return `File type not supported. Please upload PDF, JPG, PNG, or WebP files.`;
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        return `File size too large. Maximum size is 10MB.`;
-      }
-      return null;
-    },
-    [isFileSupported]
-  );
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -59,44 +32,52 @@ const FileUploadSection = ({
     }
   }, []);
 
-  const processFile = useCallback(
-    (file: File) => {
-      setError(null);
-      const validationError = validateFile(file);
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
 
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length === 0) return;
+
+    const file = files[0];
+    setError(null);
+
+    const validationError = validateFileForUpload(
+      file,
+      SUPPORTED_FILE_TYPES,
+      MAX_FILE_SIZE
+    );
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setSelectedFile(file);
+  }, []);
+
+  const handleFileSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(e.target.files || []);
+      if (files.length === 0) return;
+
+      const file = files[0];
+      setError(null);
+
+      const validationError = validateFileForUpload(
+        file,
+        SUPPORTED_FILE_TYPES,
+        MAX_FILE_SIZE
+      );
       if (validationError) {
         setError(validationError);
         return;
       }
 
       setSelectedFile(file);
-    },
-    [validateFile]
-  );
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setDragActive(false);
-
-      const files = Array.from(e.dataTransfer.files);
-      if (files.length > 0) {
-        processFile(files[0]);
-      }
-    },
-    [processFile]
-  );
-
-  const handleFileSelect = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const files = Array.from(e.target.files || []);
-      if (files.length > 0) {
-        processFile(files[0]);
-      }
       e.target.value = "";
     },
-    [processFile]
+    []
   );
 
   const handleRemoveFile = useCallback(() => {
@@ -104,41 +85,41 @@ const FileUploadSection = ({
     setError(null);
   }, []);
 
-  const handleSubmit = async () => {
-    if (!selectedFile || !onSubmit) return;
+  // const handleSubmit = async () => {
+  //   if (!selectedFile || !onSubmit) return;
 
-    setIsSubmitting(true);
-    setError(null);
+  //   setIsSubmitting(true);
+  //   setError(null);
 
-    try {
-      await onSubmit(selectedFile, requirement.scheduleId);
-      setSelectedFile(null);
-      onClose?.();
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "An error occurred while submitting"
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //   try {
+  //     await onSubmit(selectedFile, requirement.scheduleId);
+  //     setSelectedFile(null);
+  //     onClose?.();
+  //   } catch (err) {
+  //     setError(
+  //       err instanceof Error
+  //         ? err.message
+  //         : "An error occurred while submitting"
+  //     );
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
-  const isOverdue = new Date(requirement.submissionDeadline) < new Date();
+  const isOverdue = isRequirementOverdue(requirement.submissionDeadline);
 
   return (
-    <Card className="shadow-none border border-gray-200">
-      <CardContent className="space-y-3 p-4">
-        <h4 className="font-medium text-black text-sm">Submit Certificate</h4>
+    <Card className="shadow-none border border-blue-100">
+      <CardContent className="space-y-4">
+        <h4 className="font-medium text-slate-900">Submit Certificate</h4>
 
         {isOverdue ? (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-center">
-            <AlertCircle className="h-6 w-6 text-red-600 mx-auto mb-2" />
-            <p className="text-red-800 font-medium text-xs">
+          <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+            <AlertCircle className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+            <p className="text-blue-800 font-medium text-sm">
               Submission deadline has passed
             </p>
-            <p className="text-red-600 text-xs">
+            <p className="text-blue-600 text-xs">
               The deadline was{" "}
               {new Date(requirement.submissionDeadline).toLocaleDateString()}
             </p>
@@ -148,7 +129,7 @@ const FileUploadSection = ({
             {/* File Upload Area */}
             <div className="bg-white rounded-lg border-2 border-dashed border-gray-200 hover:border-blue-400 transition-colors duration-200">
               <div
-                className={`relative text-center rounded-lg p-4 transition-colors duration-200 ${
+                className={`relative text-center rounded-lg p-6 transition-colors duration-200 ${
                   dragActive ? "bg-blue-50 border-blue-200" : "bg-gray-50"
                 }`}
                 onDragEnter={handleDrag}
@@ -157,22 +138,22 @@ const FileUploadSection = ({
                 onDrop={handleDrop}
               >
                 {/* Upload icon */}
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
-                  <Upload className="h-5 w-5 text-blue-600" />
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <Upload className="h-6 w-6 text-blue-600" />
                 </div>
 
                 {/* Content */}
-                <h4 className="text-sm font-medium text-black mb-2">
+                <h4 className="text-base font-medium text-blue-900 mb-2">
                   Upload Certificate File
                 </h4>
-                <p className="text-gray-600 mb-3 max-w-md mx-auto text-xs">
+                <p className="text-gray-600 mb-4 max-w-md mx-auto text-xs">
                   Drag and drop your certificate here, or click to browse.
                 </p>
 
                 {/* File input */}
                 <input
                   type="file"
-                  accept={ACCEPTED_FILE_EXTENSIONS}
+                  accept={SUPPORTED_FILE_EXTENSIONS}
                   onChange={handleFileSelect}
                   className="hidden"
                   id="certificate-upload"
@@ -180,30 +161,30 @@ const FileUploadSection = ({
                 />
                 <label
                   htmlFor="certificate-upload"
-                  className={`inline-flex items-center px-3 py-2 text-xs font-medium rounded-lg transition-colors duration-200 cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 ${
+                  className={`inline-flex items-center px-4 py-2 font-medium rounded-lg transition-colors duration-200 cursor-pointer focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 ${
                     isSubmitting
                       ? "bg-gray-400 text-white cursor-not-allowed"
                       : "bg-blue-600 hover:bg-blue-700 text-white"
                   }`}
                 >
-                  <Plus className="mr-2 h-3 w-3" />
+                  <Plus className="mr-2 h-4 w-4" />
                   Choose File
                 </label>
 
-                <p className="text-xs text-gray-500 mt-2">
-                  Supported formats: PDF, JPG, PNG, WebP (Max 10MB)
+                <p className="text-sm text-gray-500 mt-3">
+                  Supported formats: PDF, JPG, JPEG, PNG, WebP (Max 10MB)
                 </p>
 
                 {/* Selected File Preview */}
                 {selectedFile && (
-                  <div className="mt-3 p-2 bg-white border border-gray-300 rounded-lg">
+                  <div className="mt-4 p-3 bg-white border border-blue-200 rounded-lg">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="p-1.5 bg-blue-100 rounded-lg">
-                          <FileText className="h-3 w-3 text-blue-600" />
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-blue-100 rounded-lg">
+                          <FileText className="h-4 w-4 text-blue-600" />
                         </div>
                         <div className="text-left">
-                          <p className="font-medium text-xs text-black">
+                          <p className="font-medium text-sm">
                             {selectedFile.name}
                           </p>
                           <p className="text-xs text-gray-500">
@@ -216,10 +197,10 @@ const FileUploadSection = ({
                         variant="ghost"
                         size="sm"
                         onClick={handleRemoveFile}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 h-6 w-6 p-0"
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
                         disabled={isSubmitting}
                       >
-                        <X className="h-3 w-3" />
+                        <X className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
@@ -227,10 +208,10 @@ const FileUploadSection = ({
 
                 {/* Error Message */}
                 {error && (
-                  <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-lg">
-                    <div className="flex items-center gap-1.5">
-                      <AlertCircle className="h-3 w-3 text-red-600" />
-                      <p className="text-xs text-red-700">{error}</p>
+                  <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="h-4 w-4 text-red-600" />
+                      <p className="text-sm text-red-700">{error}</p>
                     </div>
                   </div>
                 )}
@@ -238,46 +219,40 @@ const FileUploadSection = ({
             </div>
 
             {/* Guidelines */}
-            <div className="bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400">
-              <h4 className="font-medium text-black mb-1 text-xs">
+            <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+              <h4 className="font-medium text-blue-900 mb-2 text-sm">
                 Upload Guidelines:
               </h4>
-              <ul className="text-xs text-gray-700 space-y-0.5">
-                <li>
-                  • Ensure the certificate is clearly visible and readable
-                </li>
-                <li>• File should be in PDF format or high-quality image</li>
-                <li>• Make sure all text and details are legible</li>
-                <li>• Certificate should show your full name as registered</li>
+              <ul className="text-xs font-medium text-blue-800 space-y-1">
+                {UPLOAD_GUIDELINES.map((guideline, index) => (
+                  <li key={index}>• {guideline}</li>
+                ))}
               </ul>
             </div>
 
             {/* Submit Button */}
             {selectedFile && (
-              <div className="flex justify-end gap-2 pt-2 border-t border-gray-200">
+              <div className="flex justify-end gap-2 border-gray-200">
                 <Button
                   variant="outline"
                   onClick={handleRemoveFile}
                   disabled={isSubmitting}
-                  size="sm"
-                  className="h-7 text-xs"
                 >
                   Cancel
                 </Button>
                 <Button
-                  onClick={handleSubmit}
+                  // onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="bg-blue-600 hover:bg-blue-700 h-7 text-xs"
-                  size="sm"
+                  className="bg-blue-600 hover:bg-blue-700"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-2" />
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
                       Submitting...
                     </>
                   ) : (
                     <>
-                      <Upload className="h-3 w-3 mr-2" />
+                      <Upload className="h-4 w-4" />
                       Submit Certificate
                     </>
                   )}
