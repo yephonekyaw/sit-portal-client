@@ -19,7 +19,7 @@ const usePostLogin = () => {
       if (data.data?.userType === "staff") {
         void navigate("/staff/student-management/dashboard");
       } else {
-        void navigate("/student/certificate-submission");
+        void navigate("/student/requirements");
       }
       void queryClient.invalidateQueries({ queryKey: ["auth-me"] });
     },

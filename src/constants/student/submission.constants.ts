@@ -73,11 +73,14 @@ export const DEADLINE_STATUS_CONFIGS = {
 // Filter options for submissions page
 export const SUBMISSION_FILTER_OPTIONS = [
   { value: "all", label: "All Requirements" },
-  { value: "completed", label: "Completed" },
-  { value: "pending", label: "In Review" },
+  { value: "approved", label: "Approved" },
+  { value: "pending", label: "Bot Reviewing" },
   { value: "rejected", label: "Rejected" },
-  { value: "not-submitted", label: "Not Submitted" },
+  { value: "manual_review", label: "Staff Reviewing" },
   { value: "overdue", label: "Overdue" },
+  { value: "late", label: "Late" },
+  { value: "on_time", label: "On Time" },
+  { value: "not_submitted", label: "Not Submitted" },
 ] as const;
 
 // Statistics card configurations

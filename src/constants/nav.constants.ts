@@ -13,9 +13,9 @@ export const NAVIGATION_CONFIG: {
 } = {
   student: [
     {
-      label: "Certificate Submission",
-      href: "/student/certificate-submission",
-      icon: Upload,
+      label: "Requirements",
+      href: "/student/requirements",
+      icon: CheckCircle,
     },
   ],
   staff: [

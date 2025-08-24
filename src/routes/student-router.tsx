@@ -1,6 +1,6 @@
 import StudentApp from "@/apps/student-app";
 import RouteProtect from "@/middlewares/route-protect";
-import CertificateSubmissionsPage from "@/pages/student/certificate-submissions-page";
+import RequirementPage from "@/pages/student/requirements-page";
 
 const studentRouter = [
   {
@@ -12,8 +12,8 @@ const studentRouter = [
     ),
     children: [
       {
-        path: "student/certificate-submission",
-        element: <CertificateSubmissionsPage />,
+        path: "student/requirements",
+        element: <RequirementPage />,
       },
     ],
   },
