@@ -10,11 +10,16 @@ import SchedulesPage from "@/pages/staff/schedules-page";
 import SubmissionsPage from "@/pages/staff/submissions-page";
 import StaffPage from "@/pages/staff/staff-page";
 import StaffFormPage from "@/pages/staff/staff-form-page";
+import RouteProtect from "@/middlewares/route-protect";
 
 const staffRouter = [
   {
     path: "",
-    element: <StaffApp />,
+    element: (
+      <RouteProtect types={["staff"]}>
+        <StaffApp />
+      </RouteProtect>
+    ),
     children: [
       {
         path: "staff-management",

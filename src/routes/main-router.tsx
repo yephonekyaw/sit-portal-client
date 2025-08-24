@@ -24,7 +24,7 @@ const mainRouter = [
   },
   {
     path: "*",
-    element: <div>404 Not Found</div>,
+    element: <div>Not Found Page</div>,
   },
 ];
 

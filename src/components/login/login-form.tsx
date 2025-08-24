@@ -1,8 +1,9 @@
 import React, { memo, useState } from "react";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
@@ -11,28 +12,35 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Eye, EyeOff, Mail, Lock, LogIn } from "lucide-react";
+import { loginSchema } from "@/schemas/auth.schemas";
+import { type LoginFormData } from "@/types/auth.types";
+import { usePostLogin } from "@/services/auth/mutations";
 
-interface LoginFormProps {
-  onLogin: (email: string, password: string, rememberMe: boolean) => void;
-}
-
-export const LoginForm: React.FC<LoginFormProps> = memo(({ onLogin }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+export const LoginForm: React.FC = memo(() => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: login, isPending: isLoggingIn } = usePostLogin();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: "onChange",
+    defaultValues: {
+      username: "",
+      password: "",
+      rememberMe: false,
+    },
+  });
 
-    try {
-      onLogin(email, password, rememberMe);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSubmit = async (data: LoginFormData) => {
+    void login(data);
   };
 
   return (
@@ -57,120 +65,157 @@ export const LoginForm: React.FC<LoginFormProps> = memo(({ onLogin }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Field */}
-            <motion.div
-              className="space-y-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-6"
             >
-              <Label
-                htmlFor="email"
-                className="text-sm font-medium text-gray-700"
+              {/* Email Field */}
+              <motion.div
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.8 }}
               >
-                Email Address
-              </Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="pl-10 h-12 bg-white/70 border-gray-200 focus:border-blue-400 focus:ring-blue-200 transition-all duration-200"
-                  required
-                />
-              </div>
-            </motion.div>
-
-            {/* Password Field */}
-            <motion.div
-              className="space-y-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-            >
-              <Label
-                htmlFor="password"
-                className="text-sm font-medium text-gray-700"
-              >
-                Password
-              </Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="pl-10 pr-10 h-12 bg-white/70 border-gray-200 focus:border-blue-400 focus:ring-blue-200 transition-all duration-200"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel
+                        htmlFor="username"
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Username or ID
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                          <Input
+                            id="username"
+                            type="text"
+                            placeholder="@ad.sit.kmutt.ac.th"
+                            {...field}
+                            className="pl-10 h-12 bg-white/70 border-gray-200 focus:border-blue-400 focus:ring-blue-200 transition-all duration-200"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                </button>
-              </div>
-            </motion.div>
+                />
+              </motion.div>
 
-            {/* Remember Me Checkbox */}
-            <motion.div
-              className="flex items-center space-x-2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
-            >
-              <Checkbox
-                id="remember"
-                checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked === true)}
-                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-              />
-              <Label
-                htmlFor="remember"
-                className="text-sm text-gray-600 cursor-pointer"
+              {/* Password Field */}
+              <motion.div
+                className="space-y-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.9 }}
               >
-                Remember me for 30 days
-              </Label>
-            </motion.div>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel
+                        htmlFor="password"
+                        className="text-sm font-medium text-gray-700"
+                      >
+                        Password
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                          <Input
+                            id="password"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter your password"
+                            {...field}
+                            className="pl-10 pr-10 h-12 bg-white/70 border-gray-200 focus:border-blue-400 focus:ring-blue-200 transition-all duration-200"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
 
-            {/* Sign In Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.1 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Button
-                type="submit"
-                disabled={isLoading || !email || !password}
-                className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              {/* Remember Me Checkbox */}
+              <motion.div
+                className="flex items-center space-x-2"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 1.0 }}
               >
-                {isLoading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-                    <span>Signing In...</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-2">
-                    <LogIn className="h-4 w-4" />
-                    <span>Sign In</span>
-                  </div>
-                )}
-              </Button>
-            </motion.div>
-          </form>
+                <FormField
+                  control={form.control}
+                  name="rememberMe"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          id="rememberMe"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                        />
+                      </FormControl>
+                      <FormLabel
+                        htmlFor="rememberMe"
+                        className="text-sm text-gray-600 cursor-pointer"
+                      >
+                        Remember me for 30 days
+                      </FormLabel>
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+
+              {/* Sign In Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Button
+                  type="submit"
+                  disabled={
+                    isLoggingIn ||
+                    !form.formState.isValid ||
+                    form.formState.isSubmitting
+                  }
+                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoggingIn || form.formState.isSubmitting ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                      <span>Signing In...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <LogIn className="h-4 w-4" />
+                      <span>Sign In</span>
+                    </div>
+                  )}
+                </Button>
+              </motion.div>
+            </form>
+          </Form>
 
           {/* Security Note */}
           <motion.div

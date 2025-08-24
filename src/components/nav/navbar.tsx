@@ -13,7 +13,7 @@ import { Button } from "../ui/button";
 import DesktopNav from "./desktop-nav";
 import { MobileNav } from "./mobile-nav";
 import { NotificationCenter } from "../notifications/notification-center";
-// import { UserMenu } from "./user-menu";
+import { LogoutButton } from "./logout-button";
 
 export function Navbar({ className }: { className?: string }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -69,7 +69,7 @@ export function Navbar({ className }: { className?: string }) {
 
         <nav className="flex items-center gap-3">
           <NotificationCenter />
-          {/* <UserMenu /> */}
+          <LogoutButton />
         </nav>
       </div>
     </header>

@@ -1,6 +1,5 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useMousePosition } from "@/hooks/use-mouse-position";
-import { toast } from "sonner";
 
 import { MouseSpotlight } from "@/components/login/mouse-spot-light";
 import { DotGrid } from "@/components/login/dot-grid";
@@ -11,26 +10,6 @@ import { HelpLinks } from "@/components/login/help-links";
 
 const LoginPage: React.FC = () => {
   const mousePosition = useMousePosition();
-
-  const handleLogin = useCallback(
-    async (email: string, password: string, rememberMe: boolean) => {
-      console.log("Login attempt:", { email, password: "***", rememberMe });
-
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      if (email && password) {
-        toast.success("Login successful!", {
-          description: "Welcome back to SIT Portal",
-        });
-        console.log("Redirecting to dashboard...");
-      } else {
-        toast.error("Login failed", {
-          description: "Please check your credentials and try again.",
-        });
-      }
-    },
-    []
-  );
 
   return (
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-4">
@@ -51,7 +30,7 @@ const LoginPage: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-md">
         <UniversityLogo />
-        <LoginForm onLogin={handleLogin} />
+        <LoginForm />
         <HelpLinks />
       </div>
     </div>

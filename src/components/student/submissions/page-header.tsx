@@ -30,10 +30,7 @@ interface PageHeaderProps {
   totalCount: number;
 }
 
-const PageHeader = ({
-  filteredCount,
-  totalCount,
-}: PageHeaderProps) => {
+const PageHeader = ({ filteredCount, totalCount }: PageHeaderProps) => {
   const [isFilterPopoverOpen, setIsFilterPopoverOpen] = useState(false);
   const { filters, setFilters, clearFilters } = useSubmissionFilters();
 
@@ -47,7 +44,9 @@ const PageHeader = ({
           <FileText className="h-6 w-6 text-blue-600" />
         </div>
         <div className="flex-1">
-          <h1 className="text-xl font-bold text-blue-900">Certificate Submissions</h1>
+          <h1 className="text-xl font-bold text-blue-900">
+            Certificate Submissions
+          </h1>
           <p className="mt-1 text-sm text-gray-600">
             Submit and track your required certificates for program completion.
           </p>
@@ -60,6 +59,7 @@ const PageHeader = ({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
+            id="search"
             placeholder="Search by certificate name or code..."
             className="pl-10 bg-white border-blue-200 focus:border-blue-400 focus:ring-blue-200 text-sm h-10"
             value={filters.search}
@@ -125,7 +125,9 @@ const PageHeader = ({
                     </label>
                     <Select
                       value={filters.status}
-                      onValueChange={(status) => setFilters({ status: status as typeof filters.status })}
+                      onValueChange={(status) =>
+                        setFilters({ status: status as typeof filters.status })
+                      }
                     >
                       <SelectTrigger className="w-full bg-white border-gray-200 text-sm">
                         <SelectValue placeholder="Select status" />
@@ -159,7 +161,12 @@ const PageHeader = ({
                 variant="secondary"
                 className="bg-green-100 text-green-800 border-green-200 hover:bg-green-200"
               >
-                Status: {SUBMISSION_FILTER_OPTIONS.find(opt => opt.value === filters.status)?.label}
+                Status:{" "}
+                {
+                  SUBMISSION_FILTER_OPTIONS.find(
+                    (opt) => opt.value === filters.status
+                  )?.label
+                }
               </Badge>
             )}
 
