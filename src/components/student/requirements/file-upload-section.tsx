@@ -85,26 +85,26 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
     setError(null);
   }, []);
 
-  // const handleSubmit = async () => {
-  //   if (!selectedFile || !onSubmit) return;
+  const handleSubmit = async () => {
+    if (!selectedFile) return;
 
-  //   setIsSubmitting(true);
-  //   setError(null);
+    console.log(selectedFile);
 
-  //   try {
-  //     await onSubmit(selectedFile, requirement.scheduleId);
-  //     setSelectedFile(null);
-  //     onClose?.();
-  //   } catch (err) {
-  //     setError(
-  //       err instanceof Error
-  //         ? err.message
-  //         : "An error occurred while submitting"
-  //     );
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      setSelectedFile(null);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred while submitting"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const isOverdue = isRequirementOverdue(requirement.submissionDeadline);
 
@@ -241,7 +241,7 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
                   Cancel
                 </Button>
                 <Button
-                  // onClick={handleSubmit}
+                  onClick={handleSubmit}
                   disabled={isSubmitting}
                   className="bg-blue-600 hover:bg-blue-700"
                 >

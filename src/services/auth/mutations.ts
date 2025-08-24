@@ -21,7 +21,7 @@ const usePostLogin = () => {
       } else {
         void navigate("/student/requirements");
       }
-      void queryClient.invalidateQueries({ queryKey: ["auth-me"] });
+      void queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || "Login failed", {

@@ -122,7 +122,7 @@ const RequirementCard = ({ requirement }: RequirementCardProps) => {
           >
             {requirement.isMandatory ? "Required" : "Optional"}
           </Badge>
-          <Badge className="bg-gray-600 text-white border-0 text-xs px-2 py-1 font-medium">
+          <Badge className="bg-red-100 text-red-700 border-0 text-xs px-2 py-1 font-medium">
             <Calendar className="h-3 w-3 mr-1" />
             <span>Due</span>
             {formatDate(requirement.submissionDeadline, {})}

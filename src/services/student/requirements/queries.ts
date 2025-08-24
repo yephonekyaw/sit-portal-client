@@ -1,10 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { getStudentRequirements, postCertificate } from "./apis";
+import { getStudentRequirements } from "./apis";
 
 const useGetStudentRequirements = () => {
   return useQuery({
-    queryKey: ["student-requirements"],
+    queryKey: ["student", "requirements"],
     queryFn: getStudentRequirements,
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
@@ -20,21 +20,4 @@ const useGetStudentRequirements = () => {
   });
 };
 
-const usePostCertificate = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: postCertificate,
-    onSuccess: () => {
-      // Invalidate and refetch student requirements after successful submission
-      queryClient.invalidateQueries({
-        queryKey: ["student-requirements"],
-      });
-    },
-    onError: (error: AxiosError) => {
-      console.error("Certificate submission failed:", error);
-    },
-  });
-};
-
-export { useGetStudentRequirements, usePostCertificate };
+export { useGetStudentRequirements };

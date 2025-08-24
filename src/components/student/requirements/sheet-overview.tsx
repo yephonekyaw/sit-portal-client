@@ -21,13 +21,11 @@ import type { SheetOverviewProps } from "@/types/student/requirement.types";
 import {
   getInitials,
   getRequirementStatusBadge,
-  isRequirementOverdue,
   isRequirementSubmitted,
 } from "@/utils/student/requirement.utils";
 
 const SheetOverview = ({ requirement }: SheetOverviewProps) => {
   const isSubmitted = isRequirementSubmitted(requirement);
-  const isOverdue = isRequirementOverdue(requirement.submissionDeadline);
 
   const statusBadge = getRequirementStatusBadge(requirement);
   const StatusIcon = statusBadge.icon;
@@ -92,13 +90,7 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
               <span>Target</span>
               <span>Year {requirement.targetYear}</span>
             </Badge>
-            <Badge
-              className={`text-sm px-2 py-0.5 border-0 space-x-1 ${
-                isOverdue && !isSubmitted
-                  ? "bg-red-100 text-red-700"
-                  : "bg-gray-100 text-gray-700"
-              }`}
-            >
+            <Badge className="text-sm px-2 py-0.5 border-0 space-x-1 bg-red-100 text-red-700">
               <CalendarClock />
               <span>Due At</span>
               <span>{formatDate(requirement.submissionDeadline, {})}</span>

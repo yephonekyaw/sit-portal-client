@@ -2,7 +2,8 @@ import axiosClient from "@/services/api/client";
 import type { ApiResponse } from "@/services/api/types";
 import type {
   StudentRequirementWithSubmission,
-  CertificateSubmissionResponse,
+  RequirementSubmissionRequest,
+  RequirementSubmissionResponse,
 } from "./types";
 
 const getStudentRequirements = async (): Promise<
@@ -14,19 +15,12 @@ const getStudentRequirements = async (): Promise<
     )
     .then((res) => res.data);
 
-const postCertificate = async (
-  data: FormData
-): Promise<ApiResponse<CertificateSubmissionResponse>> =>
+const postSubmitRequirement = async (data: RequirementSubmissionRequest) =>
   axiosClient
-    .post<ApiResponse<CertificateSubmissionResponse>>(
-      "/student/requirements/certificate",
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+    .postForm<ApiResponse<RequirementSubmissionResponse>>(
+      "/student/requirements/submit",
+      data
     )
     .then((res) => res.data);
 
-export { getStudentRequirements, postCertificate };
+export { getStudentRequirements, postSubmitRequirement };

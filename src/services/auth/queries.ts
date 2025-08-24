@@ -4,10 +4,10 @@ import { AxiosError } from "axios";
 
 const useGetMeQuery = () => {
   return useQuery({
-    queryKey: ["auth-me"],
+    queryKey: ["auth", "me"],
     queryFn: getMe,
-    staleTime: 5 * 60 * 1000,
-    refetchInterval: 5 * 60 * 1000,
+    staleTime: 15 * 60 * 1000,
+    refetchInterval: 15 * 60 * 1000,
     retry: (failureCount, err) => {
       if (
         err instanceof AxiosError &&
