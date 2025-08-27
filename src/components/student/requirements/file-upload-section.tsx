@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Upload, Plus, X, FileText, AlertCircle } from "lucide-react";
+import { Upload, Plus, X, FileText, AlertCircle, ArrowLeft } from "lucide-react";
 import {
   SUPPORTED_FILE_TYPES,
   MAX_FILE_SIZE,
@@ -14,12 +14,14 @@ import {
   isRequirementOverdue,
   validateFileForUpload,
 } from "@/utils/student/requirement.utils";
+import { usePostSubmitRequirement } from "@/services/student/requirements/mutations";
 
-const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
+const FileUploadSection = ({ requirement, isEditMode = false, onBack }: FileUploadSectionProps) => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { mutateAsync: submitRequirement, isPending: isSubmitting } =
+    usePostSubmitRequirement();
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -88,12 +90,20 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
   const handleSubmit = async () => {
     if (!selectedFile) return;
 
-    console.log(selectedFile);
-
-    setIsSubmitting(true);
     setError(null);
 
     try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("scheduleId", requirement.scheduleId);
+      formData.append("requirementId", requirement.requirementId);
+      formData.append("certTypeId", requirement.certTypeId);
+      formData.append("programId", requirement.programId);
+      if (requirement.submissionId) {
+        formData.append("submissionId", requirement.submissionId);
+      }
+
+      await submitRequirement(formData);
       setSelectedFile(null);
     } catch (err) {
       setError(
@@ -101,8 +111,6 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
           ? err.message
           : "An error occurred while submitting"
       );
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -111,7 +119,21 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
   return (
     <Card className="shadow-none border border-blue-100">
       <CardContent className="space-y-4">
-        <h4 className="font-medium text-slate-900">Submit Certificate</h4>
+        <div className="flex items-center gap-3">
+          {isEditMode && onBack && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onBack}
+              className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          )}
+          <h4 className="font-medium text-slate-900">
+            {isEditMode ? "Update Certificate" : "Submit Certificate"}
+          </h4>
+        </div>
 
         {isOverdue ? (
           <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
@@ -144,10 +166,13 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
 
                 {/* Content */}
                 <h4 className="text-base font-medium text-blue-900 mb-2">
-                  Upload Certificate File
+                  {isEditMode ? "Replace Certificate File" : "Upload Certificate File"}
                 </h4>
                 <p className="text-gray-600 mb-4 max-w-md mx-auto text-xs">
-                  Drag and drop your certificate here, or click to browse.
+                  {isEditMode 
+                    ? "Drag and drop a new certificate to replace the current one, or click to browse."
+                    : "Drag and drop your certificate here, or click to browse."
+                  }
                 </p>
 
                 {/* File input */}
@@ -168,7 +193,7 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
                   }`}
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  Choose File
+                  {isEditMode ? "Choose New File" : "Choose File"}
                 </label>
 
                 <p className="text-sm text-gray-500 mt-3">
@@ -248,12 +273,12 @@ const FileUploadSection = ({ requirement }: FileUploadSectionProps) => {
                   {isSubmitting ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                      Submitting...
+                      {isEditMode ? "Updating..." : "Submitting..."}
                     </>
                   ) : (
                     <>
                       <Upload className="h-4 w-4" />
-                      Submit Certificate
+                      {isEditMode ? "Update Certificate" : "Submit Certificate"}
                     </>
                   )}
                 </Button>

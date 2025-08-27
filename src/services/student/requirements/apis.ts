@@ -1,10 +1,6 @@
 import axiosClient from "@/services/api/client";
 import type { ApiResponse } from "@/services/api/types";
-import type {
-  StudentRequirementWithSubmission,
-  RequirementSubmissionRequest,
-  RequirementSubmissionResponse,
-} from "./types";
+import type { StudentRequirementWithSubmission } from "./types";
 
 const getStudentRequirements = async (): Promise<
   ApiResponse<StudentRequirementWithSubmission[]>
@@ -15,9 +11,9 @@ const getStudentRequirements = async (): Promise<
     )
     .then((res) => res.data);
 
-const postSubmitRequirement = async (data: RequirementSubmissionRequest) =>
+const postSubmitRequirement = async (data: FormData) =>
   axiosClient
-    .postForm<ApiResponse<RequirementSubmissionResponse>>(
+    .postForm<ApiResponse<StudentRequirementWithSubmission>>(
       "/student/requirements/submit",
       data
     )

@@ -6,6 +6,9 @@ interface RequirementStoreState {
   selectedRequirement: StudentRequirementWithSubmission | null;
 
   // Actions
+  setSelectedRequirement: (
+    requirement: StudentRequirementWithSubmission
+  ) => void;
   openDetailSheet: (requirement: StudentRequirementWithSubmission) => void;
   closeDetailSheet: () => void;
 }
@@ -20,6 +23,8 @@ interface SheetOverviewProps {
 
 interface FileUploadSectionProps {
   requirement: StudentRequirementWithSubmission;
+  isEditMode?: boolean;
+  onBack?: () => void;
 }
 
 interface StatusBadge {

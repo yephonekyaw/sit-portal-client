@@ -19,9 +19,15 @@ const DetailSheet = () => {
 
   if (!selectedRequirement) return null;
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      closeDetailSheet();
+    }
+  };
+
   return (
-    <Sheet open={detailSheetState} onOpenChange={closeDetailSheet}>
-      <SheetContent className="w-full sm:max-w-2xl lg:max-w-4xl overflow-y-auto px-6 pb-4">
+    <Sheet open={detailSheetState} onOpenChange={handleOpenChange}>
+      <SheetContent className="w-full sm:max-w-2xl lg:max-w-4xl overflow-y-auto px-6">
         <SheetHeader className="px-0">
           <SheetTitle className="text-xl">
             Details of {selectedRequirement.requirementName}

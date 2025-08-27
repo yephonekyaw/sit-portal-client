@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { formatFileSize } from "@/utils/common.utils";
@@ -15,21 +14,38 @@ import {
   Cpu,
   Calendar,
   CalendarClock,
+  View,
+  Edit,
 } from "lucide-react";
-import { memo } from "react";
+import { memo, useState } from "react";
 import type { SheetOverviewProps } from "@/types/student/requirement.types";
 import {
   getInitials,
   getRequirementStatusBadge,
   isRequirementSubmitted,
 } from "@/utils/student/requirement.utils";
+import FileUploadSection from "./file-upload-section";
 
 const SheetOverview = ({ requirement }: SheetOverviewProps) => {
   const isSubmitted = isRequirementSubmitted(requirement);
+  const [showEditMode, setShowEditMode] = useState(false);
 
   const statusBadge = getRequirementStatusBadge(requirement);
   const StatusIcon = statusBadge.icon;
   const confidenceScore = requirement.agentConfidenceScore ?? 0;
+
+  // If in edit mode and it's a submitted requirement, show FileUploadSection
+  if (showEditMode && isSubmitted) {
+    return (
+      <div className="space-y-3">
+        <FileUploadSection
+          requirement={requirement}
+          isEditMode={true}
+          onBack={() => setShowEditMode(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-3">
@@ -160,27 +176,42 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
 
             {/* File Info */}
             {requirement.filename && (
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                <div className="flex items-center space-x-2 flex-1 min-w-0">
-                  <div className="p-1.5 bg-gray-200 rounded-lg">
-                    <FileIcon className="h-4 w-4 text-gray-600" />
+              <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <div className="p-1.5 bg-green-100 rounded-lg mt-0.5">
+                    <FileIcon className="h-4 w-4 text-green-600" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate text-black">
+                    <p className="text-sm font-medium text-green-900 truncate mb-1">
                       {requirement.filename}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs text-green-700">
                       {requirement.fileSize &&
                         formatFileSize(requirement.fileSize)}
                       {requirement.mimeType && ` • ${requirement.mimeType}`}
                     </p>
                   </div>
-                </div>
-                <div className="flex gap-2 shrink-0">
-                  <Button variant="outline" size="sm" className="h-8 text-sm">
-                    <Download className="h-3 w-3 mr-1" />
-                    Download
-                  </Button>
+                  <div className="flex gap-1 shrink-0">
+                    <div
+                      className="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors cursor-pointer"
+                      title="View"
+                    >
+                      <View className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div
+                      className="p-2 bg-purple-100 hover:bg-purple-200 rounded-lg transition-colors cursor-pointer"
+                      title="Download"
+                    >
+                      <Download className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div
+                      className="p-2 bg-orange-100 hover:bg-orange-200 rounded-lg transition-colors cursor-pointer"
+                      title="Edit"
+                      onClick={() => setShowEditMode(true)}
+                    >
+                      <Edit className="h-4 w-4 text-orange-600" />
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -211,38 +242,7 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
             </div>
 
             {/* Timeline */}
-            {requirement.submittedAt && (
-              <div className="flex items-center justify-between pt-2 border-t border-gray-200">
-                <div className="flex items-center gap-2">
-                  <div className="p-1 bg-blue-100 rounded-full">
-                    <FileIcon className="h-3 w-3 text-blue-600" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Submitted</p>
-                    <p className="text-sm font-medium text-black">
-                      {formatDate(requirement.submittedAt, {})}
-                    </p>
-                  </div>
-                </div>
-
-                {requirement.expiredAt && (
-                  <div className="flex items-center gap-2">
-                    <div className="p-1 bg-red-100 rounded-full">
-                      <AlertCircle className="h-3 w-3 text-red-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-600">Expires</p>
-                      <p className="text-sm font-medium text-black">
-                        {formatDate(requirement.expiredAt, {})}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Timeline */}
-            {/* <div className="flex items-center justify-between text-center pt-2 border-t border-slate-100">
+            <div className="flex items-center justify-center text-center pt-2 border-t border-gray-200 gap-4">
               {requirement.submittedAt && (
                 <div className="space-y-1">
                   <div className="p-1.5 bg-blue-100 rounded-full mx-auto w-fit">
@@ -260,11 +260,11 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
                 <>
                   <div className="h-px bg-slate-200 flex-1 mx-3"></div>
                   <div className="space-y-1">
-                    <div className="p-1.5 bg-amber-100 rounded-full mx-auto w-fit">
-                      <FileCheck className="h-3.5 w-3.5 text-amber-600" />
+                    <div className="p-1.5 bg-red-100 rounded-full mx-auto w-fit">
+                      <AlertCircle className="h-3.5 w-3.5 text-red-600" />
                     </div>
                     <p className="text-xs uppercase tracking-wide text-muted-foreground font-medium">
-                      Last Updated
+                      Expires
                     </p>
                     <p className="text-xs font-semibold">
                       {formatDate(requirement.expiredAt, {})}
@@ -272,7 +272,7 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
                   </div>
                 </>
               )}
-            </div> */}
+            </div>
           </CardContent>
         </Card>
       )}

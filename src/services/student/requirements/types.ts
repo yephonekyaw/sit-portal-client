@@ -35,16 +35,14 @@ interface StudentRequirementWithSubmission {
 }
 
 interface RequirementSubmissionRequest {
-  scheduleId: string;
-  requirementId: string;
-  certTypeId: string;
-  programId: string;
-  submissionId?: string;
+  submissionData: {
+    scheduleId: string;
+    requirementId: string;
+    certTypeId: string;
+    programId: string;
+    submissionId?: string;
+  };
   file: File;
-}
-
-interface RequirementSubmissionResponse {
-  submissionId: string;
 }
 
 type SubmissionStatus = "pending" | "approved" | "rejected" | "manual_review";
@@ -54,7 +52,6 @@ type SubmissionTiming = "on_time" | "late" | "overdue";
 export type {
   StudentRequirementWithSubmission,
   RequirementSubmissionRequest,
-  RequirementSubmissionResponse,
   SubmissionStatus,
   SubmissionTiming,
 };

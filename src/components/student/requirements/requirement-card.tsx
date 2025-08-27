@@ -131,6 +131,7 @@ const RequirementCard = ({ requirement }: RequirementCardProps) => {
           {/* Additional timing badges for approved submissions */}
           {showApprovedDetails && requirement.submittedAt && (
             <Badge className="bg-blue-100 text-blue-700 border-0 text-xs px-2 py-1 font-medium">
+              <Calendar className="h-3 w-3 mr-1" />
               Submitted {formatDate(requirement.submittedAt, {})}
             </Badge>
           )}
