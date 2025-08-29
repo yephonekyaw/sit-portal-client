@@ -11,6 +11,7 @@ import type { TabState } from "@/types/student/requirement.types";
 import SheetOverview from "./sheet-overview";
 import FileUploadSection from "./file-upload-section";
 import { isRequirementSubmitted } from "@/utils/student/requirement.utils";
+import StudentVerificationHistory from "./verification-history";
 
 const DetailSheet = () => {
   const [activeTab, setActiveTab] = useState<TabState>("details");
@@ -62,15 +63,15 @@ const DetailSheet = () => {
             </TabsContent>
 
             <TabsContent value="history" className="space-y-6">
-              {/* {submission?.verification_history ? (
+              {selectedRequirement?.submissionId ? (
                 <StudentVerificationHistory
-                  verificationHistories={submission.verification_history}
+                  submissionId={selectedRequirement.submissionId}
                 />
-              ) : ( */}
-              <div className="text-center py-8 text-gray-500">
-                No verification history available.
-              </div>
-              {/* )} */}
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  No verification history available.
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

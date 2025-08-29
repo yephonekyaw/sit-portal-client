@@ -1,6 +1,9 @@
 import axiosClient from "@/services/api/client";
 import type { ApiResponse } from "@/services/api/types";
-import type { StudentRequirementWithSubmission } from "./types";
+import type {
+  StudentRequirementWithSubmission,
+  VerificationHistoryListResponse,
+} from "./types";
 
 const getStudentRequirements = async (): Promise<
   ApiResponse<StudentRequirementWithSubmission[]>
@@ -19,4 +22,17 @@ const postSubmitRequirement = async (data: FormData) =>
     )
     .then((res) => res.data);
 
-export { getStudentRequirements, postSubmitRequirement };
+const getVerificationHistory = async (submissionId: string) =>
+  axiosClient
+    .get<ApiResponse<VerificationHistoryListResponse>>(
+      `/student/requirements/${encodeURIComponent(
+        submissionId
+      )}/verification-history`
+    )
+    .then((res) => res.data);
+
+export {
+  getStudentRequirements,
+  postSubmitRequirement,
+  getVerificationHistory,
+};

@@ -1,3 +1,9 @@
+type SubmissionStatus = "pending" | "approved" | "rejected" | "manual_review";
+
+type SubmissionTiming = "on_time" | "late" | "overdue";
+
+type VerificationType = "manual" | "agent";
+
 interface StudentRequirementWithSubmission {
   // Schedule data
   scheduleId: string;
@@ -45,13 +51,42 @@ interface RequirementSubmissionRequest {
   file: File;
 }
 
-type SubmissionStatus = "pending" | "approved" | "rejected" | "manual_review";
+interface VerificationHistoryResponse {
+  /** Verification history ID */
+  id: string;
+  /** Type of verification */
+  verificationType: VerificationType;
+  /** Previous submission status */
+  oldStatus: SubmissionStatus;
+  /** New submission status */
+  newStatus: SubmissionStatus;
+  /** Verification comments */
+  comments?: string;
+  /** Verification reasons */
+  reasons?: string;
+  /** Agent analysis result data */
+  agentAnalysisResult?: Record<string, unknown>;
+  /** Creation timestamp */
+  createdAt: string;
+  /** Last update timestamp */
+  updatedAt?: string;
+}
 
-type SubmissionTiming = "on_time" | "late" | "overdue";
+interface VerificationHistoryListResponse {
+  /** List of verification history records */
+  verificationHistory: VerificationHistoryResponse[];
+  /** Total number of verification history records */
+  totalCount: number;
+  /** Certificate submission ID */
+  submissionId: string;
+}
 
 export type {
-  StudentRequirementWithSubmission,
-  RequirementSubmissionRequest,
+  VerificationType,
   SubmissionStatus,
   SubmissionTiming,
+  StudentRequirementWithSubmission,
+  RequirementSubmissionRequest,
+  VerificationHistoryResponse,
+  VerificationHistoryListResponse,
 };

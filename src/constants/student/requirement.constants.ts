@@ -1,3 +1,5 @@
+import { AlertTriangle, CheckCircle, Clock, XCircle } from "lucide-react";
+
 export const SUPPORTED_FILE_TYPES = [
   "application/pdf",
   "image/jpeg",
@@ -8,7 +10,7 @@ export const SUPPORTED_FILE_TYPES = [
 
 export const SUPPORTED_FILE_EXTENSIONS = ".pdf,.jpg,.jpeg,.png,.webp";
 
-export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+export const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
 export const SUBMISSION_FILTER_OPTIONS = [
   { value: "all", label: "All Requirements" },
@@ -31,7 +33,6 @@ export const UPLOAD_GUIDELINES = [
   "Include completion date and issuing organization details",
 ] as const;
 
-// Status badge configurations for requirements
 export const REQUIREMENT_STATUS_BADGES = {
   approved: {
     label: "Approved",
@@ -63,8 +64,34 @@ export const REQUIREMENT_STATUS_BADGES = {
   },
 } as const;
 
-// Text truncation default length
 export const DEFAULT_TEXT_TRUNCATE_LENGTH = 200;
+
+export const SUBMISSION_STATUS_CONFIGS = {
+  approved: {
+    label: "Approved",
+    color: "bg-green-100 text-green-700 border-green-200",
+    icon: CheckCircle,
+    iconColor: "text-green-600",
+  },
+  pending: {
+    label: "Pending",
+    color: "bg-yellow-100 text-yellow-700 border-yellow-200",
+    icon: Clock,
+    iconColor: "text-yellow-600",
+  },
+  rejected: {
+    label: "Rejected",
+    color: "bg-red-100 text-red-700 border-red-200",
+    icon: XCircle,
+    iconColor: "text-red-600",
+  },
+  manual_review: {
+    label: "Manual Review",
+    color: "bg-purple-100 text-purple-700 border-purple-200",
+    icon: AlertTriangle,
+    iconColor: "text-purple-600",
+  },
+};
 
 export default {
   SUPPORTED_FILE_TYPES,

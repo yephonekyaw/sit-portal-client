@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { getStudentRequirements } from "./apis";
+import { getStudentRequirements, getVerificationHistory } from "./apis";
 
 const useGetStudentRequirements = () => {
   return useQuery({
@@ -20,4 +20,13 @@ const useGetStudentRequirements = () => {
   });
 };
 
-export { useGetStudentRequirements };
+const useGetVerificationHistory = (submissionId: string) => {
+  return useQuery({
+    queryKey: ["student", "requirements", "history", submissionId],
+    queryFn: () => getVerificationHistory(submissionId),
+    staleTime: 60 * 60 * 1000, // 1 hour
+    refetchInterval: 60 * 60 * 1000, // Refetch every 1 hour
+  });
+};
+
+export { useGetStudentRequirements, useGetVerificationHistory };

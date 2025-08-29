@@ -35,6 +35,10 @@ interface StatusBadge {
 
 type TabState = "details" | "history";
 
+interface StudentVerificationHistoryProps {
+  submissionId: string;
+}
+
 export type {
   RequirementStoreState,
   RequirementCardProps,
@@ -42,4 +46,5 @@ export type {
   FileUploadSectionProps,
   StatusBadge,
   TabState,
+  StudentVerificationHistoryProps,
 };
