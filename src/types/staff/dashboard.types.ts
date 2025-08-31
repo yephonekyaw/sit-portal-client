@@ -16,7 +16,7 @@ interface CardHeaderSectionProps {
   codes: string[];
   isActive: boolean;
   onEdit?: () => void;
-  onDelete?: () => void;
+  onArchive?: () => void;
   onClickVerify?: () => void;
 }
 
@@ -24,6 +24,7 @@ interface CardInfoItemProps {
   icon: LucideIcon;
   label: string;
   value: string | number;
+  className?: string;
 }
 
 interface CardInfoSectionProps {

@@ -5,7 +5,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRequirementStore } from "@/stores/student/requirement.store";
+import { useRequirementStore } from "@/stores/student/requirement.stores";
 import { useState } from "react";
 import type { TabState } from "@/types/student/requirement.types";
 import SheetOverview from "./sheet-overview";

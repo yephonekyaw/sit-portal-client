@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postSubmitRequirement } from "./apis";
 import type { ApiError, ApiResponse } from "@/services/api/types";
 import type { StudentRequirementWithSubmission } from "./types";
-import { useRequirementStore } from "@/stores/student/requirement.store";
+import { useRequirementStore } from "@/stores/student/requirement.stores";
 import { toast } from "sonner";
 
 const usePostSubmitRequirement = () => {
@@ -14,7 +14,7 @@ const usePostSubmitRequirement = () => {
     ApiError,
     FormData
   >({
-    mutationFn: (data) => postSubmitRequirement(data),
+    mutationFn: postSubmitRequirement,
     onSuccess: (data) => {
       toast.success("Certificate submitted successfully");
       queryClient.invalidateQueries({
@@ -26,10 +26,7 @@ const usePostSubmitRequirement = () => {
     },
     onError: (error) => {
       toast.error(
-        error.response?.data.message || "Failed to submit certificate",
-        {
-          description: "Please try again later.",
-        }
+        error.response?.data.message || "Failed to submit certificate"
       );
     },
   });

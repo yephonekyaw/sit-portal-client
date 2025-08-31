@@ -1,38 +1,42 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import type { CardHeaderSectionProps } from "@/types/staff/dashboard.types";
-import { getInitialsOneInput } from "@/utils/common.utils";
-import { CheckCircle, XCircle, Edit, Trash2, TicketCheck } from "lucide-react";
+import {
+  CheckCircle,
+  XCircle,
+  Edit,
+  TicketCheck,
+  GraduationCap,
+  Archive,
+} from "lucide-react";
 
 const CardHeaderSection = ({
   title,
   codes,
   isActive,
   onEdit,
-  onDelete,
+  onArchive,
   onClickVerify,
 }: CardHeaderSectionProps) => {
   return (
     <CardHeader>
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
         <div className="flex items-center gap-3 sm:gap-4">
-          <Avatar className="h-10 w-10 sm:h-12 sm:w-12 bg-gradient-to-br from-blue-500 to-blue-600">
-            <AvatarFallback className="bg-transparent text-white font-bold text-sm">
-              {getInitialsOneInput(title)}
+          <Avatar className="h-10 w-10 sm:h-12 sm:w-12 bg-blue-500 flex-shrink-0">
+            <AvatarFallback className="bg-transparent text-white">
+              <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" />
             </AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle className="text-lg font-semibold text-slate-900 leading-tight">
+            <CardTitle className="text-lg font-bold text-black leading-tight mb-1">
               {title}
             </CardTitle>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1">
               {codes.map((code, index) => (
                 <Badge
                   key={index}
-                  variant="outline"
-                  className="mt-1.5 bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                  className="bg-blue-500 text-white border-0 text-xs px-2 py-0.5"
                 >
                   {code}
                 </Badge>
@@ -47,7 +51,7 @@ const CardHeaderSection = ({
               isActive
                 ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-100"
                 : "bg-rose-100 text-rose-700 hover:bg-rose-100"
-            } border-0 text-xs sm:text-sm px-2 sm:px-3 py-1`}
+            } border-0 text-xs sm:text-sm px-2 sm:px-3 py-2 h-8`}
           >
             {isActive ? (
               <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
@@ -56,39 +60,36 @@ const CardHeaderSection = ({
             )}
             {isActive ? "Active" : "Inactive"}
           </Badge>
-          {onEdit && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-slate-500 hover:text-blue-600"
-              onClick={onEdit}
-            >
-              <Edit className="h-4 w-4" />
-              <span className="sr-only">Edit</span>
-            </Button>
-          )}
-          {onDelete && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-slate-500 hover:text-rose-600"
-              onClick={onDelete}
-            >
-              <Trash2 className="h-4 w-4" />
-              <span className="sr-only">Delete</span>
-            </Button>
-          )}
-          {onClickVerify && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-blue-100 outline-none shadow-none border-none text-blue-600 hover:bg-blue-200 hover:text-blue-700 cursor-pointer transition-all duration-200 rounded-lg px-3 py-2 font-medium"
-              onClick={onClickVerify}
-            >
-              <TicketCheck className="h-4 w-4 mr-2" />
-              Verify
-            </Button>
-          )}
+
+          <div className="flex gap-1">
+            {onEdit && (
+              <div
+                className="p-2 bg-orange-100 hover:bg-orange-200 rounded-lg transition-colors cursor-pointer"
+                title="Edit"
+                onClick={onEdit}
+              >
+                <Edit className="h-4 w-4 text-orange-600" />
+              </div>
+            )}
+            {onArchive && (
+              <div
+                className="p-2 bg-red-100 hover:bg-red-200 rounded-lg transition-colors cursor-pointer"
+                title="Archive"
+                onClick={onArchive}
+              >
+                <Archive className="h-4 w-4 text-red-600" />
+              </div>
+            )}
+            {onClickVerify && (
+              <div
+                className="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors cursor-pointer"
+                title="Verify"
+                onClick={onClickVerify}
+              >
+                <TicketCheck className="h-4 w-4 text-blue-600" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </CardHeader>

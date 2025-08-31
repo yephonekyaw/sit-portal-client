@@ -13,7 +13,7 @@ const usePostLogin = () => {
   const navigate = useNavigate();
 
   return useMutation<ApiResponse<User>, ApiError, LoginFormData>({
-    mutationFn: (data) => postLogin(data),
+    mutationFn: postLogin,
     onSuccess: (data) => {
       toast.success(data?.message || "Login successful");
       if (data.data?.userType === "staff") {
@@ -24,9 +24,7 @@ const usePostLogin = () => {
       void queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || "Login failed", {
-        description: "Please try again later.",
-      });
+      toast.error(error.response?.data?.message || "Login failed");
     },
     retry: 1,
   });
@@ -37,7 +35,7 @@ const usePostLogout = () => {
   const navigate = useNavigate();
 
   return useMutation<ApiResponse<null>, ApiError>({
-    mutationFn: () => postLogout(),
+    mutationFn: postLogout,
     onSuccess: () => {
       toast.dismiss();
       toast.success("Logout successful");
@@ -46,9 +44,7 @@ const usePostLogout = () => {
     },
     onError: (error) => {
       toast.dismiss();
-      toast.error(error.response?.data?.message || "Logout failed", {
-        description: "Please try again later.",
-      });
+      toast.error(error.response?.data?.message || "Logout failed");
     },
     retry: 1,
   });

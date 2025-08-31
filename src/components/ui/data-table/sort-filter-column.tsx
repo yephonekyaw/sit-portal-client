@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -19,7 +19,7 @@ export function SortFilterColumn<TData, TValue>({
   const [isOpen, setIsOpen] = React.useState(false);
   const sortDirection = column.getIsSorted();
   const canSort = column.getCanSort();
-  const canHide = column.getCanHide();
+  // const canHide = column.getCanHide();
 
   // If column can't be sorted, render simple header
   if (!canSort) {
@@ -93,7 +93,6 @@ export function SortFilterColumn<TData, TValue>({
                 <span className="font-medium text-gray-700">
                   Sort Ascending
                 </span>
-                <span className="text-xs text-gray-500">A → Z, 1 → 9</span>
               </div>
             </div>
           </DropdownMenuItem>
@@ -108,7 +107,6 @@ export function SortFilterColumn<TData, TValue>({
                 <span className="font-medium text-gray-700">
                   Sort Descending
                 </span>
-                <span className="text-xs text-gray-500">Z → A, 9 → 1</span>
               </div>
             </div>
           </DropdownMenuItem>
@@ -128,7 +126,7 @@ export function SortFilterColumn<TData, TValue>({
             </>
           )}
 
-          {canHide && (
+          {/* {canHide && (
             <>
               <DropdownMenuSeparator className="my-1 bg-gray-100" />
               <DropdownMenuItem
@@ -141,7 +139,7 @@ export function SortFilterColumn<TData, TValue>({
                 </div>
               </DropdownMenuItem>
             </>
-          )}
+          )} */}
         </DropdownMenuContent>
       </DropdownMenu>
 

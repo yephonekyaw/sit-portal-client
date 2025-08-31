@@ -8,7 +8,7 @@ import { getConfidenceColor } from "@/utils/staff/submission.utils";
 import { FileText, Bot, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { memo, useState } from "react";
 import type { RequirementCardProps } from "@/types/student/requirement.types";
-import { useRequirementStore } from "@/stores/student/requirement.store";
+import { useRequirementStore } from "@/stores/student/requirement.stores";
 import {
   truncateText,
   getRequirementStatusBadges,

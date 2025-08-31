@@ -6,8 +6,8 @@ const useGetStudentRequirements = () => {
   return useQuery({
     queryKey: ["student", "requirements"],
     queryFn: getStudentRequirements,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
+    staleTime: 5 * 60 * 1000,
+    refetchInterval: 5 * 60 * 1000,
     retry: (failureCount, err) => {
       if (
         err instanceof AxiosError &&
@@ -24,8 +24,8 @@ const useGetVerificationHistory = (submissionId: string) => {
   return useQuery({
     queryKey: ["student", "requirements", "history", submissionId],
     queryFn: () => getVerificationHistory(submissionId),
-    staleTime: 60 * 60 * 1000, // 1 hour
-    refetchInterval: 60 * 60 * 1000, // Refetch every 1 hour
+    staleTime: 60 * 60 * 1000,
+    refetchInterval: 60 * 60 * 1000,
   });
 };
 

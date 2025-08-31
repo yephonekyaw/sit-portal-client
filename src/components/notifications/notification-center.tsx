@@ -12,7 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NotificationItem } from "./notification-item";
-import { useNotificationStore } from "@/stores/notification.store";
+import { useNotificationStore } from "@/stores/notification.stores";
 import { useNavConfigStore } from "@/stores/nav.stores";
 
 interface NotificationCenterProps {
