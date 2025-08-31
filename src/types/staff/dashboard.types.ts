@@ -15,6 +15,7 @@ interface CardHeaderSectionProps {
   title: string;
   codes: string[];
   isActive: boolean;
+  headerIcon?: LucideIcon;
   onEdit?: () => void;
   onArchive?: () => void;
   onClickVerify?: () => void;

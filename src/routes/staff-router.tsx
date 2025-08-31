@@ -11,6 +11,7 @@ import SubmissionsPage from "@/pages/staff/submissions-page";
 import StaffPage from "@/pages/staff/staff-page";
 import StaffFormPage from "@/pages/staff/staff-form-page";
 import RouteProtect from "@/middlewares/route-protect";
+import CertificateFormPage from "@/pages/staff/cert-form-page";
 
 const staffRouter = [
   {
@@ -36,6 +37,10 @@ const staffRouter = [
       {
         path: "programs/edit/:programId",
         element: <ProgramFormPage />,
+      },
+      {
+        path: "certificates/edit/:certificateId",
+        element: <CertificateFormPage />,
       },
       {
         path: "requirements/new",

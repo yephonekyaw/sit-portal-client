@@ -11,65 +11,106 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, GraduationCap, Save, Info, Settings } from "lucide-react";
-import { memo, useEffect } from "react";
+import {
+  ArrowLeft,
+  ShieldCheck,
+  Save,
+  Info,
+  Settings,
+  FileText,
+} from "lucide-react";
+import { memo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useProgramStore } from "@/stores/staff/program.stores";
+import { useCertificateStore } from "@/stores/staff/certificate.stores";
 import type {
-  ProgramFormProps,
-  ProgramFormSchemaType,
-} from "@/types/staff/programs.types";
-import { programFormSchema } from "@/schemas/staff/programs.schemas";
-import {
-  useCreateProgram,
-  useUpdateProgram,
-} from "@/services/staff/programs/mutations";
+  CertificateFormProps,
+  CertificateFormSchemaType,
+} from "@/types/staff/certificates.types";
+import { certificateFormSchema } from "@/schemas/staff/certificates.schemas";
+import { useUpdateCertificate } from "@/services/staff/certificates/mutations";
 
-const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
+// Helper functions for template handling
+const REQUIRED_DATA_MARKER = "**REQUIRED DATA INPUT:**";
+
+const removeRequiredDataSection = (template: string): string => {
+  if (!template.includes(REQUIRED_DATA_MARKER)) {
+    return template;
+  }
+
+  const parts = template.split(REQUIRED_DATA_MARKER);
+  return parts[0].trim();
+};
+
+const addRequiredDataSection = (
+  editableTemplate: string,
+  originalTemplate: string
+): string => {
+  if (!originalTemplate.includes(REQUIRED_DATA_MARKER)) {
+    return editableTemplate;
+  }
+
+  const originalParts = originalTemplate.split(REQUIRED_DATA_MARKER);
+  const requiredDataSection = REQUIRED_DATA_MARKER + originalParts[1];
+
+  return editableTemplate.trim() + "\n\n" + requiredDataSection;
+};
+
+const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
   const navigate = useNavigate();
-  const { selectedProgram } = useProgramStore();
-  const { mutateAsync: create, isPending: isCreating } = useCreateProgram();
-  const { mutateAsync: update, isPending: isUpdating } = useUpdateProgram();
+  const [originalTemplate, setOriginalTemplate] = useState("");
+  const { selectedCertificate } = useCertificateStore();
+  const { mutateAsync: update, isPending: isUpdating } = useUpdateCertificate();
 
-  const form = useForm<ProgramFormSchemaType>({
-    resolver: zodResolver(programFormSchema),
+  const form = useForm<CertificateFormSchemaType>({
+    resolver: zodResolver(certificateFormSchema),
     defaultValues: {
-      programCode: "",
-      programName: "",
+      certCode: "",
+      certName: "",
       description: "",
-      durationYears: 4,
-      isActive: true,
+      verificationTemplate: "",
+      hasExpiration: false,
     },
   });
 
-  // Populate form when program data is loaded
+  // Populate form when certificate data is loaded
   useEffect(() => {
-    if (selectedProgram && isEdit) {
+    if (selectedCertificate && isEdit) {
+      const editableTemplate = removeRequiredDataSection(
+        selectedCertificate.verificationTemplate
+      );
+      setOriginalTemplate(selectedCertificate.verificationTemplate);
+
       form.reset({
-        programCode: selectedProgram.programCode,
-        programName: selectedProgram.programName,
-        description: selectedProgram.description,
-        durationYears: selectedProgram.durationYears,
-        isActive: selectedProgram.isActive,
+        certCode: selectedCertificate.certCode,
+        certName: selectedCertificate.certName,
+        description: selectedCertificate.description,
+        verificationTemplate: editableTemplate,
+        hasExpiration: selectedCertificate.hasExpiration,
       });
     }
-  }, [selectedProgram, isEdit, form]);
+  }, [selectedCertificate, isEdit, form]);
 
-  const onSubmit = async (data: ProgramFormSchemaType) => {
-    if (isEdit && programId) {
-      await update({
-        id: programId,
-        ...data,
-      });
-    } else {
-      await create(data);
+  const onSubmit = async (data: CertificateFormSchemaType) => {
+    // Reconstruct the full template with the required data section
+    const fullTemplate = isEdit
+      ? addRequiredDataSection(data.verificationTemplate, originalTemplate)
+      : data.verificationTemplate;
+
+    const submitData = {
+      ...data,
+      verificationTemplate: fullTemplate,
+    };
+
+    if (isEdit && certificateId) {
+      await update({ id: certificateId, ...submitData });
     }
   };
 
   const handleGoBack = () => {
-    navigate("/staff/student-management/dashboard/programs");
+    navigate("/staff/student-management/dashboard/certificates");
   };
 
   return (
@@ -80,17 +121,17 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12 bg-blue-500">
               <AvatarFallback className="bg-transparent text-white">
-                <GraduationCap className="h-6 w-6" />
+                <ShieldCheck className="h-6 w-6" />
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
               <h1 className="text-xl font-bold text-blue-900">
-                {isEdit ? "Edit Program" : "Create New Program"}
+                {isEdit ? "Edit Certificate" : "Create New Certificate"}
               </h1>
               <p className="mt-1 text-sm text-gray-600">
                 {isEdit
-                  ? "Update program information and settings."
-                  : "Add a new academic program to the system."}
+                  ? "Update certificate information and verification template."
+                  : "Add a new certificate type to the system."}
               </p>
             </div>
           </div>
@@ -107,7 +148,7 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
             </Badge>
             <div
               className="p-2 bg-white hover:bg-blue-100 border border-blue-200 hover:border-blue-300 rounded-lg transition-colors cursor-pointer"
-              title="Back to Programs"
+              title="Back to Certificates"
               onClick={handleGoBack}
             >
               <ArrowLeft className="h-4 w-4 text-blue-600" />
@@ -134,7 +175,7 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                       </h4>
                       <p className="text-sm text-blue-800 leading-relaxed mb-4">
                         Enter the core details that identify and describe this
-                        academic program.
+                        certificate type.
                       </p>
                     </div>
                   </div>
@@ -142,15 +183,15 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                   <div className="space-y-4">
                     <FormField
                       control={form.control}
-                      name="programCode"
+                      name="certCode"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Program Code
+                            Certificate Code
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="e.g., BSc.CS, MSc.IT"
+                              placeholder="e.g., CITI-PROG, HIPAA-CERT"
                               className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
                               {...field}
                             />
@@ -162,15 +203,15 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
 
                     <FormField
                       control={form.control}
-                      name="programName"
+                      name="certName"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Program Name
+                            Certificate Name
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="e.g., Computer Science"
+                              placeholder="e.g., CITI Program Certificate"
                               className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
                               {...field}
                             />
@@ -190,7 +231,7 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                           </FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Describe the program, its focus areas, and objectives..."
+                              placeholder="Describe the certificate type, its purpose, and requirements..."
                               className="min-h-24 w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
                               {...field}
                             />
@@ -204,7 +245,58 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
               </CardContent>
             </Card>
 
-            {/* Program Settings Section */}
+            {/* Verification Template Section */}
+            <Card className="shadow-none border border-blue-100">
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="flex items-start gap-3">
+                    <div className="p-1 bg-blue-100 rounded-lg mt-0.5">
+                      <FileText className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-medium text-blue-900 mb-2 text-base">
+                        AI Verification Template
+                      </h4>
+                      <p className="text-sm text-blue-800 leading-relaxed mb-4">
+                        Configure the AI prompt template used for certificate
+                        verification.
+                        {isEdit && (
+                          <span className="block mt-2 text-blue-700 font-medium">
+                            Note: The system-managed "REQUIRED DATA INPUT"
+                            section is preserved automatically. Markdown is
+                            preferred.
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="verificationTemplate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-gray-700">
+                            Verification Template
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Enter the AI prompt template for certificate verification..."
+                              className="min-h-64 w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200 font-mono text-sm"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Certificate Settings Section */}
             <Card className="shadow-none border border-blue-100">
               <CardContent>
                 <div className="space-y-6">
@@ -214,10 +306,11 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium text-blue-900 mb-2 text-base">
-                        Program Settings
+                        Certificate Settings
                       </h4>
                       <p className="text-sm text-blue-800 leading-relaxed mb-4">
-                        Configure the duration and availability of this program.
+                        Configure the expiration behavior for this certificate
+                        type.
                       </p>
                     </div>
                   </div>
@@ -225,25 +318,25 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                   <div className="space-y-4">
                     <FormField
                       control={form.control}
-                      name="durationYears"
+                      name="hasExpiration"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-700">
-                            Duration (Years)
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min="1"
-                              max="10"
-                              className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
-                              {...field}
-                              onChange={(e) =>
-                                field.onChange(parseInt(e.target.value) || 4)
-                              }
-                            />
-                          </FormControl>
-                          <FormMessage />
+                          <div className="flex items-center space-x-2">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                className="border-blue-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm font-medium text-gray-700">
+                              Certificate has expiration date
+                            </FormLabel>
+                          </div>
+                          <p className="text-xs text-gray-500 ml-6">
+                            Check this if certificates of this type can expire
+                            and need renewal
+                          </p>
                         </FormItem>
                       )}
                     />
@@ -257,29 +350,22 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
               <button
                 type="button"
                 onClick={handleGoBack}
-                disabled={
-                  form.formState.isSubmitting || isCreating || isUpdating
-                }
+                disabled={form.formState.isSubmitting || isUpdating}
                 className="px-4 py-2 text-sm text-gray-700 hover:text-gray-900 border border-gray-300 hover:border-gray-400 rounded-lg transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                disabled={
-                  form.formState.isSubmitting ||
-                  isCreating ||
-                  isUpdating ||
-                  selectedProgram?.isActive === false
-                }
+                disabled={form.formState.isSubmitting || isUpdating}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 text-sm font-medium"
               >
                 <Save className="h-4 w-4" />
-                {form.formState.isSubmitting || isCreating || isUpdating
+                {form.formState.isSubmitting || isUpdating
                   ? "Saving..."
                   : isEdit
-                  ? "Update Program"
-                  : "Create Program"}
+                  ? "Update Certificate"
+                  : "Create Certificate"}
               </button>
             </div>
           </form>
@@ -289,4 +375,4 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
   );
 };
 
-export default memo(ProgramForm);
+export default memo(CertificateForm);

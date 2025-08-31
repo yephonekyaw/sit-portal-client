@@ -8,30 +8,30 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Archive, AlertTriangle } from "lucide-react";
-import { useProgramStore } from "@/stores/staff/program.stores";
 import { memo } from "react";
-import { useArchiveProgram } from "@/services/staff/programs/mutations";
 import { toast } from "sonner";
+import { useCertificateStore } from "@/stores/staff/certificate.stores";
+import { useArchiveCertificate } from "@/services/staff/certificates/mutations";
 
-const ProgramArchiveModal = () => {
+const CertificateArchiveModal = () => {
   const {
     deleteConfirmModalState,
     setDeleteConfirmModalState,
-    archiveProgramId,
-  } = useProgramStore();
+    archiveCertificateId,
+  } = useCertificateStore();
 
-  const { mutateAsync: archiveProgram, isPending: isArchiving } =
-    useArchiveProgram();
+  const { mutateAsync: archiveCertificate, isPending: isArchiving } =
+    useArchiveCertificate();
 
   const handleCancelArchive = () => {
     setDeleteConfirmModalState(false);
   };
 
   const handleConfirmArchive = async () => {
-    if (archiveProgramId) {
-      await archiveProgram(archiveProgramId);
+    if (archiveCertificateId) {
+      await archiveCertificate(archiveCertificateId);
     } else {
-      toast.error("No program selected to archive");
+      toast.error("No certificate selected to archive");
     }
   };
 
@@ -54,7 +54,7 @@ const ProgramArchiveModal = () => {
           <DialogDescription asChild>
             <div className="text-gray-600 space-y-3">
               <p className="font-medium">
-                Are you sure you want to archive this program? This action
+                Are you sure you want to archive this certificate? This action
                 cannot be undone.
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
@@ -63,7 +63,7 @@ const ProgramArchiveModal = () => {
                   <div className="text-sm text-blue-700">
                     <p className="font-medium mb-1">Important Notice:</p>
                     <p>
-                      Programs with active requirements cannot be archived.
+                      Certificates with active requirements cannot be archived.
                       Before proceeding, please ensure that all associated
                       requirements are archived.
                     </p>
@@ -87,7 +87,7 @@ const ProgramArchiveModal = () => {
             className="bg-slate-600 hover:bg-slate-700 text-white"
           >
             <Archive className="w-4 h-4" />
-            {isArchiving ? "Archiving..." : "Archive Program"}
+            {isArchiving ? "Archiving..." : "Archive Certificate"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -95,4 +95,4 @@ const ProgramArchiveModal = () => {
   );
 };
 
-export default memo(ProgramArchiveModal);
+export default memo(CertificateArchiveModal);

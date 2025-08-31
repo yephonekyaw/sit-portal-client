@@ -10,11 +10,13 @@ import {
   GraduationCap,
   Archive,
 } from "lucide-react";
+import React from "react";
 
 const CardHeaderSection = ({
   title,
   codes,
   isActive,
+  headerIcon,
   onEdit,
   onArchive,
   onClickVerify,
@@ -25,7 +27,13 @@ const CardHeaderSection = ({
         <div className="flex items-center gap-3 sm:gap-4">
           <Avatar className="h-10 w-10 sm:h-12 sm:w-12 bg-blue-500 flex-shrink-0">
             <AvatarFallback className="bg-transparent text-white">
-              <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" />
+              {headerIcon ? (
+                React.createElement(headerIcon, {
+                  className: "h-5 w-5 sm:h-6 sm:w-6",
+                })
+              ) : (
+                <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" />
+              )}
             </AvatarFallback>
           </Avatar>
           <div>

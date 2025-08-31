@@ -1,20 +1,24 @@
-export type GetProgramsItem = {
+export interface GetCertificatesItem {
   id: string; // UUID as string
-  programCode: string;
-  programName: string;
+  certCode: string;
+  certName: string;
   description: string;
-  durationYears: number;
+  verificationTemplate: string;
+  hasExpiration: boolean;
   isActive: boolean;
   createdAt: string; // ISO timestamp
   updatedAt: string; // ISO timestamp
+
   activeRequirementsCount: number;
   archivedRequirementsCount: number;
-};
+  totalSubmissionsCount: number;
+}
 
-export type ProgramResponse = Omit<
-  GetProgramsItem,
+export type CertificateResponse = Omit<
+  GetCertificatesItem,
   | "activeRequirementsCount"
   | "archivedRequirementsCount"
+  | "totalSubmissionsCount"
   | "createdAt"
   | "updatedAt"
 >;
