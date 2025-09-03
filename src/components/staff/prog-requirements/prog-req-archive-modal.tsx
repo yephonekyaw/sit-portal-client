@@ -8,29 +8,29 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Archive, AlertTriangle } from "lucide-react";
+import { useProgramRequirementStore } from "@/stores/staff/prog-reqs.stores";
+import { useArchiveProgramRequirement } from "@/services/staff/prog-reqs/mutations";
 import { toast } from "sonner";
-import { useCertificateStore } from "@/stores/staff/certificate.stores";
-import { useArchiveCertificate } from "@/services/staff/certificates/mutations";
 
-const CertificateArchiveModal = () => {
+const ProgramRequirementArchiveModal = () => {
   const {
     archiveConfirmModalState,
     setArchiveConfirmModalState,
-    archiveCertificateId,
-  } = useCertificateStore();
+    archiveRequirementId,
+  } = useProgramRequirementStore();
 
-  const { mutateAsync: archiveCertificate, isPending: isArchiving } =
-    useArchiveCertificate();
+  const { mutateAsync: archiveRequirement, isPending: isArchiving } =
+    useArchiveProgramRequirement();
 
   const handleCancelArchive = () => {
     setArchiveConfirmModalState(false);
   };
 
   const handleConfirmArchive = async () => {
-    if (archiveCertificateId) {
-      await archiveCertificate(archiveCertificateId);
+    if (archiveRequirementId) {
+      await archiveRequirement(archiveRequirementId);
     } else {
-      toast.error("No certificate selected to archive");
+      toast.error("No program requirement selected to archive");
     }
   };
 
@@ -53,18 +53,19 @@ const CertificateArchiveModal = () => {
           <DialogDescription asChild>
             <div className="text-gray-600 space-y-3">
               <p className="font-medium">
-                Are you sure you want to archive this certificate? This action
-                cannot be undone.
+                Are you sure you want to archive this program requirement? This
+                action cannot be undone.
               </p>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+              <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 mt-3">
                 <div className="flex gap-2">
-                  <AlertTriangle className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                  <div className="text-sm text-blue-700">
+                  <AlertTriangle className="w-4 h-4 text-indigo-500 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-indigo-700">
                     <p className="font-medium mb-1">Important Notice:</p>
                     <p>
-                      Certificates with active requirements cannot be archived.
-                      Before proceeding, please ensure that all associated
-                      requirements are archived.
+                      Archiving this requirement will automatically update the
+                      effective_until_year based on the latest academic year
+                      with created schedules. Future schedules will not be
+                      generated for this requirement.
                     </p>
                   </div>
                 </div>
@@ -84,9 +85,10 @@ const CertificateArchiveModal = () => {
           <Button
             onClick={handleConfirmArchive}
             className="bg-slate-600 hover:bg-slate-700 text-white"
+            disabled={isArchiving}
           >
             <Archive className="w-4 h-4" />
-            {isArchiving ? "Archiving..." : "Archive Certificate"}
+            {isArchiving ? "Archiving..." : "Archive Requirement"}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -94,4 +96,4 @@ const CertificateArchiveModal = () => {
   );
 };
 
-export default CertificateArchiveModal;
+export default ProgramRequirementArchiveModal;

@@ -21,7 +21,7 @@ import {
   Settings,
   FileText,
 } from "lucide-react";
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useCertificateStore } from "@/stores/staff/certificate.stores";
@@ -375,4 +375,4 @@ const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
   );
 };
 
-export default memo(CertificateForm);
+export default CertificateForm;

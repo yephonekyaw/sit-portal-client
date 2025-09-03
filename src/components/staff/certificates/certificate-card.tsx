@@ -22,20 +22,16 @@ interface CertificateCardProps {
 
 const CertificateCard = ({ certificate }: CertificateCardProps) => {
   const navigate = useNavigate();
-  const {
-    setSelectedCertificate,
-    setDeleteConfirmModalState,
-    setArchiveCertificateId,
-  } = useCertificateStore();
+  const { setArchiveConfirmModalState, setArchiveCertificateId } =
+    useCertificateStore();
 
   const handleEdit = () => {
-    setSelectedCertificate(certificate);
     navigate(`/staff/certificates/edit/${certificate.id}`);
   };
 
   const handleArchive = () => {
     setArchiveCertificateId(certificate.id);
-    setDeleteConfirmModalState(true);
+    setArchiveConfirmModalState(true);
   };
 
   return (
@@ -69,31 +65,31 @@ const CertificateCard = ({ certificate }: CertificateCardProps) => {
             icon={Hash}
             label="Certificate ID"
             value={`${certificate.id.slice(0, 8)}...`}
-            className="bg-blue-100 text-blue-700 border-blue-200"
+            // className="bg-blue-100 text-blue-700 border-blue-200"
           />
           <CardInfoItem
             icon={CheckSquare}
             label="Active Req"
             value={certificate.activeRequirementsCount.toString()}
-            className="bg-purple-100 text-purple-700 border-purple-200"
+            // className="bg-purple-100 text-purple-700 border-purple-200"
           />
           <CardInfoItem
             icon={CheckSquare}
             label="Archived Req"
             value={certificate.archivedRequirementsCount.toString()}
-            className="bg-gray-100 text-gray-700 border-gray-200"
+            // className="bg-gray-100 text-gray-700 border-gray-200"
           />
           <CardInfoItem
             icon={Upload}
             label="Submissions"
             value={certificate.totalSubmissionsCount.toLocaleString()}
-            className="bg-green-100 text-green-700 border-green-200"
+            // className="bg-green-100 text-green-700 border-green-200"
           />
           <CardInfoItem
             icon={ShieldCheck}
             label="Type"
             value={certificate.hasExpiration ? "Renewable" : "Lifetime"}
-            className="bg-orange-100 text-orange-700 border-orange-200"
+            // className="bg-orange-100 text-orange-700 border-orange-200"
           />
         </CardInfoSection>
 

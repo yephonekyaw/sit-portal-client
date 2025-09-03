@@ -9,14 +9,13 @@ import {
 } from "@/components/ui/dialog";
 import { Archive, AlertTriangle } from "lucide-react";
 import { useProgramStore } from "@/stores/staff/program.stores";
-import { memo } from "react";
 import { useArchiveProgram } from "@/services/staff/programs/mutations";
 import { toast } from "sonner";
 
 const ProgramArchiveModal = () => {
   const {
-    deleteConfirmModalState,
-    setDeleteConfirmModalState,
+    archiveConfirmModalState,
+    setArchiveConfirmModalState,
     archiveProgramId,
   } = useProgramStore();
 
@@ -24,7 +23,7 @@ const ProgramArchiveModal = () => {
     useArchiveProgram();
 
   const handleCancelArchive = () => {
-    setDeleteConfirmModalState(false);
+    setArchiveConfirmModalState(false);
   };
 
   const handleConfirmArchive = async () => {
@@ -37,8 +36,8 @@ const ProgramArchiveModal = () => {
 
   return (
     <Dialog
-      open={deleteConfirmModalState}
-      onOpenChange={setDeleteConfirmModalState}
+      open={archiveConfirmModalState}
+      onOpenChange={setArchiveConfirmModalState}
     >
       <DialogContent
         className="max-w-md border-slate-200 rounded-lg"
@@ -95,4 +94,4 @@ const ProgramArchiveModal = () => {
   );
 };
 
-export default memo(ProgramArchiveModal);
+export default ProgramArchiveModal;

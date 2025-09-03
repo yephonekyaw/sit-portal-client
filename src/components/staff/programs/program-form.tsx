@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, GraduationCap, Save, Info, Settings } from "lucide-react";
-import { memo, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useProgramStore } from "@/stores/staff/program.stores";
@@ -289,4 +289,4 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
   );
 };
 
-export default memo(ProgramForm);
+export default ProgramForm;

@@ -11,19 +11,15 @@ import { useProgramStore } from "@/stores/staff/program.stores";
 
 export default function ProgramCard({ program }: { program: GetProgramsItem }) {
   const navigate = useNavigate();
-  const {
-    setSelectedProgram,
-    setDeleteConfirmModalState,
-    setArchiveProgramId,
-  } = useProgramStore();
+  const { setArchiveConfirmModalState, setArchiveProgramId } =
+    useProgramStore();
 
   const handleEdit = () => {
-    setSelectedProgram(program);
     navigate(`/staff/programs/edit/${program.id}`);
   };
 
   const handleArchive = () => {
-    setDeleteConfirmModalState(true);
+    setArchiveConfirmModalState(true);
     setArchiveProgramId(program.id);
   };
 
@@ -47,7 +43,7 @@ export default function ProgramCard({ program }: { program: GetProgramsItem }) {
             icon={Hash}
             label="ID"
             value={`${program.id.slice(0, 8)}...`}
-            className="bg-blue-100 text-blue-700 border-blue-200"
+            // className="bg-blue-100 text-blue-700 border-blue-200"
           />
           <CardInfoItem
             icon={Clock}
@@ -55,19 +51,19 @@ export default function ProgramCard({ program }: { program: GetProgramsItem }) {
             value={`${program.durationYears}yr${
               program.durationYears !== 1 ? "s" : ""
             }`}
-            className="bg-green-100 text-green-700 border-green-200"
+            // className="bg-green-100 text-green-700 border-green-200"
           />
           <CardInfoItem
             icon={FileCheck}
             label="Active Req"
             value={program.activeRequirementsCount}
-            className="bg-purple-100 text-purple-700 border-purple-200"
+            // className="bg-purple-100 text-purple-700 border-purple-200"
           />
           <CardInfoItem
             icon={Archive}
             label="Archived Req"
             value={program.archivedRequirementsCount}
-            className="bg-gray-100 text-gray-700 border-gray-200"
+            // className="bg-gray-100 text-gray-700 border-gray-200"
           />
         </CardInfoSection>
 

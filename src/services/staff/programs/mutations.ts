@@ -54,14 +54,15 @@ export const useUpdateProgram = () => {
 
 export const useArchiveProgram = () => {
   const queryClient = useQueryClient();
-  const { setDeleteConfirmModalState, setArchiveProgramId } = useProgramStore();
+  const { setArchiveConfirmModalState, setArchiveProgramId } =
+    useProgramStore();
 
   return useMutation<ApiResponse<ProgramResponse>, ApiError, string>({
     mutationFn: archiveProgram,
     onSuccess: () => {
       toast.success("Program archived successfully");
       queryClient.invalidateQueries({ queryKey: ["programs"] });
-      setDeleteConfirmModalState(false);
+      setArchiveConfirmModalState(false);
       setArchiveProgramId(null);
     },
     onError: (error) => {

@@ -6,9 +6,9 @@ export const useProgramStore = create<ProgramStoreState>((set) => ({
   setSelectedProgram: (program) => set({ selectedProgram: program }),
   clearSelectedProgram: () => set({ selectedProgram: null }),
 
-  deleteConfirmModalState: false,
-  setDeleteConfirmModalState: (state) =>
-    set({ deleteConfirmModalState: state }),
+  archiveConfirmModalState: false,
+  setArchiveConfirmModalState: (state) =>
+    set({ archiveConfirmModalState: state }),
 
   archiveProgramId: null,
   setArchiveProgramId: (id) => set({ archiveProgramId: id }),

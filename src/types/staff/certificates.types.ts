@@ -13,8 +13,8 @@ interface CertificateStoreState {
   setSelectedCertificate: (certificate: GetCertificatesItem | null) => void;
   clearSelectedCertificate: () => void;
 
-  deleteConfirmModalState: boolean;
-  setDeleteConfirmModalState: (state: boolean) => void;
+  archiveConfirmModalState: boolean;
+  setArchiveConfirmModalState: (state: boolean) => void;
 
   archiveCertificateId: string | null;
   setArchiveCertificateId: (id: string | null) => void;

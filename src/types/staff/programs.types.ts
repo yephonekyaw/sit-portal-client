@@ -13,8 +13,8 @@ interface ProgramStoreState {
   setSelectedProgram: (program: GetProgramsItem | null) => void;
   clearSelectedProgram: () => void;
 
-  deleteConfirmModalState: boolean;
-  setDeleteConfirmModalState: (state: boolean) => void;
+  archiveConfirmModalState: boolean;
+  setArchiveConfirmModalState: (state: boolean) => void;
 
   archiveProgramId: string | null;
   setArchiveProgramId: (id: string | null) => void;

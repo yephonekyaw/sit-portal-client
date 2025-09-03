@@ -32,7 +32,7 @@ export const useUpdateCertificate = () => {
 
 export const useArchiveCertificate = () => {
   const queryClient = useQueryClient();
-  const { setDeleteConfirmModalState, setArchiveCertificateId } =
+  const { setArchiveConfirmModalState, setArchiveCertificateId } =
     useCertificateStore();
 
   return useMutation<ApiResponse<CertificateResponse>, ApiError, string>({
@@ -40,7 +40,7 @@ export const useArchiveCertificate = () => {
     onSuccess: () => {
       toast.success("Certificate archived successfully");
       queryClient.invalidateQueries({ queryKey: ["certificates"] });
-      setDeleteConfirmModalState(false);
+      setArchiveConfirmModalState(false);
       setArchiveCertificateId(null);
     },
     onError: (error) => {
