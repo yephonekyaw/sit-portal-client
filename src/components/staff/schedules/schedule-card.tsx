@@ -1,4 +1,4 @@
-import type { Schedule } from "@/mock/schedules.mock";
+import type { GetSchedulesItem } from "@/services/staff/schedules/types";
 import CardBase from "../dashboard/card-base";
 import CardHeaderSection from "../dashboard/card-header-section";
 import { CardContent } from "@/components/ui/card";
@@ -8,15 +8,29 @@ import CardFooter from "../dashboard/card-footer";
 import { Hash, Clock, GraduationCap, CalendarDays } from "lucide-react";
 import { isDeadlinePassed } from "@/utils/staff/dashboard.utils";
 import { formatDate } from "@/utils/common.utils";
+import { useNavigate } from "react-router-dom";
 
-const ScheduleCard = ({ schedule }: { schedule: Schedule }) => {
+const ScheduleCard = ({ schedule }: { schedule: GetSchedulesItem }) => {
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate(`/staff/schedules/edit/${schedule.id}`);
+  };
+
+  const handleVerify = () => {
+    navigate(
+      `/staff/student-management/submissions/${schedule.academicYear}/${schedule.id}`
+    );
+  };
+
   return (
     <CardBase>
       <CardHeaderSection
-        title={schedule.program_requirement.name}
-        codes={[schedule.certificate_type.code, schedule.program.program_code]}
-        isActive={!isDeadlinePassed(schedule.submission_deadline)}
-        onClickVerify={() => console.log("Verify clicked")}
+        title={schedule.requirementName}
+        codes={[schedule.certCode, schedule.programCode]}
+        isActive={!isDeadlinePassed(schedule.submissionDeadline)}
+        onEdit={handleEdit}
+        onClickVerify={handleVerify}
       />
       <CardContent className="pt-0 space-y-6">
         <CardInfoSection>
@@ -28,22 +42,22 @@ const ScheduleCard = ({ schedule }: { schedule: Schedule }) => {
           <CardInfoItem
             icon={Clock}
             label="Submission Deadline"
-            value={formatDate(schedule.submission_deadline, {})}
+            value={formatDate(schedule.submissionDeadline, {})}
           />
           <CardInfoItem
             icon={GraduationCap}
             label="Program Name"
-            value={schedule.program.program_name}
+            value={schedule.programName}
           />
           <CardInfoItem
             icon={CalendarDays}
             label="Academic Year"
-            value={schedule.academic_year.year_code}
+            value={schedule.academicYear.toString()}
           />
         </CardInfoSection>
         <CardFooter
-          createdAt={schedule.created_at}
-          updatedAt={schedule.updated_at}
+          createdAt={schedule.createdAt}
+          updatedAt={schedule.updatedAt}
         />
       </CardContent>
     </CardBase>

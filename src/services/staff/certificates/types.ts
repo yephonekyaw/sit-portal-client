@@ -19,6 +19,4 @@ export type CertificateResponse = Omit<
   | "activeRequirementsCount"
   | "archivedRequirementsCount"
   | "totalSubmissionsCount"
-  | "createdAt"
-  | "updatedAt"
 >;

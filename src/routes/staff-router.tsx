@@ -7,6 +7,7 @@ import ProgramRequirementFormPage from "@/pages/staff/prog-reqs-form-page";
 import ProgramRequirementsPage from "@/pages/staff/prog-reqs-page";
 import ProgramsPage from "@/pages/staff/programs-page";
 import SchedulesPage from "@/pages/staff/schedules-page";
+import ScheduleFormPage from "@/pages/staff/schedule-form-page";
 import SubmissionsPage from "@/pages/staff/submissions-page";
 import StaffPage from "@/pages/staff/staff-page";
 import StaffFormPage from "@/pages/staff/staff-form-page";
@@ -49,6 +50,14 @@ const staffRouter = [
       {
         path: "requirements/edit/:requirementId",
         element: <ProgramRequirementFormPage />,
+      },
+      {
+        path: "schedules/new",
+        element: <ScheduleFormPage />,
+      },
+      {
+        path: "schedules/edit/:scheduleId",
+        element: <ScheduleFormPage />,
       },
       {
         path: "student-management",

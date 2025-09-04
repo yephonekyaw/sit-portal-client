@@ -13,8 +13,5 @@ export type GetProgramsItem = {
 
 export type ProgramResponse = Omit<
   GetProgramsItem,
-  | "activeRequirementsCount"
-  | "archivedRequirementsCount"
-  | "createdAt"
-  | "updatedAt"
+  "activeRequirementsCount" | "archivedRequirementsCount"
 >;
