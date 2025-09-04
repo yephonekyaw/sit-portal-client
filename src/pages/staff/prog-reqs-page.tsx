@@ -1,8 +1,8 @@
-import ProgramRequirementCard from "@/components/staff/prog-requirements/prog-req-card";
+import ProgramRequirementCard from "@/components/staff/prog-requirements/prog-reqs-card";
 import { useGetProgramRequirements } from "@/services/staff/prog-reqs/queries";
 import { FileText } from "lucide-react";
 import DefaultLoader from "@/components/ui/default-loader";
-import ProgramRequirementArchiveModal from "@/components/staff/prog-requirements/prog-req-archive-modal";
+import ProgramRequirementArchiveModal from "@/components/staff/prog-requirements/prog-reqs-archive-modal";
 
 const ProgramRequirementsPage = () => {
   const { data: requirements, isLoading, error } = useGetProgramRequirements();

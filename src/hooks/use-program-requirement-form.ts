@@ -42,7 +42,10 @@ export const useProgramRequirementForm = ({
 
   const form = useForm<ProgramRequirementFormSchemaType>({
     resolver: zodResolver(ProgramRequirementFormSchema),
-    defaultValues: {
+  });
+
+  useEffect(() => {
+    form.reset({
       programId: selectedRequirement?.programId || "",
       certTypeId: selectedRequirement?.certTypeId || "",
       name: selectedRequirement?.name || "",
@@ -66,8 +69,8 @@ export const useProgramRequirementForm = ({
       effectiveUntilYear:
         selectedRequirement?.effectiveUntilYear || currentYear + 1,
       monthsBeforeDeadline: selectedRequirement?.monthsBeforeDeadline || 3,
-    },
-  });
+    });
+  }, [selectedRequirement, form, currentYear]);
 
   const maxTargetYear = getMaxTargetYear(
     programs?.data || [],
@@ -102,6 +105,7 @@ export const useProgramRequirementForm = ({
     } else {
       await create(data);
     }
+    form.reset();
   };
 
   const handleGoBack = () => {

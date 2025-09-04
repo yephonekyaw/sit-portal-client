@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ProgramRequirementForm from "@/components/staff/prog-requirements/prog-req-form";
+import ProgramRequirementForm from "@/components/staff/prog-requirements/prog-reqs-form";
 import { useGetProgramRequirements } from "@/services/staff/prog-reqs/queries";
 import { useProgramRequirementStore } from "@/stores/staff/prog-reqs.stores";
 import DefaultLoader from "@/components/ui/default-loader";
@@ -28,7 +28,10 @@ const ProgramRequirementFormPage = () => {
 
   // Handle edit mode setup
   useEffect(() => {
-    if (!isEdit || !isSuccess) return;
+    if (!isEdit || !isSuccess) {
+      setSelectedRequirement(null);
+      return;
+    }
 
     const requirement = requirements?.data?.find(
       (req) => req.id === requirementId

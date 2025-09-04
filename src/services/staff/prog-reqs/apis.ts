@@ -39,6 +39,6 @@ export const updateProgramRequirement = async (
 export const archiveProgramRequirement = async (id: string) =>
   axiosClient
     .patch<ApiResponse<ProgramRequirementResponse>>(
-      `/staff/program-requirements/${id}`
+      `/staff/program-requirements/${id}/archive`
     )
     .then((res) => res.data);
