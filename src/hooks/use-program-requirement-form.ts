@@ -109,7 +109,7 @@ export const useProgramRequirementForm = ({
   };
 
   const handleGoBack = () => {
-    navigate("/staff/student-management/dashboard/requirements");
+    navigate("/staff/dashboard/requirements");
   };
 
   return {

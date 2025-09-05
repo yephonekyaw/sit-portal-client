@@ -13,10 +13,7 @@ import type {
   ProgramFormSchemaType,
 } from "@/types/staff/programs.types";
 
-export const useProgramForm = ({
-  isEdit,
-  programId,
-}: ProgramFormProps) => {
+export const useProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
   const navigate = useNavigate();
   const { selectedProgram } = useProgramStore();
   const { mutateAsync: create, isPending: isCreating } = useCreateProgram();
@@ -58,7 +55,7 @@ export const useProgramForm = ({
   };
 
   const handleGoBack = () => {
-    navigate("/staff/student-management/dashboard/programs");
+    navigate("/staff/dashboard/programs");
   };
 
   return {

@@ -91,7 +91,7 @@ export const useCertificateForm = ({
   };
 
   const handleGoBack = () => {
-    navigate("/staff/student-management/dashboard/certificates");
+    navigate("/staff/dashboard/certificates");
   };
 
   return {

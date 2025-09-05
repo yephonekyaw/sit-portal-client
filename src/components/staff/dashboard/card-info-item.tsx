@@ -12,7 +12,9 @@ const CardInfoItem = ({
       className={`bg-gray-100 text-gray-700 border-gray-200 text-sm space-x-1 px-2 py-1 ${className}`}
     >
       <Icon className="h-4 w-4" />
+      &bull;
       <span>{label}</span>
+      &bull;
       <span>{value}</span>
     </Badge>
   );

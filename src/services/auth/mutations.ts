@@ -17,7 +17,7 @@ const usePostLogin = () => {
     onSuccess: (data) => {
       toast.success(data?.message || "Login successful");
       if (data.data?.userType === "staff") {
-        void navigate("/staff/student-management/dashboard");
+        void navigate("/staff/dashboard");
       } else {
         void navigate("/student/requirements");
       }

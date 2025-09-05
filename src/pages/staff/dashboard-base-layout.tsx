@@ -10,7 +10,7 @@ const DashboardBaseLayout = () => {
   const normalizedPath = location.pathname.replace(/\/$/, "");
 
   useEffect(() => {
-    if (normalizedPath === "/staff/student-management/dashboard") {
+    if (normalizedPath === "/staff/dashboard") {
       void navigate("schedules", { replace: true });
     }
   }, [normalizedPath, navigate]);

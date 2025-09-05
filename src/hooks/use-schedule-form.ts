@@ -104,7 +104,7 @@ export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
   };
 
   const handleGoBack = () => {
-    navigate("/staff/student-management/dashboard/schedules");
+    navigate("/staff/dashboard/schedules");
   };
 
   return {
