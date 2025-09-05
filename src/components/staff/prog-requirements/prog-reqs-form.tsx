@@ -1,6 +1,6 @@
 import { Form } from "@/components/ui/form";
 import { memo } from "react";
-import type { ProgramRequirementFormProps } from "@/types/staff/prog-reqs.types";
+import type { ProgramRequirementFormProps } from "@/types/staff/prog-req.types";
 import { useProgramRequirementForm } from "../../../hooks/use-program-requirement-form";
 import { FormHeader } from "./form-header";
 import { BasicInformationSection } from "./basic-information-section";

@@ -42,11 +42,11 @@ export const useNotificationStore = create<NotificationState>()(
         set({ isLoading: true, error: null });
         try {
           // Simulate API delay
-          await new Promise(resolve => setTimeout(resolve, 300));
-          
+          await new Promise((resolve) => setTimeout(resolve, 300));
+
           const recipientId = getCurrentUserId(role);
           const allNotifications = mockNotificationsByUser[recipientId] || [];
-          
+
           // Sort notifications (unread first, then by date)
           const sortedNotifications = allNotifications.sort((a, b) => {
             const aUnread = a.recipient_status !== "read";
@@ -55,15 +55,21 @@ export const useNotificationStore = create<NotificationState>()(
             if (aUnread && !bUnread) return -1;
             if (!aUnread && bUnread) return 1;
 
-            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+            return (
+              new Date(b.created_at).getTime() -
+              new Date(a.created_at).getTime()
+            );
           });
 
           set({ notifications: sortedNotifications, isLoading: false });
           get().getUnreadCount();
         } catch (error) {
-          set({ 
-            error: error instanceof Error ? error.message : "Failed to fetch notifications", 
-            isLoading: false 
+          set({
+            error:
+              error instanceof Error
+                ? error.message
+                : "Failed to fetch notifications",
+            isLoading: false,
           });
         }
       },

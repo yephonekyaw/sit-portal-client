@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Archive, AlertTriangle } from "lucide-react";
-import { useProgramRequirementStore } from "@/stores/staff/prog-reqs.stores";
+import { useProgramRequirementStore } from "@/stores/staff/prog-req.stores";
 import { useArchiveProgramRequirement } from "@/services/staff/prog-reqs/mutations";
 import { toast } from "sonner";
 

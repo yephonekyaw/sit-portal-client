@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, GraduationCap, Save, Info, Settings } from "lucide-react";
-import type { ProgramFormProps } from "@/types/staff/programs.types";
+import type { ProgramFormProps } from "@/types/staff/program.types";
 import { useProgramForm } from "@/hooks/use-program-form";
 
 const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {

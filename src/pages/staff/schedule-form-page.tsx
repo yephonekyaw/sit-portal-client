@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ScheduleForm from "@/components/staff/schedules/schedule-form";
 import { useGetSchedules } from "@/services/staff/schedules/queries";
-import { useScheduleStore } from "@/stores/staff/schedules.stores";
+import { useScheduleStore } from "@/stores/staff/schedule.stores";
 import { toast } from "sonner";
 import DefaultLoader from "@/components/ui/default-loader";
 

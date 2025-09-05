@@ -4,7 +4,7 @@ import type { GetProgramsItem, ProgramResponse } from "./types";
 import type {
   ProgramFormSchemaType,
   UpdateProgramFormSchemaType,
-} from "@/types/staff/programs.types";
+} from "@/types/staff/program.types";
 
 const getPrograms = async () =>
   axiosClient

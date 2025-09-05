@@ -20,7 +20,7 @@ import CardInfoSection from "../dashboard/card-info-section";
 import CardInfoItem from "../dashboard/card-info-item";
 import CardFooter from "../dashboard/card-footer";
 import { useNavigate } from "react-router-dom";
-import { useProgramRequirementStore } from "@/stores/staff/prog-reqs.stores";
+import { useProgramRequirementStore } from "@/stores/staff/prog-req.stores";
 
 interface ProgramRequirementCardProps {
   requirement: GetProgramRequirementsItem;

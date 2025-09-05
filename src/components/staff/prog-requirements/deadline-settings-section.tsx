@@ -16,8 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Clock, ChevronDown } from "lucide-react";
-import type { DeadlineSettingsSectionProps } from "@/types/staff/prog-reqs.types";
-import { MONTH_OPTIONS } from "@/utils/staff/prog-reqs.utils";
+import type { DeadlineSettingsSectionProps } from "@/types/staff/prog-req.types";
+import { MONTH_OPTIONS } from "@/utils/staff/prog-req.utils";
 
 export const DeadlineSettingsSection = ({
   form,

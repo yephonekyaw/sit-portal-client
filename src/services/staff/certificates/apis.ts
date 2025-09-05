@@ -1,7 +1,7 @@
 import axiosClient from "@/services/api/client";
 import type { ApiResponse } from "@/services/api/types";
 import type { CertificateResponse, GetCertificatesItem } from "./types";
-import type { UpdateCertificateFormSchemaType } from "@/types/staff/certificates.types";
+import type { UpdateCertificateFormSchemaType } from "@/types/staff/certificate.types";
 
 export const getCertificates = async () =>
   axiosClient

@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
-import type { SortFilterColumnProps } from "@/types/staff/data-import.types";
+import type { SortFilterColumnProps } from "@/types/data-table.types";
 
 export function SortFilterColumn<TData, TValue>({
   column,

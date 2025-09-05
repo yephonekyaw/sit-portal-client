@@ -1,4 +1,4 @@
-import type { ProgReqRecurrenceType } from "@/schemas/staff/prog-reqs.schemas";
+import type { ProgReqRecurrenceType } from "@/schemas/staff/prog-req.schemas";
 
 export type GetProgramRequirementsItem = {
   // Program requirement fields

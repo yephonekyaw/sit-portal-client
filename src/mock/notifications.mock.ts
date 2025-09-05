@@ -1,6 +1,4 @@
-import type {
-  Notification,
-} from "@/types/notification.types";
+import type { Notification } from "@/types/notification.types";
 import { v4 as uuidv4 } from "uuid";
 
 // Mock current user IDs for different roles

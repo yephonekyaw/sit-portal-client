@@ -1,4 +1,4 @@
-import type { ProgramRequirementStoreState } from "@/types/staff/prog-reqs.types";
+import type { ProgramRequirementStoreState } from "@/types/staff/prog-req.types";
 import { create } from "zustand";
 
 export const useProgramRequirementStore = create<ProgramRequirementStoreState>(

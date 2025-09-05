@@ -1,4 +1,4 @@
-import type { FormActionsProps } from "@/types/staff/prog-reqs.types";
+import type { FormActionsProps } from "@/types/staff/prog-req.types";
 import { Save } from "lucide-react";
 
 export const FormActions = ({

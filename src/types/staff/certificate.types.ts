@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { certificateFormSchema } from "@/schemas/staff/certificates.schemas";
+import type { certificateFormSchema } from "@/schemas/staff/certificate.schemas";
 import type { GetCertificatesItem } from "@/services/staff/certificates/types";
 
 type CertificateFormSchemaType = z.infer<typeof certificateFormSchema>;

@@ -1,4 +1,4 @@
-import type { ProgramRequirementFormSchema } from "@/schemas/staff/prog-reqs.schemas";
+import type { ProgramRequirementFormSchema } from "@/schemas/staff/prog-req.schemas";
 import type { GetProgramRequirementsItem } from "@/services/staff/prog-reqs/types";
 import type { UseFormReturn } from "react-hook-form";
 import type z from "zod";

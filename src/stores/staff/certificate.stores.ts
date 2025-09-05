@@ -1,4 +1,4 @@
-import type { CertificateStoreState } from "@/types/staff/certificates.types";
+import type { CertificateStoreState } from "@/types/staff/certificate.types";
 import { create } from "zustand";
 
 export const useCertificateStore = create<CertificateStoreState>((set) => ({

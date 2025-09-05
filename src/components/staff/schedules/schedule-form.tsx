@@ -33,7 +33,7 @@ import {
   ChevronDown,
   Clock,
 } from "lucide-react";
-import type { ScheduleFormProps } from "@/types/staff/schedules.types";
+import type { ScheduleFormProps } from "@/types/staff/schedule.types";
 import { useScheduleForm } from "@/hooks/use-schedule-form";
 import { format } from "date-fns";
 

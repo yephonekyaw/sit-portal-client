@@ -1,7 +1,14 @@
 import React, { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Upload, Plus, X, FileText, AlertCircle, ArrowLeft } from "lucide-react";
+import {
+  Upload,
+  Plus,
+  X,
+  FileText,
+  AlertCircle,
+  ArrowLeft,
+} from "lucide-react";
 import {
   SUPPORTED_FILE_TYPES,
   MAX_FILE_SIZE,
@@ -16,7 +23,11 @@ import {
 } from "@/utils/student/requirement.utils";
 import { usePostSubmitRequirement } from "@/services/student/requirements/mutations";
 
-const FileUploadSection = ({ requirement, isEditMode = false, onBack }: FileUploadSectionProps) => {
+const FileUploadSection = ({
+  requirement,
+  isEditMode = false,
+  onBack,
+}: FileUploadSectionProps) => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -166,13 +177,14 @@ const FileUploadSection = ({ requirement, isEditMode = false, onBack }: FileUplo
 
                 {/* Content */}
                 <h4 className="text-base font-medium text-blue-900 mb-2">
-                  {isEditMode ? "Replace Certificate File" : "Upload Certificate File"}
+                  {isEditMode
+                    ? "Replace Certificate File"
+                    : "Upload Certificate File"}
                 </h4>
                 <p className="text-gray-600 mb-4 max-w-md mx-auto text-xs">
-                  {isEditMode 
+                  {isEditMode
                     ? "Drag and drop a new certificate to replace the current one, or click to browse."
-                    : "Drag and drop your certificate here, or click to browse."
-                  }
+                    : "Drag and drop your certificate here, or click to browse."}
                 </p>
 
                 {/* File input */}

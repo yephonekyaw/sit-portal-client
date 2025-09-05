@@ -16,8 +16,8 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Settings, ChevronDown } from "lucide-react";
-import type { AdvancedSettingsSectionProps } from "@/types/staff/prog-reqs.types";
-import { ProgReqRecurrenceType } from "@/schemas/staff/prog-reqs.schemas";
+import type { AdvancedSettingsSectionProps } from "@/types/staff/prog-req.types";
+import { ProgReqRecurrenceType } from "@/schemas/staff/prog-req.schemas";
 
 export const AdvancedSettingsSection = ({
   form,

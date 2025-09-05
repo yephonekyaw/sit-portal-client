@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Info, ChevronDown } from "lucide-react";
-import type { BasicInformationSectionProps } from "@/types/staff/prog-reqs.types";
+import type { BasicInformationSectionProps } from "@/types/staff/prog-req.types";
 
 export const BasicInformationSection = ({
   form,

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import type {
   CreateScheduleFormSchemaType,
   UpdateScheduleFormSchemaType,
-} from "@/types/staff/schedules.types";
+} from "@/types/staff/schedule.types";
 
 export const useCreateSchedule = () => {
   const queryClient = useQueryClient();

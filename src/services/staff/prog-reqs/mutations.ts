@@ -8,11 +8,11 @@ import type { ApiError, ApiResponse } from "@/services/api/types";
 import type {
   ProgramRequirementFormSchemaType,
   UpdateProgramRequirementFormSchemaType,
-} from "@/types/staff/prog-reqs.types";
+} from "@/types/staff/prog-req.types";
 import type { ProgramRequirementResponse } from "./types";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useProgramRequirementStore } from "@/stores/staff/prog-reqs.stores";
+import { useProgramRequirementStore } from "@/stores/staff/prog-req.stores";
 
 export const useCreateProgramRequirement = () => {
   const queryClient = useQueryClient();

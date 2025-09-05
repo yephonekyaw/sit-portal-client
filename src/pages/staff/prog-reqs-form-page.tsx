@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ProgramRequirementForm from "@/components/staff/prog-requirements/prog-reqs-form";
 import { useGetProgramRequirements } from "@/services/staff/prog-reqs/queries";
-import { useProgramRequirementStore } from "@/stores/staff/prog-reqs.stores";
+import { useProgramRequirementStore } from "@/stores/staff/prog-req.stores";
 import DefaultLoader from "@/components/ui/default-loader";
 import { toast } from "sonner";
 

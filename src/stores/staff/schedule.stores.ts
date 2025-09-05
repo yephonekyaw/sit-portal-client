@@ -1,4 +1,4 @@
-import type { ScheduleStoreState } from "@/types/staff/schedules.types";
+import type { ScheduleStoreState } from "@/types/staff/schedule.types";
 import { create } from "zustand";
 
 export const useScheduleStore = create<ScheduleStoreState>((set) => ({

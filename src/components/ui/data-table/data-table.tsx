@@ -35,7 +35,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import type {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -44,18 +43,14 @@ import DraggableRow from "./draggable-row";
 import { cn } from "@/lib/utils";
 import { Pagination } from "./pagination";
 import { ScrollArea, ScrollBar } from "../scroll-area";
+import type { DataTableProps } from "@/types/data-table.types";
 
 const DataTable = <TData extends { id: string }, TValue>({
   columns,
   data,
   className,
   onDataChange,
-}: {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  className?: string;
-  onDataChange?: (newData: TData[]) => void;
-}) => {
+}: DataTableProps<TData, TValue>) => {
   const [modifiableData, setModifiableData] = React.useState(() => data);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =

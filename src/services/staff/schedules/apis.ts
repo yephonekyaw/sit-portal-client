@@ -4,7 +4,7 @@ import type { GetSchedulesItem, ScheduleResponse } from "./types";
 import type {
   CreateScheduleFormSchemaType,
   UpdateScheduleFormSchemaType,
-} from "@/types/staff/schedules.types";
+} from "@/types/staff/schedule.types";
 
 const getSchedules = async () =>
   axiosClient

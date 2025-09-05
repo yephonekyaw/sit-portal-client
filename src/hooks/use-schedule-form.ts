@@ -3,18 +3,18 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { differenceInDays } from "date-fns";
-import { useScheduleStore } from "@/stores/staff/schedules.stores";
+import { useScheduleStore } from "@/stores/staff/schedule.stores";
 import { useGetProgramRequirements } from "@/services/staff/prog-reqs/queries";
 import { useGetAcademicYears } from "@/services/staff/academic-years/queries";
 import {
   useCreateSchedule,
   useUpdateSchedule,
 } from "@/services/staff/schedules/mutations";
-import { scheduleFormSchema } from "@/schemas/staff/schedules.schemas";
+import { scheduleFormSchema } from "@/schemas/staff/schedule.schemas";
 import type {
   ScheduleFormProps,
   ScheduleFormSchemaType,
-} from "@/types/staff/schedules.types";
+} from "@/types/staff/schedule.types";
 
 export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
   const navigate = useNavigate();

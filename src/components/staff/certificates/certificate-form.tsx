@@ -20,16 +20,14 @@ import {
   Settings,
   FileText,
 } from "lucide-react";
-import type { CertificateFormProps } from "@/types/staff/certificates.types";
+import type { CertificateFormProps } from "@/types/staff/certificate.types";
 import { useCertificateForm } from "@/hooks/use-certificate-form";
 
 const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
-  const {
-    form,
-    isUpdating,
-    onSubmit,
-    handleGoBack,
-  } = useCertificateForm({ isEdit, certificateId });
+  const { form, isUpdating, onSubmit, handleGoBack } = useCertificateForm({
+    isEdit,
+    certificateId,
+  });
 
   return (
     <div className="w-full space-y-6">

@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowLeft, FileText, Info } from "lucide-react";
-import type { FormHeaderProps } from "@/types/staff/prog-reqs.types";
+import type { FormHeaderProps } from "@/types/staff/prog-req.types";
 
 export const FormHeader = ({ isEdit, onGoBack }: FormHeaderProps) => {
   return (

@@ -7,11 +7,11 @@ import {
   useCreateProgram,
   useUpdateProgram,
 } from "@/services/staff/programs/mutations";
-import { programFormSchema } from "@/schemas/staff/programs.schemas";
+import { programFormSchema } from "@/schemas/staff/program.schemas";
 import type {
   ProgramFormProps,
   ProgramFormSchemaType,
-} from "@/types/staff/programs.types";
+} from "@/types/staff/program.types";
 
 export const useProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
   const navigate = useNavigate();

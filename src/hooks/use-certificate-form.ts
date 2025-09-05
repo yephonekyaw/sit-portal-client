@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCertificateStore } from "@/stores/staff/certificate.stores";
 import { useUpdateCertificate } from "@/services/staff/certificates/mutations";
-import { certificateFormSchema } from "@/schemas/staff/certificates.schemas";
+import { certificateFormSchema } from "@/schemas/staff/certificate.schemas";
 import type {
   CertificateFormProps,
   CertificateFormSchemaType,
-} from "@/types/staff/certificates.types";
+} from "@/types/staff/certificate.types";
 
 // Helper functions for template handling
 const REQUIRED_DATA_MARKER = "**REQUIRED DATA INPUT:**";

@@ -4,7 +4,7 @@ import type { ApiError, ApiResponse } from "@/services/api/types";
 import type {
   ProgramFormSchemaType,
   UpdateProgramFormSchemaType,
-} from "@/types/staff/programs.types";
+} from "@/types/staff/program.types";
 import type { ProgramResponse } from "./types";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";

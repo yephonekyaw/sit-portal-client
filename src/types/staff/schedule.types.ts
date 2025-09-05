@@ -1,5 +1,5 @@
 import type z from "zod";
-import type { scheduleFormSchema } from "@/schemas/staff/schedules.schemas";
+import type { scheduleFormSchema } from "@/schemas/staff/schedule.schemas";
 import type { GetSchedulesItem } from "@/services/staff/schedules/types";
 
 type ScheduleFormSchemaType = z.infer<typeof scheduleFormSchema>;

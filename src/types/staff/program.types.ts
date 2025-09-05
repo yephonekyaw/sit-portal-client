@@ -1,4 +1,4 @@
-import type { programFormSchema } from "@/schemas/staff/programs.schemas";
+import type { programFormSchema } from "@/schemas/staff/program.schemas";
 import type { GetProgramsItem } from "@/services/staff/programs/types";
 import type z from "zod";
 

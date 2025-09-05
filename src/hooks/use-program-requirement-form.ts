@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useProgramRequirementStore } from "@/stores/staff/prog-reqs.stores";
+import { useProgramRequirementStore } from "@/stores/staff/prog-req.stores";
 import { useGetPrograms } from "@/services/staff/programs/queries";
 import { useGetCertificates } from "@/services/staff/certificates/queries";
 import {
@@ -12,16 +12,16 @@ import {
 import {
   ProgramRequirementFormSchema,
   ProgReqRecurrenceType,
-} from "@/schemas/staff/prog-reqs.schemas";
+} from "@/schemas/staff/prog-req.schemas";
 import type {
   ProgramRequirementFormProps,
   ProgramRequirementFormSchemaType,
-} from "@/types/staff/prog-reqs.types";
+} from "@/types/staff/prog-req.types";
 import {
   getDaysInMonth,
   getYearOptions,
   getMaxTargetYear,
-} from "@/utils/staff/prog-reqs.utils";
+} from "@/utils/staff/prog-req.utils";
 
 export const useProgramRequirementForm = ({
   isEdit,

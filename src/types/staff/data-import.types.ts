@@ -1,11 +1,10 @@
 import { z } from "zod";
-import { 
-  parsedFileStudentRecordSchema, 
+import {
+  parsedFileStudentRecordSchema,
   fileParsedTableRowStudentRecordSchema,
   type ValidationError,
-  type FileParseResult
+  type FileParseResult,
 } from "@/schemas/staff/data-import.schemas";
-import type { Column, Row, Table } from "@tanstack/react-table";
 
 // Export types from schemas
 export type ParsedFileStudentRecordSchemaType = z.infer<
@@ -36,48 +35,6 @@ export interface StudentDataImportColumnsProps {
     record: FileParsedTableRowStudentRecord | null,
     mode: "add" | "edit"
   ) => void;
-}
-
-export interface ActionButtonsProps<TData> {
-  table: Table<TData>;
-}
-
-export interface FacetedFilterColumnProps<TData, TValue> {
-  column?: Column<TData, TValue>;
-  title?: string;
-  trigger?: React.ReactNode;
-  options: {
-    label: string;
-    value: string;
-    icon?: React.ComponentType<{ className?: string }>;
-    className?: string;
-  }[];
-  showSearch?: boolean;
-  searchPlaceholder?: string;
-}
-
-export interface RowActionsProps<TData> {
-  row: Row<TData>;
-  onView?: (row: TData) => void;
-  onEdit?: (row: TData) => void;
-  onDelete?: (row: TData) => void;
-}
-
-export interface SearchFilterColumnProps<TData, TValue> {
-  column: Column<TData, TValue>;
-  trigger: React.ReactNode;
-  placeholder?: string;
-  className?: string;
-}
-
-export interface SortFilterColumnProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
-  column: Column<TData, TValue>;
-  title: string;
-}
-
-export interface PaginationProps<TData> {
-  table: Table<TData>;
 }
 
 export interface ParsedStudentDataState {

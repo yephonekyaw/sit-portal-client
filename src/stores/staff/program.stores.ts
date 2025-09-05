@@ -1,4 +1,4 @@
-import type { ProgramStoreState } from "@/types/staff/programs.types";
+import type { ProgramStoreState } from "@/types/staff/program.types";
 import { create } from "zustand";
 
 export const useProgramStore = create<ProgramStoreState>((set) => ({

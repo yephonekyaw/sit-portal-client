@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateCertificate, archiveCertificate } from "./apis";
 import { useNavigate } from "react-router-dom";
 import type { CertificateResponse } from "./types";
-import type { UpdateCertificateFormSchemaType } from "@/types/staff/certificates.types";
+import type { UpdateCertificateFormSchemaType } from "@/types/staff/certificate.types";
 import { toast } from "sonner";
 import type { ApiError, ApiResponse } from "@/services/api/types";
 import { useCertificateStore } from "@/stores/staff/certificate.stores";

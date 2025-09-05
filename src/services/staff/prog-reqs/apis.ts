@@ -7,7 +7,7 @@ import type {
 import type {
   ProgramRequirementFormSchemaType,
   UpdateProgramRequirementFormSchemaType,
-} from "@/types/staff/prog-reqs.types";
+} from "@/types/staff/prog-req.types";
 
 export const getProgramRequirements = async () =>
   axiosClient
