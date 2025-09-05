@@ -5,7 +5,7 @@ import type { ScheduleResponse } from "./types";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import type {
-  ScheduleFormSchemaType,
+  CreateScheduleFormSchemaType,
   UpdateScheduleFormSchemaType,
 } from "@/types/staff/schedules.types";
 
@@ -16,7 +16,7 @@ export const useCreateSchedule = () => {
   return useMutation<
     ApiResponse<ScheduleResponse>,
     ApiError,
-    ScheduleFormSchemaType
+    CreateScheduleFormSchemaType
   >({
     mutationFn: createSchedule,
     onSuccess: () => {

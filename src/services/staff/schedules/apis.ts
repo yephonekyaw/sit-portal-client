@@ -2,21 +2,21 @@ import axiosClient from "@/services/api/client";
 import type { ApiResponse } from "@/services/api/types";
 import type { GetSchedulesItem, ScheduleResponse } from "./types";
 import type {
-  ScheduleFormSchemaType,
+  CreateScheduleFormSchemaType,
   UpdateScheduleFormSchemaType,
 } from "@/types/staff/schedules.types";
 
 const getSchedules = async () =>
   axiosClient
     .get<ApiResponse<GetSchedulesItem[]>>(
-      "/staff/program-requirement-schedules"
+      `/staff/${encodeURIComponent("program-requirement-schedules")}`
     )
     .then((res) => res.data);
 
-const createSchedule = async (data: ScheduleFormSchemaType) =>
+const createSchedule = async (data: CreateScheduleFormSchemaType) =>
   axiosClient
     .post<ApiResponse<ScheduleResponse>>(
-      "/staff/program-requirement-schedules",
+      `/staff/${encodeURIComponent("program-requirement-schedules")}`,
       data
     )
     .then((res) => res.data);

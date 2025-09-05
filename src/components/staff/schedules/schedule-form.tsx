@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -11,78 +12,41 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Calendar, Save, Info, Settings } from "lucide-react";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useScheduleStore } from "@/stores/staff/schedules.stores";
-import { useGetProgramRequirements } from "@/services/staff/prog-reqs/queries";
-import { useGetAcademicYears } from "@/services/staff/academic-years/queries";
-import type {
-  ScheduleFormProps,
-  ScheduleFormSchemaType,
-} from "@/types/staff/schedules.types";
-import { scheduleFormSchema } from "@/schemas/staff/schedules.schemas";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
-  useCreateSchedule,
-  useUpdateSchedule,
-} from "@/services/staff/schedules/mutations";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  ArrowLeft,
+  Calendar as CalendarIcon,
+  Save,
+  Info,
+  Settings,
+  ChevronDown,
+  Clock,
+} from "lucide-react";
+import type { ScheduleFormProps } from "@/types/staff/schedules.types";
+import { useScheduleForm } from "@/hooks/use-schedule-form";
+import { format } from "date-fns";
 
 const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
-  const navigate = useNavigate();
-  const { selectedSchedule } = useScheduleStore();
-  const { mutateAsync: create, isPending: isCreating } = useCreateSchedule();
-  const { mutateAsync: update, isPending: isUpdating } = useUpdateSchedule();
-  const { data: programRequirements } = useGetProgramRequirements();
-  const { data: academicYears } = useGetAcademicYears();
-
-  const form = useForm<ScheduleFormSchemaType>({
-    resolver: zodResolver(scheduleFormSchema),
-    defaultValues: {
-      programRequirementId: "",
-      academicYearId: "",
-      submissionDeadline: "",
-      gracePeriodDays: undefined,
-      notificationDaysBeforeDeadline: undefined,
-    },
-  });
-
-  // Populate form when schedule data is loaded
-  useEffect(() => {
-    if (selectedSchedule && isEdit) {
-      form.reset({
-        programRequirementId: selectedSchedule.programRequirementId,
-        academicYearId: selectedSchedule.academicYearId,
-        submissionDeadline: selectedSchedule.submissionDeadline,
-        gracePeriodDays: undefined, // Use defaults from program requirement
-        notificationDaysBeforeDeadline: undefined, // Use defaults from program requirement
-      });
-    }
-  }, [selectedSchedule, isEdit, form]);
-
-  const onSubmit = async (data: ScheduleFormSchemaType) => {
-    if (isEdit && scheduleId) {
-      await update({
-        id: scheduleId,
-        ...data,
-      });
-    } else {
-      await create(data);
-    }
-  };
-
-  const handleGoBack = () => {
-    navigate("/staff/student-management/dashboard/schedules");
-  };
-
-  // Academic years are now fetched from the API
+  const {
+    form,
+    programRequirements,
+    academicYears,
+    isCreating,
+    isUpdating,
+    onSubmit,
+    handleGoBack,
+  } = useScheduleForm({ isEdit, scheduleId });
 
   return (
     <div className="w-full space-y-6">
@@ -92,7 +56,7 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12 bg-blue-500">
               <AvatarFallback className="bg-transparent text-white">
-                <Calendar className="h-6 w-6" />
+                <CalendarIcon className="h-6 w-6" />
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
@@ -145,8 +109,8 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                         Schedule Information
                       </h4>
                       <p className="text-sm text-blue-800 leading-relaxed mb-4">
-                        Select the program requirement and academic year for this
-                        schedule.
+                        Select the program requirement and academic year for
+                        this schedule.
                       </p>
                     </div>
                   </div>
@@ -155,89 +119,197 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                     <FormField
                       control={form.control}
                       name="programRequirementId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-700">
-                            Program Requirement
-                          </FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
+                      render={({ field }) => {
+                        const selectedRequirement =
+                          programRequirements?.data?.find(
+                            (req) => req.id === field.value
+                          );
+                        return (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium text-gray-700">
+                              Program Requirement
+                            </FormLabel>
                             <FormControl>
-                              <SelectTrigger className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200">
-                                <SelectValue placeholder="Select a program requirement" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {programRequirements?.data?.map((requirement) => (
-                                <SelectItem
-                                  key={requirement.id}
-                                  value={requirement.id}
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    className="w-full justify-between border-gray-200 focus:border-blue-300 focus:ring-blue-200"
+                                    disabled={isEdit}
+                                  >
+                                    {selectedRequirement
+                                      ? `${selectedRequirement.name} (${selectedRequirement.programCode} - ${selectedRequirement.certCode})`
+                                      : "Select a program requirement"}
+                                    <ChevronDown className="h-4 w-4 opacity-50" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  align="start"
+                                  sideOffset={4}
+                                  className="p-0 w-full"
+                                  style={{
+                                    width:
+                                      "var(--radix-dropdown-menu-trigger-width)",
+                                    minWidth:
+                                      "var(--radix-dropdown-menu-trigger-width)",
+                                  }}
                                 >
-                                  {requirement.name} ({requirement.programCode} -{" "}
-                                  {requirement.certCode})
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                                  {programRequirements?.data?.map(
+                                    (requirement) => (
+                                      <DropdownMenuItem
+                                        key={requirement.id}
+                                        onSelect={() =>
+                                          field.onChange(requirement.id)
+                                        }
+                                      >
+                                        {requirement.name} (
+                                        {requirement.programCode} -{" "}
+                                        {requirement.certCode})
+                                      </DropdownMenuItem>
+                                    )
+                                  )}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
                     />
 
                     <FormField
                       control={form.control}
                       name="academicYearId"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-700">
-                            Academic Year
-                          </FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
+                      render={({ field }) => {
+                        const selectedYear = academicYears?.data?.find(
+                          (year) => year.id === field.value
+                        );
+                        return (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium text-gray-700">
+                              Academic Year
+                            </FormLabel>
                             <FormControl>
-                              <SelectTrigger className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200">
-                                <SelectValue placeholder="Select academic year" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {academicYears?.data?.map((year) => (
-                                <SelectItem
-                                  key={year.id}
-                                  value={year.id}
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    className="w-full justify-between border-gray-200 focus:border-blue-300 focus:ring-blue-200"
+                                    disabled={isEdit}
+                                  >
+                                    {selectedYear
+                                      ? selectedYear.yearCode
+                                      : "Select academic year"}
+                                    <ChevronDown className="h-4 w-4 opacity-50" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  align="start"
+                                  sideOffset={4}
+                                  className="p-0"
+                                  style={{
+                                    width:
+                                      "var(--radix-dropdown-menu-trigger-width)",
+                                    minWidth:
+                                      "var(--radix-dropdown-menu-trigger-width)",
+                                  }}
                                 >
-                                  {year.yearCode}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                                  {academicYears?.data?.map((year) => (
+                                    <DropdownMenuItem
+                                      key={year.id}
+                                      onSelect={() => field.onChange(year.id)}
+                                    >
+                                      {year.yearCode}
+                                    </DropdownMenuItem>
+                                  ))}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="submissionDeadline"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm font-medium text-gray-700">
-                            Submission Deadline
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="datetime-local"
-                              className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="space-y-2">
+                      <FormLabel className="text-sm font-medium text-gray-700">
+                        Submission Deadline
+                      </FormLabel>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                        <FormField
+                          control={form.control}
+                          name="submissionDate"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-gray-600">
+                                Date
+                              </FormLabel>
+                              <FormControl>
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <Button
+                                      variant="outline"
+                                      className="w-full justify-between border-gray-200 focus:border-blue-300 focus:ring-blue-200"
+                                    >
+                                      {field.value
+                                        ? format(
+                                            new Date(field.value),
+                                            "yyyy-MM-dd"
+                                          )
+                                        : "Select date"}
+                                      <CalendarIcon className="h-4 w-4 opacity-50" />
+                                    </Button>
+                                  </PopoverTrigger>
+                                  <PopoverContent
+                                    className="w-auto p-0"
+                                    align="start"
+                                  >
+                                    <Calendar
+                                      mode="single"
+                                      selected={
+                                        field.value
+                                          ? new Date(field.value)
+                                          : undefined
+                                      }
+                                      onSelect={(date) => {
+                                        field.onChange(
+                                          format(date!, "yyyy-MM-dd")
+                                        );
+                                      }}
+                                    />
+                                  </PopoverContent>
+                                </Popover>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="submissionTime"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-gray-600">
+                                Time
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative">
+                                  <Input
+                                    type="time"
+                                    step="1"
+                                    className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200 bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none pl-10 font-medium"
+                                    {...field}
+                                  />
+                                  <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                </div>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -281,11 +353,18 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                               {...field}
                               onChange={(e) =>
                                 field.onChange(
-                                  e.target.value ? parseInt(e.target.value) : undefined
+                                  e.target.value
+                                    ? parseInt(e.target.value)
+                                    : undefined
                                 )
                               }
                             />
                           </FormControl>
+                          <FormDescription>
+                            The number of days after the deadline during which
+                            submissions will still be accepted with overdue
+                            status.
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -309,11 +388,17 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                               {...field}
                               onChange={(e) =>
                                 field.onChange(
-                                  e.target.value ? parseInt(e.target.value) : undefined
+                                  e.target.value
+                                    ? parseInt(e.target.value)
+                                    : undefined
                                 )
                               }
                             />
                           </FormControl>
+                          <FormDescription>
+                            The number of days before the deadline when
+                            notifications will start sending.
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -338,9 +423,7 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
               <button
                 type="submit"
                 disabled={
-                  form.formState.isSubmitting ||
-                  isCreating ||
-                  isUpdating
+                  form.formState.isSubmitting || isCreating || isUpdating
                 }
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 text-sm font-medium"
               >

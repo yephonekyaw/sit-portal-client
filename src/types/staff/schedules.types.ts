@@ -4,7 +4,14 @@ import type { GetSchedulesItem } from "@/services/staff/schedules/types";
 
 type ScheduleFormSchemaType = z.infer<typeof scheduleFormSchema>;
 
-type UpdateScheduleFormSchemaType = Omit<ScheduleFormSchemaType, ""> & {
+type CreateScheduleFormSchemaType = Omit<
+  ScheduleFormSchemaType,
+  "submissionDate" | "submissionTime"
+> & {
+  submissionDeadline: string; // Combined date and time in UTC
+};
+
+type UpdateScheduleFormSchemaType = CreateScheduleFormSchemaType & {
   id: string;
 };
 
@@ -33,5 +40,6 @@ export type {
   ScheduleFormSchemaType,
   ScheduleStoreState,
   ScheduleFormProps,
+  CreateScheduleFormSchemaType,
   UpdateScheduleFormSchemaType,
 };

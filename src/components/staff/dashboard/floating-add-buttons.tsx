@@ -50,6 +50,19 @@ const FloatingAddButtons = () => {
               </span>
             </div>
           </div>
+          <div
+            onClick={() => navigate("/staff/schedules/new")}
+            className="group rounded-lg p-2 cursor-pointer transition-colors duration-200 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 border-0 focus:bg-gradient-to-r focus:from-green-50 focus:to-green-100"
+          >
+            <div className="flex items-center">
+              <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-green-200 transition-colors duration-200">
+                <Plus className="h-4 w-4 text-green-600" />
+              </div>
+              <span className="font-medium text-gray-800 text-sm">
+                Schedule
+              </span>
+            </div>
+          </div>
         </HoverCardContent>
       </HoverCard>
     </div>

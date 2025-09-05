@@ -4,12 +4,19 @@ export const scheduleFormSchema = z.object({
   programRequirementId: z
     .string()
     .uuid("Invalid program requirement ID format"),
-  academicYearId: z
+  academicYearId: z.string().uuid("Invalid academic year ID format"),
+  submissionDate: z
     .string()
-    .uuid("Invalid academic year ID format"),
-  submissionDeadline: z
+    .regex(
+      /^\d{4}-\d{2}-\d{2}$/,
+      "Invalid date format. Please use YYYY-MM-DD format"
+    ),
+  submissionTime: z
     .string()
-    .datetime("Invalid submission deadline format"),
+    .regex(
+      /^\d{2}:\d{2}:\d{2}$/,
+      "Invalid time format. Please use HH:MM:SS format"
+    ),
   gracePeriodDays: z
     .number()
     .min(0, "Grace period days must be at least 0")
