@@ -6,14 +6,12 @@ import {
   User,
   FileText,
   CheckCircle,
-  XCircle,
   Clock,
   Calendar,
   Mail,
-  GraduationCap,
-  File,
   HardDrive,
   FileType,
+  File,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SearchFilterColumn } from "@/components/ui/data-table/search-filter-column";
@@ -25,136 +23,14 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import type { StudentSubmissionItem } from "@/services/staff/submissions/types";
-import { formatDate } from "@/utils/common.utils";
-import { getConfidenceColor } from "@/utils/staff/submission.utils";
-
-// Helper functions for truncating filenames
-const truncateFilename = (filename: string, maxLength: number = 25): string => {
-  if (!filename || filename.length <= maxLength) return filename;
-
-  const lastDotIndex = filename.lastIndexOf(".");
-  if (lastDotIndex === -1) {
-    return filename.substring(0, maxLength - 3) + "...";
-  }
-
-  const extension = filename.substring(lastDotIndex);
-  const nameWithoutExt = filename.substring(0, lastDotIndex);
-  const availableLength = maxLength - extension.length - 3; // 3 for "..."
-
-  if (availableLength <= 0) {
-    return "..." + extension;
-  }
-
-  return nameWithoutExt.substring(0, availableLength) + "..." + extension;
-};
-
-const formatFileSize = (bytes: number | null): string => {
-  if (!bytes) return "N/A";
-  const sizes = ["B", "KB", "MB", "GB"];
-  let i = 0;
-  let size = bytes;
-  while (size >= 1024 && i < sizes.length - 1) {
-    size /= 1024;
-    i++;
-  }
-  return `${size.toFixed(1)} ${sizes[i]}`;
-};
-
-// Status badge configurations
-const getSubmissionStatusBadge = (status: string | null) => {
-  if (!status) {
-    return {
-      label: "Not Submitted",
-      className: "bg-gray-100 text-gray-700",
-      icon: Clock,
-    };
-  }
-
-  switch (status) {
-    case "pending":
-      return {
-        label: "Pending",
-        className: "bg-yellow-100 text-yellow-700",
-        icon: Clock,
-      };
-    case "approved":
-      return {
-        label: "Approved",
-        className: "bg-green-100 text-green-700",
-        icon: CheckCircle,
-      };
-    case "rejected":
-      return {
-        label: "Rejected",
-        className: "bg-red-100 text-red-700",
-        icon: XCircle,
-      };
-    case "manual_review":
-      return {
-        label: "Manual Review",
-        className: "bg-orange-100 text-orange-700",
-        icon: User,
-      };
-    default:
-      return {
-        label: status,
-        className: "bg-gray-100 text-gray-700",
-        icon: Clock,
-      };
-  }
-};
-
-const getSubmissionTimingBadge = (timing: string | null) => {
-  if (!timing) {
-    return {
-      label: "N/A",
-      className: "bg-gray-100 text-gray-700",
-      icon: Clock,
-    };
-  }
-
-  switch (timing) {
-    case "on_time":
-      return {
-        label: "On Time",
-        className: "bg-green-100 text-green-700",
-        icon: CheckCircle,
-      };
-    case "late":
-      return {
-        label: "Late",
-        className: "bg-yellow-100 text-yellow-700",
-        icon: Clock,
-      };
-    case "overdue":
-      return {
-        label: "Overdue",
-        className: "bg-red-100 text-red-700",
-        icon: XCircle,
-      };
-    default:
-      return {
-        label: timing,
-        className: "bg-gray-100 text-gray-700",
-        icon: Clock,
-      };
-  }
-};
-
-const getEnrollmentStatusBadge = (status: string) => {
-  switch (status) {
-    case "active":
-      return "bg-green-100 text-green-700";
-    case "inactive":
-      return "bg-gray-100 text-gray-700";
-    case "suspended":
-      return "bg-red-100 text-red-700";
-    case "graduated":
-      return "bg-blue-100 text-blue-700";
-    default:
-      return "bg-gray-100 text-gray-700";
-  }
-};
+import { formatDate, formatFileSize } from "@/utils/common.utils";
+import {
+  getConfidenceColor,
+  truncateFilename,
+  getSubmissionStatusBadge,
+  getSubmissionTimingBadge,
+} from "@/utils/staff/submission.utils";
+import DragHandle from "@/components/ui/data-table/drag-handle";
 
 // Filter options
 const SUBMISSION_STATUS_OPTIONS = [
@@ -171,6 +47,10 @@ const SUBMISSION_TIMING_OPTIONS = [
 ];
 
 export const columns: ColumnDef<StudentSubmissionItem>[] = [
+  {
+    id: "drag",
+    cell: ({ row }) => <DragHandle id={row.original.id} />,
+  },
   {
     accessorKey: "studentId",
     header: ({ column }) => (
@@ -189,7 +69,7 @@ export const columns: ColumnDef<StudentSubmissionItem>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center space-x-2">
-        <div className="text-sm font-mono bg-blue-50 text-blue-800 px-2.5 py-1 rounded-lg border border-blue-200">
+        <div className="text-sm bg-blue-100 text-blue-800 px-2.5 py-1 rounded-lg">
           {row.getValue("studentId")}
         </div>
       </div>
@@ -213,45 +93,37 @@ export const columns: ColumnDef<StudentSubmissionItem>[] = [
     ),
     cell: ({ row }) => {
       const studentName = row.getValue("studentName") as string;
-      const studentEmail = row.original.studentEmail;
-      const enrollmentStatus = row.original.studentEnrollmentStatus;
 
       return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <div className="flex items-center space-x-2 group/underline cursor-pointer">
-              <div className="relative">
-                <span className="text-gray-800 font-medium transition-colors">
-                  {studentName}
-                </span>
-                <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-blue-400 transition-all duration-300 ease-out group-hover/underline:w-full" />
-              </div>
-            </div>
-          </PopoverTrigger>
-          <PopoverContent className="w-80 p-4" align="start">
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-gray-600" />
-                <span className="text-sm text-gray-700">Email:</span>
-                <span className="text-sm font-medium text-gray-900">
-                  {studentEmail}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <GraduationCap className="h-4 w-4 text-gray-600" />
-                <span className="text-sm text-gray-700">Status:</span>
-                <Badge
-                  className={cn(
-                    "text-xs font-medium",
-                    getEnrollmentStatusBadge(enrollmentStatus)
-                  )}
-                >
-                  {enrollmentStatus}
-                </Badge>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <div className="flex items-center space-x-2">
+          <span className="text-gray-800 font-medium">{studentName}</span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "studentEmail",
+    header: ({ column }) => (
+      <SearchFilterColumn
+        column={column}
+        placeholder="Search by email..."
+        trigger={
+          <>
+            <Mail className="h-4 w-4 text-gray-600 group-hover/header:text-blue-600 transition-colors duration-200" />
+            <span className="font-medium text-gray-700 group-hover/header:text-blue-700 transition-colors duration-200">
+              Email
+            </span>
+          </>
+        }
+      />
+    ),
+    cell: ({ row }) => {
+      const studentEmail = row.getValue("studentEmail") as string;
+
+      return (
+        <div className="flex items-center space-x-2">
+          <span className="text-sm text-gray-800">{studentEmail}</span>
+        </div>
       );
     },
   },
@@ -377,8 +249,8 @@ export const columns: ColumnDef<StudentSubmissionItem>[] = [
       const percentage = Math.round(confidenceScore * 100);
 
       return (
-        <div className="flex items-center space-x-3 min-w-[120px]">
-          <Progress value={percentage} className="h-2 bg-gray-200 flex-1" />
+        <div className="flex items-center min-w-[120px]">
+          <Progress value={percentage} className="h-1.5 bg-gray-200 flex-1" />
           <span
             className={cn(
               "text-xs font-medium min-w-[35px] text-right",

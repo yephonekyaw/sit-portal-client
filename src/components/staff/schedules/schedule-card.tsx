@@ -18,9 +18,7 @@ const ScheduleCard = ({ schedule }: { schedule: GetSchedulesItem }) => {
   };
 
   const handleVerify = () => {
-    navigate(
-      `/staff/student-management/submissions/${schedule.academicYear}/${schedule.id}`
-    );
+    navigate(`/staff/submissions?scheduleId=${schedule.id}`);
   };
 
   return (

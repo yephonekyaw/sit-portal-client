@@ -22,7 +22,7 @@ export const useCreateSchedule = () => {
     onSuccess: () => {
       toast.success("Program requirement schedule created successfully");
       queryClient.invalidateQueries({ queryKey: ["schedules"] });
-      navigate("/staff/student-management/dashboard/schedules");
+      navigate("/staff/dashboard/schedules");
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || "Failed to create schedule");
@@ -43,7 +43,7 @@ export const useUpdateSchedule = () => {
     onSuccess: () => {
       toast.success("Program requirement schedule updated successfully");
       queryClient.invalidateQueries({ queryKey: ["schedules"] });
-      navigate("/staff/student-management/dashboard/schedules");
+      navigate("/staff/dashboard/schedules");
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || "Failed to update schedule");

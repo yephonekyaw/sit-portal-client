@@ -23,7 +23,7 @@ export const useCreateProgram = () => {
     onSuccess: () => {
       toast.success("Program created successfully");
       queryClient.invalidateQueries({ queryKey: ["programs"] });
-      navigate("/staff/student-management/dashboard/programs");
+      navigate("/staff/dashboard/programs");
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || "Failed to create program");
@@ -44,7 +44,7 @@ export const useUpdateProgram = () => {
     onSuccess: () => {
       toast.success("Program updated successfully");
       queryClient.invalidateQueries({ queryKey: ["programs"] });
-      navigate("/staff/student-management/dashboard/programs");
+      navigate("/staff/dashboard/programs");
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || "Failed to update program");

@@ -27,7 +27,7 @@ export const useCreateProgramRequirement = () => {
     onSuccess: () => {
       toast.success("Program requirement created successfully");
       queryClient.invalidateQueries({ queryKey: ["program", "requirements"] });
-      navigate("/staff/student-management/dashboard/requirements");
+      navigate("/staff/dashboard/requirements");
     },
     onError: (error) => {
       toast.error(
@@ -50,7 +50,7 @@ export const useUpdateProgramRequirement = () => {
     onSuccess: () => {
       toast.success("Program requirement updated successfully");
       queryClient.invalidateQueries({ queryKey: ["program", "requirements"] });
-      navigate("/staff/student-management/dashboard/requirements");
+      navigate("/staff/dashboard/requirements");
     },
     onError: (error) => {
       toast.error(

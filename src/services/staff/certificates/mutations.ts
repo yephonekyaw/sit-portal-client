@@ -20,7 +20,7 @@ export const useUpdateCertificate = () => {
     onSuccess: () => {
       toast.success("Certificate updated successfully");
       queryClient.invalidateQueries({ queryKey: ["certificates"] });
-      navigate("/staff/student-management/dashboard/certificates");
+      navigate("/staff/dashboard/certificates");
     },
     onError: (error) => {
       toast.error(

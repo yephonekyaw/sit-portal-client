@@ -17,7 +17,9 @@ export type EnrollmentStatus =
 // Student Submission Item Type
 export type StudentSubmissionItem = {
   // Student data
+  id: string;
   studentId: string;
+  studentRollNumber: string;
   studentName: string;
   studentEmail: string;
   studentEnrollmentStatus: EnrollmentStatus;
