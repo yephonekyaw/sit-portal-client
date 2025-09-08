@@ -9,28 +9,20 @@ import {
   Clock,
   Calendar,
   Mail,
-  HardDrive,
-  FileType,
-  File,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SearchFilterColumn } from "@/components/ui/data-table/search-filter-column";
 import { FacetedFilterColumn } from "@/components/ui/data-table/faceted-filter-column";
 import { SortFilterColumn } from "@/components/ui/data-table/sort-filter-column";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import type { StudentSubmissionItem } from "@/services/staff/submissions/types";
-import { formatDate, formatFileSize } from "@/utils/common.utils";
+import { formatDate } from "@/utils/common.utils";
 import {
   getConfidenceColor,
-  truncateFilename,
   getSubmissionStatusBadge,
   getSubmissionTimingBadge,
 } from "@/utils/staff/submission.utils";
 import DragHandle from "@/components/ui/data-table/drag-handle";
+import FilenameCell from "./filename-cell";
 
 // Filter options
 const SUBMISSION_STATUS_OPTIONS = [
@@ -136,65 +128,7 @@ export const columns: ColumnDef<StudentSubmissionItem>[] = [
       </div>
     ),
     cell: ({ row }) => {
-      const filename = row.original.filename;
-      const submissionId = row.original.submissionId;
-      const fileSize = row.original.fileSize;
-      const mimeType = row.original.mimeType;
-
-      if (!filename) {
-        return (
-          <div className="text-sm text-gray-400 italic">No file submitted</div>
-        );
-      }
-
-      return (
-        <Popover>
-          <PopoverTrigger asChild>
-            <div className="flex items-center space-x-2 group/underline cursor-pointer">
-              <div className="relative">
-                <span className="text-gray-800 font-medium text-sm">
-                  {truncateFilename(filename)}
-                </span>
-                <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-blue-400 transition-all duration-300 ease-out group-hover/underline:w-full" />
-              </div>
-            </div>
-          </PopoverTrigger>
-          <PopoverContent className="w-96 p-4" align="start">
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <FileText className="h-4 w-4 text-gray-600" />
-                <span className="text-sm text-gray-700">Submission ID:</span>
-                <span className="text-sm font-mono text-gray-900">
-                  {submissionId || "N/A"}
-                </span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <File className="h-4 w-4 text-gray-600 mt-0.5" />
-                <div className="flex-1">
-                  <span className="text-sm text-gray-700">File Name:</span>
-                  <p className="text-sm font-medium text-gray-900 break-all">
-                    {filename}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <HardDrive className="h-4 w-4 text-gray-600" />
-                <span className="text-sm text-gray-700">File Size:</span>
-                <span className="text-sm font-medium text-gray-900">
-                  {formatFileSize(fileSize ?? 0)}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <FileType className="h-4 w-4 text-gray-600" />
-                <span className="text-sm text-gray-700">MIME Type:</span>
-                <span className="text-sm font-medium text-gray-900">
-                  {mimeType || "Unknown"}
-                </span>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      );
+      return <FilenameCell submission={row.original} />;
     },
   },
   {

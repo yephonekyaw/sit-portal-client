@@ -4,47 +4,41 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { formatFileSize, getInitialsOneInput } from "@/utils/common.utils";
 import { formatDate } from "@/utils/common.utils";
-import { getConfidenceColor } from "@/utils/staff/submission.utils";
+import {
+  getConfidenceColor,
+  getEnrollmentStatusBadge,
+  getSubmissionStatusBadge,
+  isSubmissionSubmitted,
+} from "@/utils/staff/submission.utils";
+import { useSubmissionStore } from "@/stores/staff/submission.stores";
 import {
   Download,
   FileIcon,
   Bot,
   AlertCircle,
-  Info,
-  Cpu,
-  Calendar,
+  Mail,
   CalendarClock,
   View,
-  Edit,
+  IdCard,
 } from "lucide-react";
-import { memo, useState } from "react";
-import type { SheetOverviewProps } from "@/types/student/requirement.types";
-import {
-  getRequirementStatusBadge,
-  isRequirementSubmitted,
-} from "@/utils/student/requirement.utils";
-import FileUploadSection from "./file-upload-section";
+import { memo } from "react";
+import type { StudentSubmissionItem } from "@/services/staff/submissions/types";
+import CardInfoItem from "../dashboard/card-info-item";
 
-const SheetOverview = ({ requirement }: SheetOverviewProps) => {
-  const isSubmitted = isRequirementSubmitted(requirement);
-  const [showEditMode, setShowEditMode] = useState(false);
+interface StaffSubmissionOverviewProps {
+  submission: StudentSubmissionItem;
+}
 
-  const statusBadge = getRequirementStatusBadge(requirement);
+const StaffSubmissionOverview = ({
+  submission,
+}: StaffSubmissionOverviewProps) => {
+  const { submissionRelatedDetail, selectedSubmission } = useSubmissionStore();
+  const confidenceScore = submission.agentConfidenceScore ?? 0;
+  const isSubmitted = isSubmissionSubmitted(submission);
+  const statusBadge = getSubmissionStatusBadge(
+    selectedSubmission?.submissionStatus ?? null
+  );
   const StatusIcon = statusBadge.icon;
-  const confidenceScore = requirement.agentConfidenceScore ?? 0;
-
-  // If in edit mode and it's a submitted requirement, show FileUploadSection
-  if (showEditMode && isSubmitted) {
-    return (
-      <div className="space-y-3">
-        <FileUploadSection
-          requirement={requirement}
-          isEditMode={true}
-          onBack={() => setShowEditMode(false)}
-        />
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-3">
@@ -56,111 +50,73 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
               <StatusIcon className="h-4 w-4" />
               <p className="font-medium text-base">{statusBadge.label}</p>
             </div>
-            {requirement.submittedAt && (
+            {selectedSubmission?.submittedAt && (
               <div className="text-right">
                 <p className="text-sm opacity-70">Last Updated</p>
                 <p className="font-medium text-sm">
-                  {formatDate(requirement.submittedAt, {})}
+                  {formatDate(selectedSubmission?.submittedAt, {})}
                 </p>
               </div>
             )}
           </div>
         </div>
       )}
-
-      {/* Requirement Info */}
+      {/* Student Info */}
       <Card className="shadow-none border border-gray-200">
         <CardContent>
-          {/* Certificate Type Section */}
+          {/* Student Header */}
           <div className="flex items-center space-x-3 mb-3">
             <Avatar className="h-10 w-10 bg-blue-500">
               <AvatarFallback className="bg-transparent text-white font-bold text-sm">
-                {getInitialsOneInput(requirement.certName)}
+                {getInitialsOneInput(submission.studentName)}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="font-semibold truncate text-base">
-                {requirement.requirementName}
+                {submission.studentName}
               </p>
               <div className="flex flex-wrap gap-1 mt-1">
-                <Badge className="bg-blue-500 text-white border-0 text-sm space-x-1">
-                  {requirement.certCode}
+                <Badge className="bg-blue-500 text-white border-0 text-sm">
+                  {submission.studentId}
                 </Badge>
-                <Badge className="bg-blue-500 text-white border-0 text-sm space-x-1">
-                  {requirement.programCode}
+                <Badge className="bg-blue-500 text-white border-0 text-sm">
+                  {submissionRelatedDetail?.programCode || "N/A"}
+                </Badge>
+                <Badge className="bg-blue-500 text-white border-0 text-sm">
+                  {submissionRelatedDetail?.certCode || "N/A"}
                 </Badge>
               </div>
             </div>
           </div>
 
-          {/* Information Badges */}
+          {/* Student Information Badges */}
           <div className="flex flex-wrap gap-2.5 mt-3">
-            <Badge className="bg-purple-100 text-purple-700 border-purple-200 text-sm space-x-2">
-              <Cpu />
-              <span>Program</span>
-              <span>{requirement.programName}</span>
-            </Badge>
-            <Badge className="bg-green-100 text-green-700 border-green-200 text-sm space-x-1">
-              <Calendar />
-              <span>Target</span>
-              <span>Year {requirement.targetYear}</span>
-            </Badge>
-            <Badge className="text-sm px-2 py-0.5 border-0 space-x-1 bg-red-100 text-red-700">
-              <CalendarClock />
-              <span>Due At</span>
-              <span>{formatDate(requirement.submissionDeadline, {})}</span>
-            </Badge>
-            <Badge
-              className={`text-sm px-2 py-0.5 border-0 space-x-1 ${
-                requirement.isMandatory
-                  ? "bg-indigo-100 text-indigo-700"
-                  : "bg-slate-100 text-slate-700"
-              }`}
-            >
-              <Info />
-              <span>Type</span>
-              <span>{requirement.isMandatory ? "Required" : "Optional"}</span>
-            </Badge>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Special Instructions */}
-      {requirement.specialInstruction && (
-        <Card className="shadow-none border border-blue-100">
-          <CardContent>
-            <div className="flex items-start gap-3">
-              <div className="p-1 bg-blue-100 rounded-lg mt-0.5">
-                <Info className="h-4 w-4 text-blue-600" />
-              </div>
-              <div className="flex-1">
-                <h4 className="font-medium text-blue-900 mb-2 text-base">
-                  Special Instructions
-                </h4>
-                <p className="text-sm text-blue-800 leading-relaxed">
-                  {requirement.specialInstruction}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Certificate Description */}
-      <Card className="shadow-none border border-blue-100">
-        <CardContent>
-          <div className="flex items-start gap-3">
-            <div className="p-1 bg-blue-100 rounded-lg mt-0.5">
-              <FileIcon className="h-4 w-4 text-blue-600" />
-            </div>
-            <div className="flex-1">
-              <h4 className="font-medium text-blue-900 mb-2 text-base">
-                About This Certificate
-              </h4>
-              <p className="text-sm text-blue-800 leading-relaxed">
-                {requirement.certDescription}
-              </p>
-            </div>
+            <CardInfoItem
+              icon={IdCard}
+              label="Enrollment"
+              value={submission.studentEnrollmentStatus}
+              className={getEnrollmentStatusBadge(
+                submission.studentEnrollmentStatus
+              )}
+            />
+            {submissionRelatedDetail && (
+              <>
+                <CardInfoItem
+                  icon={CalendarClock}
+                  label="Due At"
+                  value={formatDate(
+                    submissionRelatedDetail.submissionDeadline,
+                    {}
+                  )}
+                  className="bg-red-100 text-red-700"
+                />
+              </>
+            )}
+            <CardInfoItem
+              icon={Mail}
+              label="Email"
+              value={submission.studentEmail}
+            />
           </div>
         </CardContent>
       </Card>
@@ -174,7 +130,7 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
             </h4>
 
             {/* File Info */}
-            {requirement.filename && (
+            {submission.filename && (
               <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
                 <div className="flex items-start gap-3">
                   <div className="p-1.5 bg-green-100 rounded-lg mt-0.5">
@@ -182,12 +138,12 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-green-900 truncate mb-1">
-                      {requirement.filename}
+                      {submission.filename}
                     </p>
                     <p className="text-xs text-green-700">
-                      {requirement.fileSize &&
-                        formatFileSize(requirement.fileSize)}
-                      {requirement.mimeType && ` • ${requirement.mimeType}`}
+                      {submission.fileSize &&
+                        formatFileSize(submission.fileSize)}
+                      {submission.mimeType && ` • ${submission.mimeType}`}
                     </p>
                   </div>
                   <div className="flex gap-1 shrink-0">
@@ -202,13 +158,6 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
                       title="Download"
                     >
                       <Download className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <div
-                      className="p-2 bg-orange-100 hover:bg-orange-200 rounded-lg transition-colors cursor-pointer"
-                      title="Edit"
-                      onClick={() => setShowEditMode(true)}
-                    >
-                      <Edit className="h-4 w-4 text-orange-600" />
                     </div>
                   </div>
                 </div>
@@ -242,7 +191,7 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
 
             {/* Timeline */}
             <div className="flex items-center justify-center text-center pt-2 border-t border-gray-200 gap-4">
-              {requirement.submittedAt && (
+              {submission.submittedAt && (
                 <div className="space-y-1">
                   <div className="p-1.5 bg-blue-100 rounded-full mx-auto w-fit">
                     <FileIcon className="h-3.5 w-3.5 text-blue-600" />
@@ -251,11 +200,11 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
                     Submitted
                   </p>
                   <p className="text-xs font-semibold">
-                    {formatDate(requirement.submittedAt, {})}
+                    {formatDate(submission.submittedAt, {})}
                   </p>
                 </div>
               )}
-              {requirement.expiredAt && (
+              {submission.expiredAt && (
                 <>
                   <div className="h-px bg-slate-200 flex-1 mx-3"></div>
                   <div className="space-y-1">
@@ -266,7 +215,7 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
                       Expires
                     </p>
                     <p className="text-xs font-semibold">
-                      {formatDate(requirement.expiredAt, {})}
+                      {formatDate(submission.expiredAt, {})}
                     </p>
                   </div>
                 </>
@@ -279,4 +228,4 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
   );
 };
 
-export default memo(SheetOverview);
+export default memo(StaffSubmissionOverview);

@@ -12,6 +12,7 @@ import SheetOverview from "./sheet-overview";
 import FileUploadSection from "./file-upload-section";
 import { isRequirementSubmitted } from "@/utils/student/requirement.utils";
 import StudentVerificationHistory from "./verification-history";
+import { Info, MessageSquare } from "lucide-react";
 
 const DetailSheet = () => {
   const [activeTab, setActiveTab] = useState<TabState>("details");
@@ -30,9 +31,12 @@ const DetailSheet = () => {
     <Sheet open={detailSheetState} onOpenChange={handleOpenChange}>
       <SheetContent className="w-full sm:max-w-2xl lg:max-w-4xl overflow-y-auto px-6">
         <SheetHeader className="px-0">
-          <SheetTitle className="text-xl">
-            Details of {selectedRequirement.requirementName}
-          </SheetTitle>
+          <div className="flex items-center space-x-2">
+            <Info className="h-5 w-5 text-blue-600" />
+            <SheetTitle className="text-xl text-blue-900">
+              Details of {selectedRequirement.requirementName}
+            </SheetTitle>
+          </div>
         </SheetHeader>
 
         <div className="space-y-6">
@@ -42,15 +46,20 @@ const DetailSheet = () => {
             className="w-full"
           >
             <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="details" className="shadow-none outline-none">
-                Details
+              <TabsTrigger
+                value="details"
+                className="flex items-center space-x-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white shadow-none outline-none"
+              >
+                <Info className="h-4 w-4" />
+                <span>Details</span>
               </TabsTrigger>
               <TabsTrigger
                 value="history"
-                className="shadow-none outline-none"
+                className="flex items-center space-x-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white shadow-none outline-none"
                 disabled={!isRequirementSubmitted(selectedRequirement)}
               >
-                History
+                <MessageSquare className="h-4 w-4" />
+                <span>History</span>
               </TabsTrigger>
             </TabsList>
 

@@ -1,6 +1,7 @@
 import { columns } from "@/components/staff/submissions/columns";
 import PageHeader from "@/components/staff/submissions/page-header";
 import ScheduleNotSelected from "@/components/staff/submissions/schedule-not-selected";
+import SubmissionDetailSheet from "@/components/staff/submissions/submission-detail-sheet";
 import DataTable from "@/components/ui/data-table/data-table";
 import DefaultLoader from "@/components/ui/default-loader";
 import { useGetAllSubmissionsByScheduleId } from "@/services/staff/submissions/queries";
@@ -57,6 +58,7 @@ const SubmissionsPage = () => {
       ) : (
         <div>Nothing to show here</div>
       )}
+      <SubmissionDetailSheet />
     </div>
   );
 };

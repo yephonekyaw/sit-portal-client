@@ -1,16 +1,17 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { SUBMISSION_STATUS_CONFIGS } from "@/constants/student/requirement.constants";
+import { SUBMISSION_STATUS_CONFIGS } from "@/constants/staff/submission.constants";
 import { formatDate } from "@/utils/common.utils";
 import { ArrowRight, Bot, MessageSquare, User } from "lucide-react";
-import { useGetVerificationHistory } from "@/services/student/requirements/queries";
+import { useGetVerificationHistory } from "@/services/staff/submissions/queries";
 import DefaultLoader from "@/components/ui/default-loader";
-import type { VerificationHistoryResponse } from "@/services/student/requirements/types";
-import type { StudentVerificationHistoryProps } from "@/types/student/requirement.types";
+import type { VerificationHistoryResponse } from "@/services/staff/submissions/types";
 
-const StudentVerificationHistory = ({
+const StaffSubmissionVerificationHistory = ({
   submissionId,
-}: StudentVerificationHistoryProps) => {
+}: {
+  submissionId: string;
+}) => {
   const {
     data: historyData,
     isLoading,
@@ -174,4 +175,4 @@ const StudentVerificationHistory = ({
   );
 };
 
-export default StudentVerificationHistory;
+export default StaffSubmissionVerificationHistory;

@@ -1,3 +1,4 @@
+import type { StudentSubmissionItem } from "@/services/staff/submissions/types";
 import {
   FileText,
   ImageIcon,
@@ -21,30 +22,6 @@ export const getConfidenceColor = (score: number) => {
   return "text-red-600";
 };
 
-// Helper function for truncating filenames
-export const truncateFilename = (
-  filename: string,
-  maxLength: number = 25
-): string => {
-  if (!filename || filename.length <= maxLength) return filename;
-
-  const lastDotIndex = filename.lastIndexOf(".");
-  if (lastDotIndex === -1) {
-    return filename.substring(0, maxLength - 3) + "...";
-  }
-
-  const extension = filename.substring(lastDotIndex);
-  const nameWithoutExt = filename.substring(0, lastDotIndex);
-  const availableLength = maxLength - extension.length - 3; // 3 for "..."
-
-  if (availableLength <= 0) {
-    return "..." + extension;
-  }
-
-  return nameWithoutExt.substring(0, availableLength) + "..." + extension;
-};
-
-// Status badge configurations
 export const getSubmissionStatusBadge = (status: string | null) => {
   if (!status) {
     return {
@@ -138,4 +115,14 @@ export const getEnrollmentStatusBadge = (status: string) => {
     default:
       return "bg-gray-100 text-gray-700";
   }
+};
+
+export const isSubmissionSubmitted = (
+  submission: StudentSubmissionItem
+): boolean => {
+  return !!(
+    submission.filename ||
+    submission.submissionId ||
+    submission.submittedAt
+  );
 };

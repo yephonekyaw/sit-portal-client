@@ -10,17 +10,6 @@ import type { StudentRequirementWithSubmission } from "@/services/student/requir
 import { DEFAULT_TEXT_TRUNCATE_LENGTH } from "@/constants/student/requirement.constants";
 
 /**
- * Get initials from a name string
- */
-export const getInitials = (name: string): string => {
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-};
-
-/**
  * Truncate text to a specified length with ellipsis
  */
 export const truncateText = (
