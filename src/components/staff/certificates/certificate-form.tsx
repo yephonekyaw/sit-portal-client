@@ -103,7 +103,8 @@ const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Certificate Code
+                            Certificate Code{" "}
+                            <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -123,7 +124,8 @@ const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Certificate Name
+                            Certificate Name{" "}
+                            <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -143,7 +145,7 @@ const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Description
+                            Description <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Textarea
@@ -194,7 +196,8 @@ const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Verification Template
+                            Verification Template{" "}
+                            <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Textarea
@@ -246,7 +249,8 @@ const CertificateForm = ({ isEdit, certificateId }: CertificateFormProps) => {
                               />
                             </FormControl>
                             <FormLabel className="text-sm font-medium text-gray-700">
-                              Certificate has expiration date
+                              Certificate has expiration date{" "}
+                              <span className="text-red-600">*</span>
                             </FormLabel>
                           </div>
                           <p className="text-xs text-gray-500 ml-6">

@@ -20,8 +20,10 @@ import {
   CalendarClock,
   View,
   IdCard,
+  TicketCheck,
 } from "lucide-react";
 import { memo } from "react";
+import { useNavigate } from "react-router-dom";
 import type { StudentSubmissionItem } from "@/services/staff/submissions/types";
 import CardInfoItem from "../dashboard/card-info-item";
 
@@ -33,12 +35,28 @@ const StaffSubmissionOverview = ({
   submission,
 }: StaffSubmissionOverviewProps) => {
   const { submissionRelatedDetail, selectedSubmission } = useSubmissionStore();
+  const navigate = useNavigate();
   const confidenceScore = submission.agentConfidenceScore ?? 0;
   const isSubmitted = isSubmissionSubmitted(submission);
   const statusBadge = getSubmissionStatusBadge(
     selectedSubmission?.submissionStatus ?? null
   );
   const StatusIcon = statusBadge.icon;
+
+  const handleVerifyClick = () => {
+    // Check if the submission can be verified
+    if (!selectedSubmission || 
+        (selectedSubmission.submissionStatus !== "pending" && 
+         selectedSubmission.submissionStatus !== "manual_review")) {
+      return;
+    }
+    
+    navigate("/staff/submissions/verify");
+  };
+
+  const canBeVerified = selectedSubmission && 
+    (selectedSubmission.submissionStatus === "pending" || 
+     selectedSubmission.submissionStatus === "manual_review");
 
   return (
     <div className="space-y-3">
@@ -94,7 +112,10 @@ const StaffSubmissionOverview = ({
             <CardInfoItem
               icon={IdCard}
               label="Enrollment"
-              value={submission.studentEnrollmentStatus}
+              value={
+                submission.studentEnrollmentStatus[0].toUpperCase() +
+                submission.studentEnrollmentStatus.slice(1)
+              }
               className={getEnrollmentStatusBadge(
                 submission.studentEnrollmentStatus
               )}
@@ -158,6 +179,19 @@ const StaffSubmissionOverview = ({
                       title="Download"
                     >
                       <Download className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div
+                      className={`p-2 rounded-lg transition-colors ${
+                        canBeVerified
+                          ? "bg-amber-100 hover:bg-amber-200 cursor-pointer"
+                          : "bg-gray-100 cursor-not-allowed opacity-50"
+                      }`}
+                      title={canBeVerified ? "Verify" : "Cannot verify in current state"}
+                      onClick={canBeVerified ? handleVerifyClick : undefined}
+                    >
+                      <TicketCheck className={`h-4 w-4 ${
+                        canBeVerified ? "text-amber-600" : "text-gray-400"
+                      }`} />
                     </div>
                   </div>
                 </div>

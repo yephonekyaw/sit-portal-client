@@ -24,6 +24,7 @@ import {
   isRequirementSubmitted,
 } from "@/utils/student/requirement.utils";
 import FileUploadSection from "./file-upload-section";
+import CardInfoItem from "@/components/staff/dashboard/card-info-item";
 
 const SheetOverview = ({ requirement }: SheetOverviewProps) => {
   const isSubmitted = isRequirementSubmitted(requirement);
@@ -95,32 +96,27 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
 
           {/* Information Badges */}
           <div className="flex flex-wrap gap-2.5 mt-3">
-            <Badge className="bg-purple-100 text-purple-700 border-purple-200 text-sm space-x-2">
-              <Cpu />
-              <span>Program</span>
-              <span>{requirement.programName}</span>
-            </Badge>
-            <Badge className="bg-green-100 text-green-700 border-green-200 text-sm space-x-1">
-              <Calendar />
-              <span>Target</span>
-              <span>Year {requirement.targetYear}</span>
-            </Badge>
-            <Badge className="text-sm px-2 py-0.5 border-0 space-x-1 bg-red-100 text-red-700">
-              <CalendarClock />
-              <span>Due At</span>
-              <span>{formatDate(requirement.submissionDeadline, {})}</span>
-            </Badge>
-            <Badge
-              className={`text-sm px-2 py-0.5 border-0 space-x-1 ${
-                requirement.isMandatory
-                  ? "bg-indigo-100 text-indigo-700"
-                  : "bg-slate-100 text-slate-700"
-              }`}
-            >
-              <Info />
-              <span>Type</span>
-              <span>{requirement.isMandatory ? "Required" : "Optional"}</span>
-            </Badge>
+            <CardInfoItem
+              icon={CalendarClock}
+              label="Due At"
+              value={formatDate(requirement.submissionDeadline, {})}
+              className="bg-red-100 text-red-700"
+            />
+            <CardInfoItem
+              icon={Cpu}
+              label="Program"
+              value={requirement.programName}
+            />
+            <CardInfoItem
+              icon={Calendar}
+              label="Target"
+              value={`Year ${requirement.targetYear}`}
+            />
+            <CardInfoItem
+              icon={Info}
+              label="Type"
+              value={requirement.isMandatory ? "Required" : "Optional"}
+            />
           </div>
         </CardContent>
       </Card>

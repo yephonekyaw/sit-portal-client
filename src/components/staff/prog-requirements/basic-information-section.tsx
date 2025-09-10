@@ -56,7 +56,7 @@ export const BasicInformationSection = ({
                 return (
                   <FormItem>
                     <FormLabel className="text-sm font-medium text-gray-700">
-                      Program
+                      Program <span className="text-red-600">*</span>
                     </FormLabel>
                     <FormControl>
                       <DropdownMenu>
@@ -109,7 +109,7 @@ export const BasicInformationSection = ({
                 return (
                   <FormItem>
                     <FormLabel className="text-sm font-medium text-gray-700">
-                      Certificate Type
+                      Certificate Type <span className="text-red-600">*</span>
                     </FormLabel>
                     <FormControl>
                       <DropdownMenu>
@@ -162,7 +162,7 @@ export const BasicInformationSection = ({
                   htmlFor="name"
                   className="text-sm font-medium text-gray-700"
                 >
-                  Requirement Name
+                  Requirement Name <span className="text-red-600">*</span>
                 </FormLabel>
                 <FormControl>
                   <Input

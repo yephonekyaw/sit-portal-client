@@ -5,7 +5,14 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/utils/common.utils";
 import { getConfidenceColor } from "@/utils/staff/submission.utils";
-import { FileText, Bot, Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  FileText,
+  Bot,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  Info,
+} from "lucide-react";
 import { memo, useState } from "react";
 import type { RequirementCardProps } from "@/types/student/requirement.types";
 import { useRequirementStore } from "@/stores/student/requirement.stores";
@@ -15,6 +22,7 @@ import {
   shouldShowApprovedDetails,
 } from "@/utils/student/requirement.utils";
 import { DEFAULT_TEXT_TRUNCATE_LENGTH } from "@/constants/student/requirement.constants";
+import InfoBadge from "@/components/staff/submissions/info-badge";
 
 const RequirementCard = ({ requirement }: RequirementCardProps) => {
   const { openDetailSheet } = useRequirementStore();
@@ -103,42 +111,50 @@ const RequirementCard = ({ requirement }: RequirementCardProps) => {
           {statusBadges.map((badge, index) => {
             const Icon = badge.icon;
             return (
-              <Badge
+              <InfoBadge
                 key={index}
-                className={`${badge.className} text-xs px-2 py-1 font-medium border-0`}
-              >
-                <Icon className="h-3 w-3 mr-1" />
-                {badge.label}
-              </Badge>
+                icon={Icon}
+                name="Status"
+                value={badge.label}
+                className={badge.className}
+              />
             );
           })}
 
-          <Badge
-            className={`text-xs px-2 py-1 font-medium border-0 ${
+          <InfoBadge
+            icon={Info}
+            name="Requirement"
+            value={requirement.isMandatory ? "Required" : "Optional"}
+            className={`${
               requirement.isMandatory
                 ? "bg-indigo-500 text-white"
                 : "bg-slate-500 text-white"
             }`}
-          >
-            {requirement.isMandatory ? "Required" : "Optional"}
-          </Badge>
-          <Badge className="bg-red-100 text-red-700 border-0 text-xs px-2 py-1 font-medium">
-            <Calendar className="h-3 w-3 mr-1" />
-            <span>Due</span>
-            {formatDate(requirement.submissionDeadline, {})}
-          </Badge>
+          />
+
+          <InfoBadge
+            icon={Calendar}
+            name="Due"
+            value={formatDate(requirement.submissionDeadline, {})}
+            className="bg-red-100 text-red-700 border-0 text-xs px-2 py-1 font-medium"
+          />
 
           {/* Additional timing badges for approved submissions */}
           {showApprovedDetails && requirement.submittedAt && (
-            <Badge className="bg-blue-100 text-blue-700 border-0 text-xs px-2 py-1 font-medium">
-              <Calendar className="h-3 w-3 mr-1" />
-              Submitted {formatDate(requirement.submittedAt, {})}
-            </Badge>
+            <InfoBadge
+              icon={Calendar}
+              name="Submitted"
+              value={formatDate(requirement.submittedAt, {})}
+              className="bg-blue-100 text-blue-700 border-0 text-xs px-2 py-1 font-medium"
+            />
           )}
           {showApprovedDetails && requirement.expiredAt && (
-            <Badge className="bg-purple-100 text-purple-700 border-0 text-xs px-2 py-1 font-medium">
-              Expires {formatDate(requirement.expiredAt, {})}
-            </Badge>
+            <InfoBadge
+              icon={Calendar}
+              name="Expires"
+              value={formatDate(requirement.expiredAt, {})}
+              className="bg-purple-100 text-purple-700 border-0 text-xs px-2 py-1 font-medium"
+            />
           )}
         </div>
 

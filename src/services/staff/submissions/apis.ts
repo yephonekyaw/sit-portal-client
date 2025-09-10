@@ -3,8 +3,9 @@ import type { ApiResponse } from "@/services/api/types";
 import type {
   GetListOfSubmissions,
   VerificationHistoryListResponse,
+  VerificationHistoryResponse,
 } from "./types";
-import type { VerificationHistoryFormSchemaType } from "@/types/staff/submission.types";
+import type { ManualVerificationFormSchemaType } from "@/types/staff/submission.types";
 
 export const getAllSubmissionsByScheduleId = async (scheduleId: string) =>
   axiosClient
@@ -22,14 +23,13 @@ export const getVerificationHistory = async (submissionId: string) =>
     )
     .then((res) => res.data);
 
-export const postCreateVerificationHistory = async (
-  data: VerificationHistoryFormSchemaType
-) =>
-  axiosClient
-    .post<ApiResponse<VerificationHistoryListResponse>>(
-      `/staff/submissions/${encodeURIComponent(
-        data.submissionId
-      )}/verification-history`,
+export const postVerifySubmission = async (
+  data: ManualVerificationFormSchemaType
+) => {
+  return axiosClient
+    .post<ApiResponse<VerificationHistoryResponse>>(
+      `/staff/submissions/${encodeURIComponent(data.submissionId)}/verify`,
       data
     )
     .then((res) => res.data);
+};

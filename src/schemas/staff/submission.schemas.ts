@@ -1,13 +1,27 @@
 import { z } from "zod";
 
-// Verification History Form Schema
-export const VerificationHistoryFormSchema = z.object({
-  submissionId: z.string().uuid(),
-  verificationType: z.enum(["manual", "agent"]),
-  oldStatus: z.enum(["pending", "approved", "rejected", "manual_review"]),
-  newStatus: z.enum(["pending", "approved", "rejected", "manual_review"]),
-  comments: z.string().max(1000).optional().nullable(),
-  reasons: z.string().max(1000).optional().nullable(),
-  verifierId: z.string().optional().nullable(),
-  agentAnalysisResult: z.record(z.any()).optional().nullable(),
+// Manual Verification Form Schema
+export const ManualVerificationFormSchema = z.object({
+  submissionId: z
+    .string({ required_error: "Submission ID is required" })
+    .uuid({ message: "Invalid submission ID format" }),
+  scheduleId: z
+    .string({ required_error: "Schedule ID is required" })
+    .uuid({ message: "Invalid schedule ID format" }),
+  status: z
+    .enum(["approved", "rejected"], {
+      required_error: "Please select a verification status",
+      invalid_type_error: "Status must be either Approved or Rejected",
+    })
+    .transform((val) => val as "approved" | "rejected"),
+  comments: z
+    .string()
+    .max(1000, { message: "Comments must not exceed 1000 characters" })
+    .optional()
+    .or(z.literal("")),
+  reasons: z
+    .string()
+    .max(1000, { message: "Reasons must not exceed 1000 characters" })
+    .optional()
+    .or(z.literal("")),
 });

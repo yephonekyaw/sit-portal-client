@@ -1,12 +1,12 @@
 import { z } from "zod";
-import type { VerificationHistoryFormSchema } from "@/schemas/staff/submission.schemas";
+import type { ManualVerificationFormSchema } from "@/schemas/staff/submission.schemas";
 import type {
   StudentSubmissionItem,
   SubmissionRelatedData,
 } from "@/services/staff/submissions/types";
 
-export type VerificationHistoryFormSchemaType = z.infer<
-  typeof VerificationHistoryFormSchema
+export type ManualVerificationFormSchemaType = z.infer<
+  typeof ManualVerificationFormSchema
 >;
 
 export interface SubmissionStoreState {

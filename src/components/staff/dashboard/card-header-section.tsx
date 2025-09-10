@@ -91,7 +91,7 @@ const CardHeaderSection = ({
             {onClickVerify && (
               <div
                 className="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors cursor-pointer"
-                title="Verify"
+                title="Submissions"
                 onClick={onClickVerify}
               >
                 <TicketCheck className="h-4 w-4 text-blue-600" />

@@ -99,7 +99,7 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Program Code
+                            Program Code <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -119,7 +119,7 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Program Name
+                            Program Name <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -139,7 +139,7 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Description
+                            Description <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Textarea
@@ -182,7 +182,8 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-sm font-medium text-gray-700">
-                            Duration (Years)
+                            Duration (Years){" "}
+                            <span className="text-red-600">*</span>
                           </FormLabel>
                           <FormControl>
                             <Input

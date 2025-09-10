@@ -10,6 +10,7 @@ import ScheduleFormPage from "@/pages/staff/schedule-form-page";
 import SubmissionsPage from "@/pages/staff/submissions-page";
 import RouteProtect from "@/middlewares/route-protect";
 import CertificateFormPage from "@/pages/staff/cert-form-page";
+import VerificationFormPage from "@/pages/staff/verification-form-page";
 
 const staffRouter = [
   {
@@ -81,6 +82,10 @@ const staffRouter = [
       {
         path: "submissions",
         element: <SubmissionsPage />,
+      },
+      {
+        path: "submissions/verify",
+        element: <VerificationFormPage />,
       },
     ],
   },

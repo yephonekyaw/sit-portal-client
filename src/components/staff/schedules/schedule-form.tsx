@@ -127,7 +127,8 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                         return (
                           <FormItem>
                             <FormLabel className="text-sm font-medium text-gray-700">
-                              Program Requirement
+                              Program Requirement{" "}
+                              <span className="text-red-600">*</span>
                             </FormLabel>
                             <FormControl>
                               <DropdownMenu>
@@ -187,7 +188,8 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                         return (
                           <FormItem>
                             <FormLabel className="text-sm font-medium text-gray-700">
-                              Academic Year
+                              Academic Year{" "}
+                              <span className="text-red-600">*</span>
                             </FormLabel>
                             <FormControl>
                               <DropdownMenu>
@@ -233,7 +235,8 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
 
                     <div className="space-y-2">
                       <FormLabel className="text-sm font-medium text-gray-700">
-                        Submission Deadline
+                        Submission Deadline{" "}
+                        <span className="text-red-600">*</span>
                       </FormLabel>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                         <FormField

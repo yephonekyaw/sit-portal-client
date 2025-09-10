@@ -19,7 +19,7 @@ export const getInitialsOneInput = (name: string): string => {
 export const formatDate = (
   dateString: string,
   {
-    year = "2-digit",
+    year = "numeric",
     month = "short",
     day = "numeric",
     hour = "2-digit",

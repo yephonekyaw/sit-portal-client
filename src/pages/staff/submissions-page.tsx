@@ -1,4 +1,5 @@
 import { columns } from "@/components/staff/submissions/columns";
+import DashboardStats from "@/components/staff/submissions/dashboard-stats";
 import PageHeader from "@/components/staff/submissions/page-header";
 import ScheduleNotSelected from "@/components/staff/submissions/schedule-not-selected";
 import SubmissionDetailSheet from "@/components/staff/submissions/submission-detail-sheet";
@@ -55,6 +56,8 @@ const SubmissionsPage = () => {
           columns={columns}
           data={submissions?.data?.unsubmittedSubmissions || []}
         />
+      ) : currentTab === "stats" ? (
+        <DashboardStats />
       ) : (
         <div>Nothing to show here</div>
       )}
