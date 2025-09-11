@@ -1,99 +1,28 @@
 import * as React from "react";
-import {
-  Check,
-  Clock,
-  FileText,
-  ShieldCheck,
-  ShieldX,
-  Trash2,
-  AlertTriangle,
-  Calendar,
-  Upload,
-  Edit3,
-  HelpCircle,
-} from "lucide-react";
+import { Check, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 import ReactMarkdown from "react-markdown";
-import type {
-  Notification,
-  NotificationItemProps,
-  NotificationPriority,
-} from "@/types/notification.types";
+import type { GetUserNotificationItem } from "@/services/notification/types";
+import {
+  getNotificationTypeIcon,
+  getNotificationTypeColor,
+  getNotificationPriorityColor,
+  isNotificationUnread,
+  getNotificationTitle,
+  getNotificationDescription,
+  shouldShowPriorityBadge,
+  formatNotificationPriority,
+} from "@/utils/notification.utils";
 
-const getTypeIcon = (notificationTypeId: string) => {
-  switch (notificationTypeId) {
-    case "cert-submission-new":
-    case "cert-submission-success":
-      return <Upload className="h-4 w-4" />;
-    case "cert-submission-updated":
-      return <Edit3 className="h-4 w-4" />;
-    case "cert-submission-approved":
-    case "cert-verification-request":
-      return <ShieldCheck className="h-4 w-4" />;
-    case "cert-submission-rejected":
-      return <ShieldX className="h-4 w-4" />;
-    case "student-query":
-      return <HelpCircle className="h-4 w-4" />;
-    case "requirement-reminder":
-      return <Clock className="h-4 w-4" />;
-    case "requirement-warning":
-      return <AlertTriangle className="h-4 w-4" />;
-    case "requirement-overdue":
-      return <Calendar className="h-4 w-4" />;
-    default:
-      return <FileText className="h-4 w-4" />;
-  }
-};
-
-const getPriorityColor = (priority: NotificationPriority) => {
-  switch (priority) {
-    case "urgent":
-      return "bg-red-100 border-red-300 text-red-900";
-    case "high":
-      return "bg-orange-100 border-orange-300 text-orange-900";
-    case "medium":
-      return "bg-yellow-100 border-yellow-300 text-yellow-900";
-    case "low":
-      return "bg-blue-100 border-blue-300 text-blue-900";
-    default:
-      return "bg-gray-100 border-gray-300 text-gray-900";
-  }
-};
-
-const getTypeColor = (notificationTypeId: string) => {
-  switch (notificationTypeId) {
-    case "cert-submission-new":
-    case "cert-submission-success":
-    case "cert-submission-updated":
-      return "text-blue-700 bg-blue-100";
-    case "cert-submission-approved":
-    case "cert-verification-request":
-      return "text-green-700 bg-green-100";
-    case "cert-submission-rejected":
-      return "text-red-700 bg-red-100";
-    case "student-query":
-      return "text-purple-700 bg-purple-100";
-    case "requirement-reminder":
-      return "text-blue-700 bg-blue-100";
-    case "requirement-warning":
-      return "text-orange-700 bg-orange-100";
-    case "requirement-overdue":
-      return "text-red-700 bg-red-100";
-    default:
-      return "text-gray-700 bg-gray-100";
-  }
-};
-
-const getFormattedTitle = (notification: Notification): string => {
-  return notification.subject;
-};
-
-const getFormattedDescription = (notification: Notification): string => {
-  return notification.body;
-};
+interface NotificationItemProps {
+  notification: GetUserNotificationItem;
+  onMarkAsRead: (notificationId: string) => void;
+  onDelete: (notificationId: string) => void;
+  className?: string;
+}
 
 export function NotificationItem({
   notification,
@@ -101,8 +30,8 @@ export function NotificationItem({
   onDelete,
   className,
 }: NotificationItemProps) {
-  const isUnread = notification.recipient_status !== "read";
-  const timeAgo = formatDistanceToNow(new Date(notification.created_at), {
+  const isUnread = isNotificationUnread(notification);
+  const timeAgo = formatDistanceToNow(new Date(notification.createdAt), {
     addSuffix: true,
   });
 
@@ -118,8 +47,11 @@ export function NotificationItem({
     onDelete(notification.id);
   };
 
-  const title = getFormattedTitle(notification);
-  const description = getFormattedDescription(notification);
+  const title = getNotificationTitle(notification);
+  const description = getNotificationDescription(notification);
+  const TypeIcon = getNotificationTypeIcon(notification.notificationCode);
+  const typeColor = getNotificationTypeColor(notification.notificationCode);
+  const priorityColor = getNotificationPriorityColor(notification.priority);
 
   return (
     <div
@@ -133,10 +65,10 @@ export function NotificationItem({
         <div
           className={cn(
             "flex items-center justify-center w-8 h-8 rounded-full shrink-0 mt-0.5",
-            getTypeColor(notification.notification_type_id)
+            typeColor
           )}
         >
-          {getTypeIcon(notification.notification_type_id)}
+          <TypeIcon className="h-4 w-4" />
         </div>
 
         <div className="flex-1 min-w-0 space-y-1">
@@ -144,15 +76,15 @@ export function NotificationItem({
             <p className={cn("text-sm leading-5 font-semibold text-gray-900")}>
               {title}
             </p>
-            {notification.priority !== "medium" && (
+            {shouldShowPriorityBadge(notification.priority) && (
               <Badge
                 variant="outline"
                 className={cn(
                   "text-xs shrink-0",
-                  getPriorityColor(notification.priority)
+                  priorityColor
                 )}
               >
-                {notification.priority}
+                {formatNotificationPriority(notification.priority)}
               </Badge>
             )}
           </div>

@@ -12,35 +12,32 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NotificationItem } from "./notification-item";
-import { useNotificationStore } from "@/stores/notification.stores";
-import { useNavConfigStore } from "@/stores/nav.stores";
+import { useNotification } from "@/hooks/use-notification";
 
 interface NotificationCenterProps {
   className?: string;
 }
 
 export function NotificationCenter({ className }: NotificationCenterProps) {
-  const { currentRole } = useNavConfigStore();
+  const [open, setOpen] = React.useState(false);
+
   const {
     notifications,
     unreadCount,
     isLoading,
-    error,
-    fetchNotifications,
     markAsRead,
     markAllAsRead,
-    deleteNotification,
     clearAll,
-  } = useNotificationStore();
+  } = useNotification({
+    limit: 50,
+    offset: 0,
+  });
 
-  const [open, setOpen] = React.useState(false);
-
-  // Fetch notifications when component mounts or role changes
-  React.useEffect(() => {
-    if (currentRole && (currentRole === "student" || currentRole === "staff")) {
-      fetchNotifications(currentRole);
-    }
-  }, [currentRole, fetchNotifications]);
+  const handleDeleteNotification = (notificationId: string) => {
+    // Delete notification = mark as read so it won't show in unread list
+    // This is equivalent to clearing/expiring a single notification
+    markAsRead(notificationId);
+  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -128,24 +125,6 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                 <div className="flex items-center justify-center py-16">
                   <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
                 </div>
-              ) : error ? (
-                <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
-                  <div className="h-16 w-16 text-red-300 mb-4">⚠️</div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
-                    Failed to load notifications
-                  </h3>
-                  <p className="text-sm text-gray-600 max-w-sm mb-4">{error}</p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      currentRole &&
-                      fetchNotifications(currentRole as "student" | "staff")
-                    }
-                  >
-                    Try again
-                  </Button>
-                </div>
               ) : notifications.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
                   <Bell className="h-16 w-16 text-gray-300 mb-4" />
@@ -164,7 +143,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                       key={notification.id}
                       notification={notification}
                       onMarkAsRead={markAsRead}
-                      onDelete={deleteNotification}
+                      onDelete={handleDeleteNotification}
                     />
                   ))}
                 </div>
