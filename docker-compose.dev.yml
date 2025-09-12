@@ -1,0 +1,12 @@
+name: "sit-portal-client"
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    restart: unless-stopped
