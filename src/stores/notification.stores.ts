@@ -18,7 +18,7 @@ export const useNotificationStore = create<NotificationStoreState>(
       if (newNotifications.length > 0) {
         const updatedUnread = [...newNotifications, ...unreadNotifications];
         const allNotifications = [...updatedUnread, ...readNotifications];
-        
+
         set({
           unreadNotifications: updatedUnread,
           notifications: allNotifications,
@@ -44,7 +44,7 @@ export const useNotificationStore = create<NotificationStoreState>(
         );
         const updatedRead = [readNotification, ...readNotifications];
         const allNotifications = [...updatedUnread, ...updatedRead];
-        
+
         set({
           unreadNotifications: updatedUnread,
           readNotifications: updatedRead,
@@ -54,6 +54,9 @@ export const useNotificationStore = create<NotificationStoreState>(
       }
     },
     markAllAsRead: () => {
+      // To quickly make UI updates, set unread count to 0 first
+      set({ unreadCount: 0 });
+
       const { unreadNotifications, readNotifications } = get();
       if (unreadNotifications.length > 0) {
         const nowReadNotifications = unreadNotifications.map(
