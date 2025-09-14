@@ -51,10 +51,10 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
   return (
     <div className="w-full space-y-6">
       {/* Header */}
-      <header className="bg-blue-50 border border-blue-100 rounded-2xl p-6 space-y-6 mb-6">
+      <header className="rounded-2xl space-y-6 mb-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Avatar className="h-12 w-12 bg-blue-500">
+            <Avatar className="h-12 w-12 bg-blue-600">
               <AvatarFallback className="bg-transparent text-white">
                 <CalendarIcon className="h-6 w-6" />
               </AvatarFallback>

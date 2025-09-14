@@ -13,6 +13,7 @@ export interface UseNotificationHookState {
   // Actions
   markAsRead: (notificationId: string) => void;
   markAllAsRead: () => void;
+  clear: (notificationId: string) => void;
   clearAll: () => void;
 }
 
@@ -31,5 +32,6 @@ export interface NotificationStoreState {
   setReceivedNotifications: (notifications: GetUserNotificationItem[]) => void;
   markAsRead: (notificationId: string) => void;
   markAllAsRead: () => void;
+  clear: (notificationId: string) => void;
   clearAll: () => void;
 }

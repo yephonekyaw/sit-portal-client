@@ -7,6 +7,7 @@ import {
   useMarkNotificationAsRead,
   useMarkAllNotificationsAsRead,
   useClearAllNotifications,
+  useClearNotification,
 } from "@/services/notification/mutations";
 import { useNotificationStore } from "@/stores/notification.stores";
 import type {
@@ -19,7 +20,6 @@ export const useNotification = (
 ): UseNotificationHookState => {
   const { limit = 50, offset = 0, enabled = true } = options;
 
-  // Use Zustand store instead of local state
   const {
     notifications,
     unreadNotifications,
@@ -28,6 +28,7 @@ export const useNotification = (
     setReceivedNotifications,
     markAsRead: storeMarkAsRead,
     markAllAsRead: storeMarkAllAsRead,
+    clear: storeClear,
     clearAll: storeClearAll,
   } = useNotificationStore();
 
@@ -40,6 +41,7 @@ export const useNotification = (
   // Mutation hooks
   const markAsReadMutation = useMarkNotificationAsRead();
   const markAllAsReadMutation = useMarkAllNotificationsAsRead();
+  const clearMutation = useClearNotification();
   const clearAllMutation = useClearAllNotifications();
 
   const unreadCount = unreadCountData?.data?.unreadCount || storeUnreadCount;
@@ -70,6 +72,15 @@ export const useNotification = (
     markAllAsReadMutation.mutate();
   }, [storeMarkAllAsRead, markAllAsReadMutation]);
 
+  // Clear single notification (update store + call API)
+  const handleClear = useCallback(
+    (notificationId: string) => {
+      storeClear(notificationId);
+      clearMutation.mutate(notificationId);
+    },
+    [storeClear, clearMutation]
+  );
+
   // Clear all notifications (update store + call API)
   const handleClearAll = useCallback(() => {
     storeClearAll();
@@ -89,6 +100,7 @@ export const useNotification = (
     // Actions
     markAsRead: handleMarkAsRead,
     markAllAsRead: handleMarkAllAsRead,
+    clear: handleClear,
     clearAll: handleClearAll,
   };
 };

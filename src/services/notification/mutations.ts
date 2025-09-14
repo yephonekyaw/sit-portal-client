@@ -3,6 +3,7 @@ import {
   markNotificationAsRead,
   markAllNotificationsAsRead,
   clearAllNotifications,
+  clearNotification,
 } from "./apis";
 import { toast } from "sonner";
 import type { ApiError, ApiResponse } from "@/services/api/types";
@@ -10,6 +11,7 @@ import type {
   MarkAsReadApiResponse,
   MarkAllAsReadApiResponse,
   ClearAllApiResponse,
+  ClearNotificationApiResponse,
 } from "./types";
 
 export const useMarkNotificationAsRead = () => {
@@ -66,6 +68,28 @@ export const useClearAllNotifications = () => {
     onError: (error) => {
       toast.error(
         error.response?.data.message || "Failed to clear notifications"
+      );
+    },
+  });
+};
+
+export const useClearNotification = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    ApiResponse<ClearNotificationApiResponse>,
+    ApiError,
+    string // notificationId
+  >({
+    mutationFn: clearNotification,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["notifications"],
+      });
+    },
+    onError: (error) => {
+      toast.error(
+        error.response?.data.message || "Failed to clear notification"
       );
     },
   });

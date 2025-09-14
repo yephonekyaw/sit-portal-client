@@ -6,6 +6,7 @@ import type {
   MarkAsReadApiResponse,
   MarkAllAsReadApiResponse,
   ClearAllApiResponse,
+  ClearNotificationApiResponse,
 } from "./types";
 
 export const getUnreadNotifications = async (
@@ -43,4 +44,11 @@ export const markAllNotificationsAsRead = async () =>
 export const clearAllNotifications = async () =>
   axiosClient
     .patch<ApiResponse<ClearAllApiResponse>>("/shared/notifications/clear-all")
+    .then((res) => res.data);
+
+export const clearNotification = async (notificationId: string) =>
+  axiosClient
+    .patch<ApiResponse<ClearNotificationApiResponse>>(
+      `/shared/notifications/${encodeURIComponent(notificationId)}/clear`
+    )
     .then((res) => res.data);

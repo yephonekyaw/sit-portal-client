@@ -44,3 +44,7 @@ export type MarkAllAsReadApiResponse = {
 export type ClearAllApiResponse = {
   clearedCount: number;
 };
+
+export type ClearNotificationApiResponse = {
+  unreadCount: number;
+};

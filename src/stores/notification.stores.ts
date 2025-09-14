@@ -53,11 +53,10 @@ export const useNotificationStore = create<NotificationStoreState>(
         });
       }
     },
-    markAllAsRead: () => {
-      // To quickly make UI updates, set unread count to 0 first
-      set({ unreadCount: 0 });
 
+    markAllAsRead: () => {
       const { unreadNotifications, readNotifications } = get();
+
       if (unreadNotifications.length > 0) {
         const nowReadNotifications = unreadNotifications.map(
           (notification) => ({
@@ -76,8 +75,35 @@ export const useNotificationStore = create<NotificationStoreState>(
           notifications: allNotifications,
           unreadCount: 0,
         });
+      } else {
+        set({ unreadCount: 0 });
       }
     },
+
+    clear: (notificationId: string) => {
+      const { unreadNotifications, readNotifications } = get();
+
+      // Remove from unread notifications
+      const updatedUnread = unreadNotifications.filter(
+        (n) => n.id !== notificationId
+      );
+
+      // Remove from read notifications
+      const updatedRead = readNotifications.filter(
+        (n) => n.id !== notificationId
+      );
+
+      // Update all notifications list
+      const allNotifications = [...updatedUnread, ...updatedRead];
+
+      set({
+        unreadNotifications: updatedUnread,
+        readNotifications: updatedRead,
+        notifications: allNotifications,
+        unreadCount: updatedUnread.length,
+      });
+    },
+
     clearAll: () => {
       set({
         notifications: [],

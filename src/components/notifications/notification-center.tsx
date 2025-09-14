@@ -27,17 +27,12 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
     isLoading,
     markAsRead,
     markAllAsRead,
+    clear,
     clearAll,
   } = useNotification({
     limit: 50,
     offset: 0,
   });
-
-  const handleDeleteNotification = (notificationId: string) => {
-    // Delete notification = mark as read so it won't show in unread list
-    // This is equivalent to clearing/expiring a single notification
-    markAsRead(notificationId);
-  };
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -143,7 +138,7 @@ export function NotificationCenter({ className }: NotificationCenterProps) {
                       key={notification.id}
                       notification={notification}
                       onMarkAsRead={markAsRead}
-                      onDelete={handleDeleteNotification}
+                      onClear={clear}
                     />
                   ))}
                 </div>

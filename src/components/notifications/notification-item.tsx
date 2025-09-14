@@ -20,14 +20,14 @@ import {
 interface NotificationItemProps {
   notification: GetUserNotificationItem;
   onMarkAsRead: (notificationId: string) => void;
-  onDelete: (notificationId: string) => void;
+  onClear: (notificationId: string) => void;
   className?: string;
 }
 
 export function NotificationItem({
   notification,
   onMarkAsRead,
-  onDelete,
+  onClear,
   className,
 }: NotificationItemProps) {
   const isUnread = isNotificationUnread(notification);
@@ -42,9 +42,9 @@ export function NotificationItem({
     }
   };
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleClear = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onDelete(notification.id);
+    onClear(notification.id);
   };
 
   const title = getNotificationTitle(notification);
@@ -79,10 +79,7 @@ export function NotificationItem({
             {shouldShowPriorityBadge(notification.priority) && (
               <Badge
                 variant="outline"
-                className={cn(
-                  "text-xs shrink-0",
-                  priorityColor
-                )}
+                className={cn("text-xs shrink-0", priorityColor)}
               >
                 {formatNotificationPriority(notification.priority)}
               </Badge>
@@ -133,9 +130,9 @@ export function NotificationItem({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={handleDelete}
+                onClick={handleClear}
                 className="h-6 w-6 p-0 text-gray-500 hover:text-red-600 hover:bg-red-50"
-                title="Delete notification"
+                title="Clear notification"
               >
                 <Trash2 className="h-3 w-3" />
               </Button>

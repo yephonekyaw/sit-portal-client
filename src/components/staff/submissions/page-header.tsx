@@ -23,7 +23,7 @@ const PageHeader = () => {
   ] as const;
 
   return (
-    <header className="bg-blue-50 border border-blue-100 rounded-2xl p-6 mb-[1rem] space-y-6">
+    <header className="bg-blue-50 border border-blue-100 rounded-2xl p-6 mb-6 space-y-6">
       {/* Title section and tabs - responsive layout */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         {/* Title section */}
