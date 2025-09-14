@@ -6,7 +6,6 @@ import { formatFileSize, getInitialsOneInput } from "@/utils/common.utils";
 import { formatDate } from "@/utils/common.utils";
 import { getConfidenceColor } from "@/utils/staff/submission.utils";
 import {
-  Download,
   FileIcon,
   Bot,
   AlertCircle,
@@ -14,8 +13,6 @@ import {
   Cpu,
   Calendar,
   CalendarClock,
-  View,
-  Edit,
 } from "lucide-react";
 import { memo, useState } from "react";
 import type { SheetOverviewProps } from "@/types/student/requirement.types";
@@ -25,6 +22,7 @@ import {
 } from "@/utils/student/requirement.utils";
 import FileUploadSection from "./file-upload-section";
 import CardInfoItem from "@/components/staff/dashboard/card-info-item";
+import ActionButtons from "./action-buttons";
 
 const SheetOverview = ({ requirement }: SheetOverviewProps) => {
   const isSubmitted = isRequirementSubmitted(requirement);
@@ -186,27 +184,11 @@ const SheetOverview = ({ requirement }: SheetOverviewProps) => {
                       {requirement.mimeType && ` • ${requirement.mimeType}`}
                     </p>
                   </div>
-                  <div className="flex gap-1 shrink-0">
-                    <div
-                      className="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors cursor-pointer"
-                      title="View"
-                    >
-                      <View className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <div
-                      className="p-2 bg-purple-100 hover:bg-purple-200 rounded-lg transition-colors cursor-pointer"
-                      title="Download"
-                    >
-                      <Download className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <div
-                      className="p-2 bg-orange-100 hover:bg-orange-200 rounded-lg transition-colors cursor-pointer"
-                      title="Edit"
-                      onClick={() => setShowEditMode(true)}
-                    >
-                      <Edit className="h-4 w-4 text-orange-600" />
-                    </div>
-                  </div>
+                  <ActionButtons
+                    fileObjectName={requirement.fileObjectName!}
+                    filename={requirement.filename!}
+                    onEdit={() => setShowEditMode(true)}
+                  />
                 </div>
               </div>
             )}

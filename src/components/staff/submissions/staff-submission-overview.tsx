@@ -12,20 +12,18 @@ import {
 } from "@/utils/staff/submission.utils";
 import { useSubmissionStore } from "@/stores/staff/submission.stores";
 import {
-  Download,
   FileIcon,
   Bot,
   AlertCircle,
   Mail,
   CalendarClock,
-  View,
   IdCard,
-  TicketCheck,
 } from "lucide-react";
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import type { StudentSubmissionItem } from "@/services/staff/submissions/types";
 import CardInfoItem from "../dashboard/card-info-item";
+import StaffActionButtons from "./staff-action-buttons";
 
 interface StaffSubmissionOverviewProps {
   submission: StudentSubmissionItem;
@@ -167,33 +165,12 @@ const StaffSubmissionOverview = ({
                       {submission.mimeType && ` • ${submission.mimeType}`}
                     </p>
                   </div>
-                  <div className="flex gap-1 shrink-0">
-                    <div
-                      className="p-2 bg-blue-100 hover:bg-blue-200 rounded-lg transition-colors cursor-pointer"
-                      title="View"
-                    >
-                      <View className="h-4 w-4 text-blue-600" />
-                    </div>
-                    <div
-                      className="p-2 bg-purple-100 hover:bg-purple-200 rounded-lg transition-colors cursor-pointer"
-                      title="Download"
-                    >
-                      <Download className="h-4 w-4 text-purple-600" />
-                    </div>
-                    <div
-                      className={`p-2 rounded-lg transition-colors ${
-                        canBeVerified
-                          ? "bg-amber-100 hover:bg-amber-200 cursor-pointer"
-                          : "bg-gray-100 cursor-not-allowed opacity-50"
-                      }`}
-                      title={canBeVerified ? "Verify" : "Cannot verify in current state"}
-                      onClick={canBeVerified ? handleVerifyClick : undefined}
-                    >
-                      <TicketCheck className={`h-4 w-4 ${
-                        canBeVerified ? "text-amber-600" : "text-gray-400"
-                      }`} />
-                    </div>
-                  </div>
+                  <StaffActionButtons
+                    fileObjectName={submission.fileObjectName!}
+                    filename={submission.filename!}
+                    canBeVerified={canBeVerified}
+                    onVerify={handleVerifyClick}
+                  />
                 </div>
               </div>
             )}
