@@ -7,7 +7,10 @@ import CardInfoItem from "../dashboard/card-info-item";
 import CardFooter from "../dashboard/card-footer";
 import { Hash, Clock, GraduationCap, CalendarDays } from "lucide-react";
 import { isDeadlinePassed } from "@/utils/staff/dashboard.utils";
-import { formatDate } from "@/utils/common.utils";
+import {
+  formatDate,
+  normalizeDateTimeStrFromServer,
+} from "@/utils/common.utils";
 import { useNavigate } from "react-router-dom";
 
 const ScheduleCard = ({ schedule }: { schedule: GetSchedulesItem }) => {
@@ -26,7 +29,11 @@ const ScheduleCard = ({ schedule }: { schedule: GetSchedulesItem }) => {
       <CardHeaderSection
         title={schedule.requirementName}
         codes={[schedule.certCode, schedule.programCode]}
-        isActive={!isDeadlinePassed(schedule.submissionDeadline)}
+        isActive={
+          !isDeadlinePassed(
+            normalizeDateTimeStrFromServer(schedule.submissionDeadline)
+          )
+        }
         onEdit={handleEdit}
         onClickVerify={handleVerify}
       />

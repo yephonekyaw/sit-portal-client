@@ -16,6 +16,12 @@ export const getInitialsOneInput = (name: string): string => {
     .slice(0, 2);
 };
 
+export const normalizeDateTimeStrFromServer = (dateString: string): string => {
+  return dateString.endsWith("Z") || dateString.endsWith("+00:00")
+    ? dateString
+    : dateString + "Z";
+};
+
 export const formatDate = (
   dateString: string,
   {
@@ -32,7 +38,9 @@ export const formatDate = (
     minute?: "2-digit";
   }
 ): string => {
-  return new Date(dateString).toLocaleDateString("en-UK", {
+  return new Date(
+    normalizeDateTimeStrFromServer(dateString)
+  ).toLocaleDateString("en-UK", {
     year,
     month,
     day,

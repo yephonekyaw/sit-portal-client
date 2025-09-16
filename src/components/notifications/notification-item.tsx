@@ -16,6 +16,7 @@ import {
   shouldShowPriorityBadge,
   formatNotificationPriority,
 } from "@/utils/notification.utils";
+import { normalizeDateTimeStrFromServer } from "@/utils/common.utils";
 
 interface NotificationItemProps {
   notification: GetUserNotificationItem;
@@ -31,9 +32,12 @@ export function NotificationItem({
   className,
 }: NotificationItemProps) {
   const isUnread = isNotificationUnread(notification);
-  const timeAgo = formatDistanceToNow(new Date(notification.createdAt), {
-    addSuffix: true,
-  });
+  const timeAgo = formatDistanceToNow(
+    new Date(normalizeDateTimeStrFromServer(notification.createdAt)),
+    {
+      addSuffix: true,
+    }
+  );
 
   const handleMarkAsRead = (e: React.MouseEvent) => {
     e.stopPropagation();

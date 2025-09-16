@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { differenceInDays } from "date-fns";
+import { differenceInDays, formatDate, parse } from "date-fns";
 import { useScheduleStore } from "@/stores/staff/schedule.stores";
 import { useGetProgramRequirements } from "@/services/staff/prog-reqs/queries";
 import { useGetAcademicYears } from "@/services/staff/academic-years/queries";
@@ -15,6 +15,7 @@ import type {
   ScheduleFormProps,
   ScheduleFormSchemaType,
 } from "@/types/staff/schedule.types";
+import { normalizeDateTimeStrFromServer } from "@/utils/common.utils";
 
 export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
   const navigate = useNavigate();
@@ -43,16 +44,20 @@ export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
   useEffect(() => {
     if (selectedSchedule && isEdit) {
       // Convert existing datetime to separate date and time strings
-      const datetime = new Date(selectedSchedule.submissionDeadline);
-      const submissionDate = datetime.toISOString().split("T")[0];
-      const submissionTime = datetime.toTimeString().split(" ")[0]; // HH:MM:SS format
+      const datetime = new Date(
+        normalizeDateTimeStrFromServer(selectedSchedule.submissionDeadline)
+      );
+      const submissionDate = formatDate(datetime, "yyyy-MM-dd");
+      const submissionTime = formatDate(datetime, "HH:mm:ss");
 
       // Convert datetime values to integer days if they exist
       let gracePeriodDays: number = 7;
       let notificationDaysBeforeDeadline: number = 90;
 
       if (selectedSchedule.gracePeriodDeadline) {
-        const gracePeriodDate = new Date(selectedSchedule.gracePeriodDeadline);
+        const gracePeriodDate = new Date(
+          normalizeDateTimeStrFromServer(selectedSchedule.gracePeriodDeadline)
+        );
         gracePeriodDays = differenceInDays(
           gracePeriodDate,
           selectedSchedule.submissionDeadline
@@ -60,7 +65,9 @@ export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
       }
 
       if (selectedSchedule.startNotifyAt) {
-        const notificationDate = new Date(selectedSchedule.startNotifyAt);
+        const notificationDate = new Date(
+          normalizeDateTimeStrFromServer(selectedSchedule.startNotifyAt)
+        );
         notificationDaysBeforeDeadline = differenceInDays(
           selectedSchedule.submissionDeadline,
           notificationDate
@@ -80,15 +87,16 @@ export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
 
   const onSubmit = async (data: ScheduleFormSchemaType) => {
     // Combine date and time into UTC datetime
-    const dateTimeString = `${data.submissionDate}T${data.submissionTime}`;
-    const localDateTime = new Date(dateTimeString);
-    const utcDateTime = localDateTime.toISOString().replace("Z", "");
+    const dateTimeString = parse(
+      `${data.submissionDate} ${data.submissionTime}`,
+      "yyyy-MM-dd HH:mm:ss",
+      new Date()
+    );
 
-    // Prepare the submission data with combined datetime
     const submissionData = {
       programRequirementId: data.programRequirementId,
       academicYearId: data.academicYearId,
-      submissionDeadline: utcDateTime,
+      submissionDeadline: dateTimeString.toISOString(),
       gracePeriodDays: data.gracePeriodDays,
       notificationDaysBeforeDeadline: data.notificationDaysBeforeDeadline,
     };

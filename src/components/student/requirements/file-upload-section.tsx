@@ -16,12 +16,16 @@ import {
   UPLOAD_GUIDELINES,
 } from "@/constants/student/requirement.constants";
 import type { FileUploadSectionProps } from "@/types/student/requirement.types";
-import { formatFileSize } from "@/utils/common.utils";
+import {
+  formatFileSize,
+  normalizeDateTimeStrFromServer,
+} from "@/utils/common.utils";
 import {
   isRequirementOverdue,
   validateFileForUpload,
 } from "@/utils/student/requirement.utils";
 import { usePostSubmitRequirement } from "@/services/student/requirements/mutations";
+import { formatDate } from "@/utils/common.utils";
 
 const FileUploadSection = ({
   requirement,
@@ -125,7 +129,9 @@ const FileUploadSection = ({
     }
   };
 
-  const isOverdue = isRequirementOverdue(requirement.submissionDeadline);
+  const isOverdue = isRequirementOverdue(
+    normalizeDateTimeStrFromServer(requirement.submissionDeadline)
+  );
 
   return (
     <Card className="shadow-none border border-blue-100">
@@ -153,8 +159,7 @@ const FileUploadSection = ({
               Submission deadline has passed
             </p>
             <p className="text-blue-600 text-xs">
-              The deadline was{" "}
-              {new Date(requirement.submissionDeadline).toLocaleDateString()}
+              The deadline was {formatDate(requirement.submissionDeadline, {})}.
             </p>
           </div>
         ) : (

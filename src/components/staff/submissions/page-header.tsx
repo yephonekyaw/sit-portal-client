@@ -10,6 +10,7 @@ import {
   UserX,
 } from "lucide-react";
 import { useSubmissionStore } from "@/stores/staff/submission.stores";
+import { formatDate } from "@/utils/common.utils";
 import InfoBadge from "./info-badge";
 
 const PageHeader = () => {
@@ -88,9 +89,7 @@ const PageHeader = () => {
           <InfoBadge
             icon={Clock}
             name="Deadline"
-            value={new Date(
-              submissionRelatedDetail.submissionDeadline
-            ).toLocaleDateString()}
+            value={formatDate(submissionRelatedDetail.submissionDeadline, {})}
           />
         </div>
       )}
