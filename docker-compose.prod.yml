@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.prod
+    container_name: sit-portal-client
     ports:
       - "80:80"
     env_file:
