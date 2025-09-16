@@ -47,7 +47,7 @@ export default defineConfig(({ mode }) => ({
           }
 
           // Date utilities
-          if (id.includes("date-fns")) {
+          if (id.includes("date-fns") || id.includes("@date-fns/tz")) {
             return "date-fns";
           }
           if (id.includes("react-day-picker")) {
