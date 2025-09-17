@@ -29,7 +29,7 @@ export const useNotification = (
     markAsRead: storeMarkAsRead,
     markAllAsRead: storeMarkAllAsRead,
     clear: storeClear,
-    clearAll: storeClearAll,
+    clearNotificationStore,
   } = useNotificationStore();
 
   // Query hooks
@@ -83,9 +83,9 @@ export const useNotification = (
 
   // Clear all notifications (update store + call API)
   const handleClearAll = useCallback(() => {
-    storeClearAll();
+    clearNotificationStore();
     clearAllMutation.mutate();
-  }, [storeClearAll, clearAllMutation]);
+  }, [clearNotificationStore, clearAllMutation]);
 
   return {
     // Data - use store data directly

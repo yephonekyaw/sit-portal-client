@@ -19,6 +19,7 @@ interface ScheduleStoreState {
   selectedSchedule: GetSchedulesItem | null;
   setSelectedSchedule: (schedule: GetSchedulesItem | null) => void;
   clearSelectedSchedule: () => void;
+  clearScheduleStore: () => void;
 
   // Modal states if needed in the future
   // createModalState: boolean;

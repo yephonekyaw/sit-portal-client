@@ -5,4 +5,5 @@ export const useScheduleStore = create<ScheduleStoreState>((set) => ({
   selectedSchedule: null,
   setSelectedSchedule: (schedule) => set({ selectedSchedule: schedule }),
   clearSelectedSchedule: () => set({ selectedSchedule: null }),
+  clearScheduleStore: () => set({ selectedSchedule: null }),
 }));

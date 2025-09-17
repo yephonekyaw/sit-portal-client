@@ -33,5 +33,5 @@ export interface NotificationStoreState {
   markAsRead: (notificationId: string) => void;
   markAllAsRead: () => void;
   clear: (notificationId: string) => void;
-  clearAll: () => void;
+  clearNotificationStore: () => void;
 }

@@ -10,14 +10,14 @@ type UpdateProgramFormSchemaType = Omit<ProgramFormSchemaType, "isActive"> & {
 
 interface ProgramStoreState {
   selectedProgram: GetProgramsItem | null;
+  archiveConfirmModalState: boolean;
+  archiveProgramId: string | null;
+
   setSelectedProgram: (program: GetProgramsItem | null) => void;
   clearSelectedProgram: () => void;
-
-  archiveConfirmModalState: boolean;
   setArchiveConfirmModalState: (state: boolean) => void;
-
-  archiveProgramId: string | null;
   setArchiveProgramId: (id: string | null) => void;
+  clearProgramStore: () => void;
 }
 
 interface ProgramFormProps {

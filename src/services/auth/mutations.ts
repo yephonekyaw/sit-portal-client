@@ -5,7 +5,7 @@ import type { LoginFormData } from "@/types/auth.types";
 import type { ApiError, ApiResponse } from "../api/types";
 import type { User } from "./types";
 import { toast } from "sonner";
-import { useNotificationStore } from "@/stores/notification.stores";
+import { useZustandStoreClear } from "@/hooks/use-zustand-store-clear";
 
 // useMutation<TData, TError, TVariables, TContext>
 
@@ -34,14 +34,14 @@ const usePostLogin = () => {
 const usePostLogout = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { clearAll } = useNotificationStore();
+  const { clearAllStores } = useZustandStoreClear();
 
   return useMutation<ApiResponse<null>, ApiError>({
     mutationFn: postLogout,
     onSuccess: () => {
       toast.dismiss();
       toast.success("Logout successful");
-      clearAll();
+      clearAllStores();
       void queryClient.clear();
       void navigate("/login");
     },

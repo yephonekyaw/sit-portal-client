@@ -104,7 +104,7 @@ export const useNotificationStore = create<NotificationStoreState>(
       });
     },
 
-    clearAll: () => {
+    clearNotificationStore: () => {
       set({
         notifications: [],
         unreadNotifications: [],

@@ -30,4 +30,11 @@ export const useSubmissionStore = create<SubmissionStoreState>((set, get) => ({
     set({
       currentTab: tab,
     }),
+  clearSubmissionStore: () =>
+    set({
+      detailSheetState: false,
+      selectedSubmission: null,
+      submissionRelatedDetail: null,
+      currentTab: "submitted",
+    }),
 }));

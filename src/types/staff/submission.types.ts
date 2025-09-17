@@ -21,4 +21,5 @@ export interface SubmissionStoreState {
   setSubmissionRelatedDetail: (data: SubmissionRelatedData | null) => void;
   setSelectedSubmission: (submission: StudentSubmissionItem | null) => void;
   setCurrentTab: (tab: "submitted" | "not_submitted" | "stats") => void;
+  clearSubmissionStore: () => void;
 }

@@ -10,14 +10,14 @@ type UpdateCertificateFormSchemaType = CertificateFormSchemaType & {
 
 interface CertificateStoreState {
   selectedCertificate: GetCertificatesItem | null;
+  archiveConfirmModalState: boolean;
+  archiveCertificateId: string | null;
+
   setSelectedCertificate: (certificate: GetCertificatesItem | null) => void;
   clearSelectedCertificate: () => void;
-
-  archiveConfirmModalState: boolean;
   setArchiveConfirmModalState: (state: boolean) => void;
-
-  archiveCertificateId: string | null;
   setArchiveCertificateId: (id: string | null) => void;
+  clearCertificateStore: () => void;
 }
 
 interface CertificateFormProps {

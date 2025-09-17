@@ -20,5 +20,10 @@ export const useRequirementStore = create<RequirementStoreState>(
         }
       }, 300); // 300ms matches typical sheet animation duration
     },
+    clearRequirementStore: () =>
+      set({
+        detailSheetState: false,
+        selectedRequirement: null,
+      }),
   })
 );

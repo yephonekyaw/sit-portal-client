@@ -14,16 +14,16 @@ type UpdateProgramRequirementFormSchemaType =
 
 interface ProgramRequirementStoreState {
   selectedRequirement: GetProgramRequirementsItem | null;
+  archiveConfirmModalState: boolean;
+  archiveRequirementId: string | null;
+
   setSelectedRequirement: (
     requirement: GetProgramRequirementsItem | null
   ) => void;
   clearSelectedRequirement: () => void;
-
-  archiveConfirmModalState: boolean;
   setArchiveConfirmModalState: (state: boolean) => void;
-
-  archiveRequirementId: string | null;
   setArchiveRequirementId: (id: string | null) => void;
+  clearProgramRequirementStore: () => void;
 }
 
 interface ProgramRequirementFormProps {

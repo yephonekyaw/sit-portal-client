@@ -11,6 +11,7 @@ interface RequirementStoreState {
   ) => void;
   openDetailSheet: (requirement: StudentRequirementWithSubmission) => void;
   closeDetailSheet: () => void;
+  clearRequirementStore: () => void;
 }
 
 interface RequirementCardProps {
