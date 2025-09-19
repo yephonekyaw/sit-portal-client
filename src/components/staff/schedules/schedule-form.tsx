@@ -354,13 +354,6 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                               placeholder="Leave empty for program requirement default"
                               className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
                               {...field}
-                              onChange={(e) =>
-                                field.onChange(
-                                  e.target.value
-                                    ? parseInt(e.target.value)
-                                    : undefined
-                                )
-                              }
                             />
                           </FormControl>
                           <FormDescription>
@@ -389,13 +382,6 @@ const ScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
                               placeholder="Leave empty for program requirement default"
                               className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
                               {...field}
-                              onChange={(e) =>
-                                field.onChange(
-                                  e.target.value
-                                    ? parseInt(e.target.value)
-                                    : undefined
-                                )
-                              }
                             />
                           </FormControl>
                           <FormDescription>

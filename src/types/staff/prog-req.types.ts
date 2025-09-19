@@ -1,10 +1,10 @@
-import type { ProgramRequirementFormSchema } from "@/schemas/staff/prog-req.schemas";
+import type { programRequirementFormSchema } from "@/schemas/staff/prog-req.schemas";
 import type { GetProgramRequirementsItem } from "@/services/staff/prog-reqs/types";
 import type { UseFormReturn } from "react-hook-form";
 import type z from "zod";
 
 type ProgramRequirementFormSchemaType = z.infer<
-  typeof ProgramRequirementFormSchema
+  typeof programRequirementFormSchema
 >;
 
 type UpdateProgramRequirementFormSchemaType =

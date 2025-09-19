@@ -10,7 +10,7 @@ import {
   useUpdateProgramRequirement,
 } from "@/services/staff/prog-reqs/mutations";
 import {
-  ProgramRequirementFormSchema,
+  programRequirementFormSchema,
   ProgReqRecurrenceType,
 } from "@/schemas/staff/prog-req.schemas";
 import type {
@@ -41,7 +41,7 @@ export const useProgramRequirementForm = ({
   const currentYear = new Date().getFullYear();
 
   const form = useForm<ProgramRequirementFormSchemaType>({
-    resolver: zodResolver(ProgramRequirementFormSchema),
+    resolver: zodResolver(programRequirementFormSchema),
   });
 
   useEffect(() => {
@@ -101,9 +101,21 @@ export const useProgramRequirementForm = ({
       await update({
         id: requirementId,
         ...data,
+        gracePeriodDays: data.gracePeriodDays == 0 ? 7 : data.gracePeriodDays,
+        notificationDaysBeforeDeadline:
+          data.notificationDaysBeforeDeadline == 0
+            ? 90
+            : data.notificationDaysBeforeDeadline,
       });
     } else {
-      await create(data);
+      await create({
+        ...data,
+        gracePeriodDays: data.gracePeriodDays == 0 ? 7 : data.gracePeriodDays,
+        notificationDaysBeforeDeadline:
+          data.notificationDaysBeforeDeadline == 0
+            ? 90
+            : data.notificationDaysBeforeDeadline,
+      });
     }
     form.reset();
   };

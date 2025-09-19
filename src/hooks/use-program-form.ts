@@ -48,9 +48,13 @@ export const useProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
       await update({
         id: programId,
         ...data,
+        durationYears: data.durationYears === 0 ? 4 : data.durationYears,
       });
     } else {
-      await create(data);
+      await create({
+        ...data,
+        durationYears: data.durationYears === 0 ? 4 : data.durationYears,
+      });
     }
   };
 

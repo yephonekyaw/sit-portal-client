@@ -215,9 +215,6 @@ export const DeadlineSettingsSection = ({
                       max="365"
                       className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200 font-medium"
                       {...field}
-                      onChange={(e) =>
-                        field.onChange(parseInt(e.target.value) || 7)
-                      }
                     />
                   </FormControl>
                   <FormDescription>
@@ -248,9 +245,6 @@ export const DeadlineSettingsSection = ({
                       max="365"
                       className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200 font-medium"
                       {...field}
-                      onChange={(e) =>
-                        field.onChange(parseInt(e.target.value) || 90)
-                      }
                     />
                   </FormControl>
                   <FormDescription>

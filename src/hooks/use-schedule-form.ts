@@ -55,22 +55,16 @@ export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
       let notificationDaysBeforeDeadline: number = 90;
 
       if (selectedSchedule.gracePeriodDeadline) {
-        const gracePeriodDate = new Date(
-          normalizeDateTimeStrFromServer(selectedSchedule.gracePeriodDeadline)
-        );
         gracePeriodDays = differenceInDays(
-          gracePeriodDate,
+          selectedSchedule.gracePeriodDeadline,
           selectedSchedule.submissionDeadline
         );
       }
 
       if (selectedSchedule.startNotifyAt) {
-        const notificationDate = new Date(
-          normalizeDateTimeStrFromServer(selectedSchedule.startNotifyAt)
-        );
         notificationDaysBeforeDeadline = differenceInDays(
           selectedSchedule.submissionDeadline,
-          notificationDate
+          selectedSchedule.startNotifyAt
         );
       }
 
@@ -97,8 +91,11 @@ export const useScheduleForm = ({ isEdit, scheduleId }: ScheduleFormProps) => {
       programRequirementId: data.programRequirementId,
       academicYearId: data.academicYearId,
       submissionDeadline: dateTimeString.toISOString(),
-      gracePeriodDays: data.gracePeriodDays,
-      notificationDaysBeforeDeadline: data.notificationDaysBeforeDeadline,
+      gracePeriodDays: data.gracePeriodDays == 0 ? 7 : data.gracePeriodDays,
+      notificationDaysBeforeDeadline:
+        data.notificationDaysBeforeDeadline == 0
+          ? 90
+          : data.notificationDaysBeforeDeadline,
     };
 
     if (isEdit && scheduleId) {

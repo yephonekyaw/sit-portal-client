@@ -192,9 +192,6 @@ const ProgramForm = ({ isEdit, programId }: ProgramFormProps) => {
                               max="10"
                               className="w-full border-gray-200 focus:border-blue-300 focus:ring-blue-200"
                               {...field}
-                              onChange={(e) =>
-                                field.onChange(parseInt(e.target.value) || 4)
-                              }
                             />
                           </FormControl>
                           <FormMessage />

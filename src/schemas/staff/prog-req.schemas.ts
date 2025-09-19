@@ -23,7 +23,7 @@ const MONTH_MAX_DAYS: Record<number, number> = {
   12: 31,
 };
 
-export const ProgramRequirementFormSchema = z
+export const programRequirementFormSchema = z
   .object({
     programId: z.string().uuid({ message: "Program ID must be a valid UUID" }),
     certTypeId: z
@@ -48,14 +48,14 @@ export const ProgramRequirementFormSchema = z
       .int()
       .min(1, { message: "Deadline month must be at least 1" })
       .max(12, { message: "Deadline month must be at most 12" }),
-    gracePeriodDays: z
+    gracePeriodDays: z.coerce
       .number()
       .int()
       .min(0, { message: "Grace period must be at least 0" })
       .max(365, { message: "Grace period must be at most 365" })
       .default(7)
       .optional(),
-    notificationDaysBeforeDeadline: z
+    notificationDaysBeforeDeadline: z.coerce
       .number()
       .int()
       .min(0, { message: "Notification days must be at least 0" })
