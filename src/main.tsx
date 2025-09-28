@@ -4,7 +4,9 @@ import { createRoot } from "react-dom/client";
 import mainRouter from "@/routes/main-router.tsx";
 import "@/index.css";
 
-const router = createBrowserRouter(mainRouter);
+const router = createBrowserRouter(mainRouter, {
+  basename: import.meta.env.VITE_BASE_URL,
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

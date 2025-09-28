@@ -1,7 +1,7 @@
 import App from "@/App";
 import studentRouter from "./student-router";
 import staffRouter from "./staff-router";
-import LoginPage from "@/pages/login-page";
+import NotFoundPage from "@/pages/not-found-page";
 
 const mainRouter = [
   {
@@ -16,15 +16,15 @@ const mainRouter = [
         path: "/staff",
         children: staffRouter,
       },
-      {
-        path: "/login",
-        element: <LoginPage />,
-      },
+      // {
+      //   path: "/login",
+      //   element: <LoginPage />,
+      // },
     ],
   },
   {
     path: "*",
-    element: <div>Not Found Page</div>,
+    element: <NotFoundPage />,
   },
 ];
 

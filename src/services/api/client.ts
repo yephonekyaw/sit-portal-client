@@ -8,7 +8,7 @@ const axiosClient = axios.create({
 });
 
 axiosClient.interceptors.request.use((config) => {
-  const token = Cookies.get("csrf_token");
+  const token = Cookies.get("jwt_token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
