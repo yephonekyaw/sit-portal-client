@@ -33,7 +33,7 @@ const usePostLogin = () => {
 
 const usePostLogout = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { clearAllStores } = useZustandStoreClear();
 
   return useMutation<ApiResponse<null>, ApiError>({
@@ -43,7 +43,8 @@ const usePostLogout = () => {
       toast.success("Logout successful");
       clearAllStores();
       void queryClient.clear();
-      void navigate("/login");
+      // void navigate("/login");
+      window.location.href = import.meta.env.VITE_BASE_LANDING_URL;
     },
     onError: (error) => {
       toast.dismiss();

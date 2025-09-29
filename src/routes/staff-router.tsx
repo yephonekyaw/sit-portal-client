@@ -11,6 +11,7 @@ import SubmissionsPage from "@/pages/staff/submissions-page";
 import RouteProtect from "@/middlewares/route-protect";
 import CertificateFormPage from "@/pages/staff/cert-form-page";
 import VerificationFormPage from "@/pages/staff/verification-form-page";
+import NotFoundPage from "@/pages/not-found-page";
 
 const staffRouter = [
   {
@@ -29,6 +30,10 @@ const staffRouter = [
       //   path: "staff-management/new",
       //   element: <StaffFormPage />,
       // },
+      {
+        index: true,
+        element: <NotFoundPage />,
+      },
       {
         path: "programs/new",
         element: <ProgramFormPage />,

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { usePostLogout } from "@/services/auth/mutations";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 export function LogoutButton() {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -23,6 +24,7 @@ export function LogoutButton() {
   const handleConfirmLogout = () => {
     setIsDialogOpen(false);
     toast.loading("Logging out...");
+    Cookies.remove("*"); // Remove all cookies
     logout();
   };
 

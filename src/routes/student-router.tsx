@@ -1,5 +1,6 @@
 import StudentApp from "@/apps/student-app";
 import RouteProtect from "@/middlewares/route-protect";
+import NotFoundPage from "@/pages/not-found-page";
 import RequirementPage from "@/pages/student/requirements-page";
 
 const studentRouter = [
@@ -12,7 +13,11 @@ const studentRouter = [
     ),
     children: [
       {
-        path: "student/requirements",
+        index: true,
+        element: <NotFoundPage />,
+      },
+      {
+        path: "requirements",
         element: <RequirementPage />,
       },
     ],

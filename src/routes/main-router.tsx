@@ -9,7 +9,11 @@ const mainRouter = [
     element: <App />,
     children: [
       {
-        path: "",
+        index: true,
+        element: <NotFoundPage />,
+      },
+      {
+        path: "/student",
         children: studentRouter,
       },
       {

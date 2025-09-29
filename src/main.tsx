@@ -5,7 +5,7 @@ import mainRouter from "@/routes/main-router.tsx";
 import "@/index.css";
 
 const router = createBrowserRouter(mainRouter, {
-  basename: import.meta.env.VITE_BASE_URL,
+  basename: import.meta.env.VITE_PATH_PREFIX,
 });
 
 createRoot(document.getElementById("root")!).render(

@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/",
+  base: "/certificate/",
   build: {
     outDir: "dist",
     rollupOptions: {
