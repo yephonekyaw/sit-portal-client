@@ -25,6 +25,7 @@ export function LogoutButton() {
     setIsDialogOpen(false);
     // toast.loading("Logging out...");
     Cookies.remove("jwt_token"); // Remove JWT token cookie
+    window.location.href = import.meta.env.VITE_BASE_LANDING_URL;
     // logout();
   };
 
